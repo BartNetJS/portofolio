@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colruyt - Enterprise Infrastructure Transformation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #e94560;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .tag.blue {
+            background: #3b82f6;
+        }
+
+        .tag.green {
+            background: #10b981;
+        }
+
+        .tag.purple {
+            background: #8b5cf6;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Presentations</a>
+
+        <header>
+            <h1>Colruyt</h1>
+            <p class="subtitle">Enterprise Infrastructure Transformation to India Operations <span class="badge">Production</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>🚀 Engagement Overview</h2>
+            <p>
+                Led a <strong>comprehensive infrastructure transformation initiative</strong> for Colruyt, managing the transition of a full enterprise infrastructure
+                (including custom operations application and platform) from Belgium to India operations. This complex, multi-phase engagement involved:
+            </p>
+            <ul>
+                <li><strong>Infrastructure Transition</strong> - Migration of complete cloud infrastructure to India-based operations</li>
+                <li><strong>Technical Debt Reduction</strong> - Systematic lowering of technical debt across inherited systems</li>
+                <li><strong>Repository Consolidation</strong> - Consolidating scattered repositories and applications into unified structure</li>
+                <li><strong>Documentation</strong> - Comprehensive knowledge base creation and documentation</li>
+                <li><strong>Knowledge Transfer</strong> - Extensive training and handover to India operations team</li>
+                <li><strong>DevSecOps Implementation</strong> - Full DevOps and security operations setup for India team</li>
+                <li><strong>Troubleshooting & Support</strong> - Ongoing technical guidance and issue resolution</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📊 Project Scale & Complexity</h2>
+
+            <div class="stats-box">
+                <div class="stat">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Repository/Projects Consolidated</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100s</div>
+                    <div class="stat-label">Infrastructure Components</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">Multi-Year</div>
+                    <div class="stat-label">Engagement Duration</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Continents Involved</div>
+                </div>
+            </div>
+
+            <p style="margin-top: 30px;">
+                The Colruyt engagement represented one of the most complex infrastructure transformation projects, requiring:
+            </p>
+            <ul>
+                <li>Management of inherited codebase with significant technical debt</li>
+                <li>Coordination across Belgium-based development and India-based operations</li>
+                <li>Consolidation of fragmented systems into cohesive architecture</li>
+                <li>Enterprise-grade security and compliance throughout transition</li>
+                <li>Zero-downtime migration of critical systems</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Responsibilities</h2>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">🏗️</span>
+                    <div>
+                        <strong>Infrastructure Architecture</strong> - Design and oversee transformation of complete cloud infrastructure to India operations
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📦</span>
+                    <div>
+                        <strong>Repository Consolidation</strong> - Consolidate 50+ scattered repositories and applications into unified, maintainable structure
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚙️</span>
+                    <div>
+                        <strong>Technical Debt Reduction</strong> - Systematic approach to identifying and lowering technical debt across all systems
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📚</span>
+                    <div>
+                        <strong>Documentation</strong> - Create comprehensive knowledge base covering all systems, processes, and procedures
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">👥</span>
+                    <div>
+                        <strong>Knowledge Transfer</strong> - Extensive training and handover program for India-based operations team
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔐</span>
+                    <div>
+                        <strong>DevSecOps</strong> - Establish secure DevOps practices, CI/CD pipelines, and security operations procedures
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔧</span>
+                    <div>
+                        <strong>Troubleshooting & Support</strong> - Provide ongoing technical guidance and resolve complex issues during transition
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🎓</span>
+                    <div>
+                        <strong>Team Leadership</strong> - Guide cross-functional teams through transformation with clear roadmaps and milestones
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ Technology & Infrastructure</h2>
+
+            <h3>Infrastructure Components</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Azure Services</h3>
+                    <p>
+                        <span class="tag blue">Azure AKS</span>
+                        <span class="tag blue">API Management</span>
+                        <span class="tag blue">Azure AD / B2C</span>
+                        <span class="tag blue">Application Gateway</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Platform Services</h3>
+                    <p>
+                        <span class="tag green">AEM (Adobe)</span>
+                        <span class="tag green">Key Vault</span>
+                        <span class="tag green">Application Insights</span>
+                        <span class="tag green">Functions</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Applications</h3>
+                    <p>
+                        <span class="tag purple">Operations App (Custom)</span>
+                        <span class="tag purple">Web Components</span>
+                        <span class="tag purple">Mobile App (xtra)</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>DevSecOps</h3>
+                    <p>
+                        <span class="tag">CI/CD Pipelines</span>
+                        <span class="tag">SonarCloud Analysis</span>
+                        <span class="tag">Security Scanning</span>
+                        <span class="tag">Container Security</span>
+                    </p>
+                </div>
+            </div>
+
+            <h3>Core Systems Managed</h3>
+            <ul>
+                <li><strong>Operations Application</strong> - Custom-built system for Colruyt operations management and monitoring</li>
+                <li><strong>Platform Infrastructure</strong> - Complete cloud infrastructure including networking, security, and orchestration</li>
+                <li><strong>Authentication & Authorization</strong> - Federated identity management with Azure AD and B2C</li>
+                <li><strong>API Management</strong> - Enterprise API gateway for service orchestration</li>
+                <li><strong>Container Orchestration</strong> - Kubernetes (AKS) for containerized workloads</li>
+                <li><strong>WAF & Security</strong> - Web Application Firewall and security hardening</li>
+                <li><strong>Certificate Management</strong> - Automated certificate rotation and pinning</li>
+                <li><strong>Logging & Monitoring</strong> - Comprehensive observability across all services</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Transformation Initiatives</h2>
+
+            <h3>1. Technical Debt Reduction</h3>
+            <ul>
+                <li>Identified and documented all technical debt across 50+ projects</li>
+                <li>Prioritized remediation based on impact and risk</li>
+                <li>Implemented systematic approach to code quality improvement</li>
+                <li>Established code review and quality gates</li>
+            </ul>
+
+            <h3>2. Repository & Application Consolidation</h3>
+            <ul>
+                <li>Consolidated scattered repositories into organized structure</li>
+                <li>Merged duplicate or related applications</li>
+                <li>Established clear naming conventions and organizational patterns</li>
+                <li>Created unified build and deployment pipelines</li>
+            </ul>
+
+            <h3>3. Documentation & Knowledge Base</h3>
+            <ul>
+                <li>Created comprehensive documentation for all systems</li>
+                <li>Documented infrastructure architecture and components</li>
+                <li>Built operations runbooks and procedures</li>
+                <li>Established knowledge transfer materials for India team</li>
+            </ul>
+
+            <h3>4. DevSecOps Implementation</h3>
+            <ul>
+                <li>Established secure development practices</li>
+                <li>Implemented automated security scanning (SonarCloud, AppScan)</li>
+                <li>Created CI/CD pipelines with security gates</li>
+                <li>Trained India team on DevSecOps procedures</li>
+            </ul>
+
+            <h3>5. Knowledge Transfer Program</h3>
+            <ul>
+                <li>Comprehensive training for India operations team</li>
+                <li>On-site and remote mentoring sessions</li>
+                <li>Documentation of all procedures and best practices</li>
+                <li>Establishment of escalation and support procedures</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🌍 Engagement Logistics</h2>
+
+            <h3>Multi-Regional Coordination</h3>
+            <p>
+                This engagement involved complex coordination across multiple regions:
+            </p>
+            <ul>
+                <li><strong>Belgium Operations</strong> - Legacy infrastructure and existing team</li>
+                <li><strong>India Transition</strong> - New operations team and infrastructure setup</li>
+                <li><strong>Global Architecture</strong> - Designing systems for distributed operations</li>
+            </ul>
+
+            <h3>Challenges & Solutions</h3>
+            <ul>
+                <li><strong>Time Zone Coordination</strong> - Managed across Belgium (GMT+1), India (GMT+5:30), and other locations</li>
+                <li><strong>Knowledge Transfer</strong> - Extensive documentation and training to bridge operational gaps</li>
+                <li><strong>Continuity</strong> - Ensured zero-downtime migration of critical systems</li>
+                <li><strong>Quality Standards</strong> - Maintained enterprise-grade security and reliability</li>
+                <li><strong>Cost Optimization</strong> - Balanced cost efficiency with service quality and reliability</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Engagement Demonstrates</h3>
+            <p>
+                The Colruyt transformation showcases expertise in:
+            </p>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Large-Scale Infrastructure Management</strong> - Multi-regional, multi-service operations</li>
+                <li>✅ <strong>Enterprise Architecture</strong> - Complex system design and integration</li>
+                <li>✅ <strong>Change Management</strong> - Leading organizational transformation across regions</li>
+                <li>✅ <strong>Technical Leadership</strong> - Guiding teams through complex technical challenges</li>
+                <li>✅ <strong>DevSecOps Excellence</strong> - Implementing secure, automated operations</li>
+                <li>✅ <strong>Knowledge Transfer</strong> - Effectively transitioning expertise to new teams</li>
+                <li>✅ <strong>Technical Debt Management</strong> - Systematic improvement of code quality</li>
+                <li>✅ <strong>Multi-Regional Coordination</strong> - Managing global operations and teams</li>
+                <li>✅ <strong>Problem Solving</strong> - Navigating complex technical and organizational issues</li>
+                <li>✅ <strong>Enterprise-Grade Operations</strong> - Maintaining security, reliability, and compliance</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Project Status</h2>
+            <p>
+                This is a <strong>production-level engagement</strong> successfully delivered to Colruyt with complete knowledge transfer to India operations team.
+                The infrastructure is now operationally independent with India team managing daily operations.
+            </p>
+            <ul>
+                <li>✅ Infrastructure fully transitioned to India operations</li>
+                <li>✅ All systems documented and operationally stable</li>
+                <li>✅ India team trained and independently operational</li>
+                <li>✅ Continued support and optimization underway</li>
+                <li>✅ Technical debt significantly reduced</li>
+                <li>✅ Repository consolidation complete</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Client:</strong> Colruyt Group - Leading European Retail Organization
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
