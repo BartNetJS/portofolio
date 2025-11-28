@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoicing App - AI-Powered .NET Aspire Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #e94560;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .tag.blue {
+            background: #3b82f6;
+        }
+
+        .tag.green {
+            background: #10b981;
+        }
+
+        .tag.purple {
+            background: #8b5cf6;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #10b981;
+        }
+
+        .tech-item strong {
+            color: #60a5fa;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #e94560, #f15a77);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.3);
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Portfolios</a>
+
+        <header>
+            <h1>Invoicing App</h1>
+            <p class="subtitle">AI-Powered .NET Aspire Invoice Management System <span class="badge">Production Ready</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>📋 Project Overview</h2>
+            <p>
+                A complete, production-ready <strong>invoicing and customer management application</strong> built with <strong>.NET 9 Aspire</strong>.
+                This project demonstrates a full-stack implementation combining:
+            </p>
+            <ul>
+                <li><strong>Backend API</strong> - Minimal APIs with JSON persistence</li>
+                <li><strong>Frontend</strong> - Interactive Blazor Web App with responsive UI</li>
+                <li><strong>Cloud-Native</strong> - .NET Aspire orchestration for modern app hosting</li>
+                <li><strong>AI Integration</strong> - MCP server for seamless LLM tool use</li>
+                <li><strong>PDF Generation</strong> - Professional invoice PDFs via QuestPDF</li>
+            </ul>
+            <p style="margin-top: 20px;">
+                The entire application is <strong>AI-aware</strong> with a Model Context Protocol (MCP) server,
+                enabling management through Claude, ChatGPT, or any LLM supporting MCP clients.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Features</h2>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">👥</span>
+                    <div>
+                        <strong>Customer Management</strong> - Create, read, update, delete customers with EU VAT ID validation
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📄</span>
+                    <div>
+                        <strong>Invoice Generation</strong> - Dynamic invoice creation with line items, tax calculations, and automatic numbering
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📊</span>
+                    <div>
+                        <strong>Data Persistence</strong> - JSON-based file storage with concurrent access handling via SemaphoreSlim
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🖨️</span>
+                    <div>
+                        <strong>PDF Export</strong> - Professional invoice PDFs generated server-side using QuestPDF library
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔐</span>
+                    <div>
+                        <strong>Validation & Error Handling</strong> - Comprehensive input validation and graceful error responses
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🤖</span>
+                    <div>
+                        <strong>MCP Server</strong> - Model Context Protocol integration for AI-driven operations and complete LLM tool support
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Architecture</h2>
+
+            <h3>Project Structure</h3>
+            <p>Built with three core projects in a single .NET Aspire solution:</p>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <strong>InvoicingApp.AppHost</strong><br>
+                    .NET Aspire orchestration layer for service discovery and coordination
+                </div>
+                <div class="tech-item">
+                    <strong>InvoicingApp.ApiService</strong><br>
+                    RESTful Minimal APIs with business logic and JSON data access
+                </div>
+                <div class="tech-item">
+                    <strong>InvoicingApp.Web</strong><br>
+                    Interactive Blazor Web App for user-facing UI
+                </div>
+                <div class="tech-item">
+                    <strong>InvoicingApp.MCP</strong><br>
+                    Model Context Protocol server for LLM integration
+                </div>
+            </div>
+
+            <h3>Data Model</h3>
+            <ul>
+                <li><code>Customer</code> - Company/individual information with EU VAT ID</li>
+                <li><code>Invoice</code> - Header with customer reference, dates, and totals</li>
+                <li><code>InvoiceLine</code> - Line items with project reference, category, date range, amount, and tax rate</li>
+                <li><code>SenderInfo</code> - Configurable company details for invoice header (logo, address, bank info)</li>
+            </ul>
+
+            <h3>API Endpoints</h3>
+            <ul>
+                <li><code>GET/POST /api/customers</code> - Customer CRUD operations</li>
+                <li><code>GET/POST /api/invoices</code> - Invoice CRUD operations</li>
+                <li><code>GET /api/invoices/{id}/pdf</code> - Generate and download invoice PDF</li>
+                <li><code>GET /api/config/sender-info</code> - Retrieve sender configuration</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💡 Technology Stack</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>.NET Stack</h3>
+                    <p>
+                        <span class="tag blue">.NET 9</span>
+                        <span class="tag blue">ASP.NET Core</span>
+                        <span class="tag blue">Blazor Web App</span>
+                        <span class="tag blue">Minimal APIs</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Infrastructure</h3>
+                    <p>
+                        <span class="tag green">.NET Aspire</span>
+                        <span class="tag green">Service Discovery</span>
+                        <span class="tag green">JSON Storage</span>
+                        <span class="tag green">SemaphoreSlim</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Libraries</h3>
+                    <p>
+                        <span class="tag purple">QuestPDF</span>
+                        <span class="tag purple">System.Text.Json</span>
+                        <span class="tag purple">Data Annotations</span>
+                        <span class="tag purple">MCP Protocol</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Integration</h3>
+                    <p>
+                        <span class="tag">Claude/ChatGPT</span>
+                        <span class="tag">LLM Tools</span>
+                        <span class="tag">MCP Server</span>
+                        <span class="tag">REST API</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Implementation Highlights</h2>
+
+            <h3>Cloud-Native with .NET Aspire</h3>
+            <ul>
+                <li>Service discovery for seamless API-to-Web communication</li>
+                <li>Modern distributed application patterns</li>
+                <li>Ready for Azure Container Apps deployment</li>
+                <li>Built-in observability and monitoring hooks</li>
+            </ul>
+
+            <h3>Data Persistence Strategy</h3>
+            <ul>
+                <li>JSON files as single source of truth</li>
+                <li>Organized structure: <code>db/customers.json</code> and <code>db/invoices/</code></li>
+                <li>Concurrent access protection using SemaphoreSlim</li>
+                <li>Automatic backup-friendly file format</li>
+                <li>No external database dependencies</li>
+            </ul>
+
+            <h3>PDF Generation</h3>
+            <ul>
+                <li>QuestPDF library for professional invoice layouts</li>
+                <li>Server-side rendering ensures consistency</li>
+                <li>Configurable sender information in JSON</li>
+                <li>Logo and branding integration support</li>
+                <li>Real-time PDF generation on demand</li>
+            </ul>
+
+            <h3>AI Integration via MCP</h3>
+            <ul>
+                <li>Complete Model Context Protocol server implementation</li>
+                <li>Enable Claude, ChatGPT, and other LLMs to manage invoices</li>
+                <li>Natural language commands for business operations</li>
+                <li>Example: <em>"Create invoice for Acme Corp with 3 line items totaling €1500"</em></li>
+                <li>Seamless tool integration in AI conversations</li>
+            </ul>
+
+            <h3>Interactive Blazor UI</h3>
+            <ul>
+                <li>Responsive design for mobile and desktop</li>
+                <li>Real-time form validation</li>
+                <li>Interactive Server render mode for optimal performance</li>
+                <li>Customer and Invoice CRUD interfaces</li>
+                <li>One-click PDF export functionality</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Development Process</h2>
+
+            <p>This project demonstrates a complete, real-world development workflow:</p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>📐 Architecture First</h3>
+                    <p>Comprehensive planning document defining all layers, endpoints, and data models before implementation</p>
+                </div>
+                <div class="card">
+                    <h3>🏗️ Modular Design</h3>
+                    <p>Clean separation of concerns: AppHost → API → Web, each with independent responsibility</p>
+                </div>
+                <div class="card">
+                    <h3>✔️ Validation Ready</h3>
+                    <p>Built-in data validation, error handling, and graceful failure modes throughout</p>
+                </div>
+                <div class="card">
+                    <h3>🔧 Production Patterns</h3>
+                    <p>Implements industry best practices for concurrency, persistence, and configuration management</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💼 Use Cases</h2>
+
+            <h3>Freelancer/Small Business</h3>
+            <ul>
+                <li>Manage client list with EU tax compliance</li>
+                <li>Generate professional invoices quickly</li>
+                <li>Export PDFs for email or printing</li>
+                <li>JSON files for easy backup/archiving</li>
+            </ul>
+
+            <h3>AI-Powered Assistant</h3>
+            <ul>
+                <li>Delegate invoicing to Claude via MCP</li>
+                <li>Natural language commands: <em>"Generate monthly invoices for all active customers"</em></li>
+                <li>Automate routine tasks without manual UI interaction</li>
+                <li>Keep conversations in context with LLM</li>
+            </ul>
+
+            <h3>Enterprise Integration</h3>
+            <ul>
+                <li>REST API for third-party integration</li>
+                <li>Deploy on Azure Container Apps with Aspire</li>
+                <li>Scale microservices as needed</li>
+                <li>Integrate with larger business systems</li>
+            </ul>
+
+            <h3>Learning & Demonstration</h3>
+            <ul>
+                <li>Complete example of .NET 9 & Aspire best practices</li>
+                <li>Blazor interactive component patterns</li>
+                <li>JSON persistence strategy implementation</li>
+                <li>MCP server development reference</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Project Demonstrates</h3>
+            <p>
+                This invoicing application is a <strong>production-grade portfolio piece</strong> showcasing:
+            </p>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Full-Stack Development</strong> - Backend, Frontend, and Infrastructure</li>
+                <li>✅ <strong>Modern .NET Skills</strong> - Aspire, Blazor, Minimal APIs, .NET 9</li>
+                <li>✅ <strong>Cloud-Native Architecture</strong> - Service-oriented design patterns</li>
+                <li>✅ <strong>AI Integration</strong> - MCP protocol and LLM tool development</li>
+                <li>✅ <strong>Business Logic</strong> - Real domain problems (tax, invoicing, customer management)</li>
+                <li>✅ <strong>Data Persistence</strong> - Strategic file management with concurrency</li>
+                <li>✅ <strong>Professional UI</strong> - Responsive, interactive Blazor interfaces</li>
+                <li>✅ <strong>Code Quality</strong> - Clean architecture, validation, error handling</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📚 Project Status</h2>
+            <p>
+                This is a <strong>complete, production-ready application</strong> that has been architected,
+                implemented, and refined. The codebase serves as an excellent reference for:
+            </p>
+            <ul>
+                <li>How to structure a .NET 9 Aspire application</li>
+                <li>Building MCP servers for LLM integration</li>
+                <li>Creating professional business applications</li>
+                <li>Implementing JSON-based persistence patterns</li>
+                <li>Building interactive Blazor interfaces</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Repository:</strong> <a href="https://github.com/BartVanderAuweraert/codeware" target="_blank" style="color: #60a5fa;">github.com/BartVanderAuweraert/codeware</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
