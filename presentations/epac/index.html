@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ePAC - Industrial IoT Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #e94560;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .tag.blue {
+            background: #3b82f6;
+        }
+
+        .tag.green {
+            background: #10b981;
+        }
+
+        .tag.purple {
+            background: #8b5cf6;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Presentations</a>
+
+        <header>
+            <h1>ePAC</h1>
+            <p class="subtitle">Industrial IoT & OPC Integration Solutions <span class="badge">Production</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>🏭 Engagement Overview</h2>
+            <p>
+                Developed and deployed a <strong>comprehensive OPC UA proxy platform</strong> for ePAC, enabling secure integration
+                of industrial facilities with modern cloud and enterprise systems. This engagement demonstrates expertise in <strong>industrial IoT</strong>,
+                <strong>real-time data collection</strong>, and <strong>legacy system modernization</strong> across multiple plants and customer installations.
+            </p>
+            <ul>
+                <li><strong>Multi-Plant Deployment</strong> - Customized OPC proxies for different industrial plants and regions</li>
+                <li><strong>OPC UA Protocol Implementation</strong> - Industry-standard communication with industrial control systems</li>
+                <li><strong>IoT Integration</strong> - MQTT-based messaging for cloud and enterprise connectivity</li>
+                <li><strong>Legacy System Modernization</strong> - Bridging older industrial systems with modern platforms</li>
+                <li><strong>Production Operations</strong> - 24/7 reliable data collection in mission-critical environments</li>
+                <li><strong>Custom Solutions</strong> - Tailored implementations for specific customer and plant requirements</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Project Portfolio</h2>
+
+            <h3>OPC Proxy Implementations</h3>
+            <p>
+                The ePAC engagement encompasses multiple specialized OPC proxy solutions deployed across diverse industrial environments:
+            </p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>DyneaGent</h3>
+                    <p>
+                        OPC proxy integration for Dynea plant facility. Connects industrial control systems via OPC UA and streams process parameters to cloud systems via MQTT.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>DyneaNorway</h3>
+                    <p>
+                        Specialized OPC proxy implementation for Dynea's Norwegian facility. Customized for regional requirements and specific equipment configurations.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>OPC Proxy MQTT</h3>
+                    <p>
+                        General-purpose OPC UA to MQTT bridging platform. Reusable framework for deploying OPC proxy solutions across different plants and customers.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💼 Technical Solutions Delivered</h2>
+
+            <h3>Industrial Data Integration</h3>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">🔗</span>
+                    <div>
+                        <strong>OPC UA Connectivity</strong> - Full OPC UA server/client implementation for industrial control systems
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📡</span>
+                    <div>
+                        <strong>MQTT Messaging</strong> - IoT-ready message broker integration for cloud and enterprise platforms
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔄</span>
+                    <div>
+                        <strong>Data Transformation</strong> - Intelligent mapping and normalization of industrial data formats
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚡</span>
+                    <div>
+                        <strong>Real-Time Processing</strong> - Low-latency data collection without impacting plant operations
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🏭</span>
+                    <div>
+                        <strong>Multi-Plant Support</strong> - Independent proxy instances for different facilities and customers
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚠️</span>
+                    <div>
+                        <strong>Reliability & Recovery</strong> - Automatic error recovery and failover for mission-critical operations
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Technology & Architecture</h2>
+
+            <h3>Technical Stack</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Industrial Protocols</h3>
+                    <p>
+                        <span class="tag blue">OPC UA</span>
+                        <span class="tag blue">MQTT</span>
+                        <span class="tag blue">IoT Messaging</span>
+                        <span class="tag blue">Data Streaming</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Development</h3>
+                    <p>
+                        <span class="tag green">C#/.NET</span>
+                        <span class="tag green">Windows Services</span>
+                        <span class="tag green">Cross-Platform</span>
+                        <span class="tag green">High Performance</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Integration</h3>
+                    <p>
+                        <span class="tag purple">Legacy Systems</span>
+                        <span class="tag purple">Cloud Services</span>
+                        <span class="tag purple">Enterprise Apps</span>
+                        <span class="tag purple">Analytics Tools</span>
+                    </p>
+                </div>
+            </div>
+
+            <h3>Architecture Principles</h3>
+            <ul>
+                <li><strong>Modular Design</strong> - Each plant deployment is an independent, self-contained system</li>
+                <li><strong>Scalability</strong> - Support for multiple concurrent data streams and concurrent connections</li>
+                <li><strong>Reliability</strong> - 24/7 operation with automatic recovery and health monitoring</li>
+                <li><strong>Configurability</strong> - Flexible configuration system for different equipment and requirements</li>
+                <li><strong>Observability</strong> - Comprehensive logging and monitoring for operational insight</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🌍 Industrial Deployment Scope</h2>
+
+            <h3>Multi-Plant Operations</h3>
+            <p>
+                The ePAC OPC proxy platform demonstrates proven capabilities across multiple industrial plants and customer installations:
+            </p>
+            <ul>
+                <li><strong>Dynea Chemical Plants</strong> - Integration with Dynea's manufacturing facilities in multiple countries</li>
+                <li><strong>Regional Customization</strong> - Tailored solutions for different geographic regions and local requirements</li>
+                <li><strong>Equipment Diversity</strong> - Support for diverse industrial equipment and control system architectures</li>
+                <li><strong>Production Scale</strong> - Proven performance in high-volume manufacturing environments</li>
+            </ul>
+
+            <h3>Operational Excellence</h3>
+            <ul>
+                <li><strong>24/7 Availability</strong> - Continuous operation in mission-critical plant environments</li>
+                <li><strong>Data Integrity</strong> - Reliable data collection with no data loss in high-throughput scenarios</li>
+                <li><strong>System Stability</strong> - Minimal impact on plant operations and industrial systems</li>
+                <li><strong>Automatic Recovery</strong> - Seamless recovery from temporary network or system failures</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎓 Expertise Demonstrated</h2>
+
+            <h3>Technical Leadership Areas</h3>
+            <ul>
+                <li><strong>Industrial Protocol Mastery</strong> - Expert implementation of OPC UA and MQTT standards</li>
+                <li><strong>Real-Time Systems</strong> - Low-latency, high-throughput data collection and processing</li>
+                <li><strong>IoT Architecture</strong> - Bridging legacy industrial systems with modern cloud platforms</li>
+                <li><strong>Production Operations</strong> - Proven reliability in mission-critical manufacturing environments</li>
+                <li><strong>System Integration</strong> - Seamless integration with diverse industrial equipment</li>
+                <li><strong>Custom Solutions</strong> - Ability to tailor solutions for specific plant and customer needs</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎯 Business Value Delivered</h3>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Digital Transformation</strong> - Modernization of legacy industrial systems</li>
+                <li>✅ <strong>Data Accessibility</strong> - Real-time access to plant data from modern platforms</li>
+                <li>✅ <strong>Operational Insights</strong> - Enable analytics and monitoring of plant operations</li>
+                <li>✅ <strong>System Reliability</strong> - 24/7 uptime with automatic recovery capabilities</li>
+                <li>✅ <strong>Scalability</strong> - Multi-plant deployment with consistent architecture</li>
+                <li>✅ <strong>Cost Efficiency</strong> - Extend life of existing industrial systems without replacement</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Project Status</h2>
+            <p>
+                ePAC OPC Proxies are <strong>production-deployed systems</strong> running continuously across multiple industrial plants worldwide.
+                The platform demonstrates proven reliability, operational excellence, and successful modernization of legacy industrial environments.
+            </p>
+            <ul>
+                <li>✅ Multiple plant installations in production</li>
+                <li>✅ Continuous 24/7 operation verified</li>
+                <li>✅ High-reliability data collection proven</li>
+                <li>✅ Customer-specific enhancements ongoing</li>
+                <li>✅ Continuous optimization and support</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Client:</strong> ePAC - Industrial IoT & OPC Integration Solutions
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
