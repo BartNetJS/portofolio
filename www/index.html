@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codeware - Strategic Technical Solutions & AI Integration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(26, 26, 46, 0.95);
+            border-bottom: 2px solid #0f3460;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navbar-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            color: #e94560;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 80px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #e94560;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #e94560;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #60a5fa;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%);
+            border-radius: 16px;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e94560, #f15a77);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #60a5fa;
+            border: 2px solid #60a5fa;
+        }
+
+        .btn-secondary:hover {
+            background: #60a5fa;
+            color: #1a1a2e;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #e94560;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: #10b981;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid #0f3460;
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #e94560;
+            background: rgba(233, 69, 96, 0.1);
+            box-shadow: 0 20px 40px rgba(233, 69, 96, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            color: #60a5fa;
+        }
+
+        .service-card p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Expertise Tags */
+        .expertise-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 50px;
+            border-left: 4px solid #10b981;
+            margin-bottom: 60px;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .expertise-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 3px solid #60a5fa;
+        }
+
+        .expertise-item strong {
+            color: #10b981;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .expertise-item span {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        /* Portfolio Link */
+        .portfolio-preview {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 16px;
+            padding: 50px;
+            border: 2px dashed #6366f1;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .portfolio-preview h3 {
+            margin-bottom: 15px;
+            color: #8b5cf6;
+        }
+
+        .portfolio-preview p {
+            margin-bottom: 25px;
+        }
+
+        /* Why Choose Section */
+        .why-choose {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .why-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #10b981;
+        }
+
+        .why-item h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 16px;
+            padding: 60px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .contact-section h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .contact-section p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            color: #cbd5e1;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            color: #10b981;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(15, 52, 96, 0.5);
+            border-top: 2px solid #0f3460;
+            padding: 40px 20px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #e94560;
+        }
+
+        /* AI Badge */
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 0.6rem;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+            margin-left: 8px;
+            vertical-align: middle;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(139, 92, 246, 0.8);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .navbar-links {
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .contact-section {
+                padding: 40px 20px;
+            }
+
+            .expertise-grid,
+            .services-grid,
+            .why-choose {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#home" class="navbar-brand">Codeware</a>
+            <ul class="navbar-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#expertise">Expertise</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <h1>Strategic Technical Solutions & AI Integration</h1>
+            <p class="subtitle">Transform your organization with modern architecture, cloud-native systems, and intelligent AI solutions</p>
+
+            <div class="cta-buttons">
+                <a href="#portfolio" class="btn btn-primary">Explore Portfolio</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">Years of Experience</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Enterprise Projects</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Years at Spikes</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services">
+            <h2>What We Do</h2>
+
+            <div class="services-grid">
+                <a href="#" class="service-card">
+                    <div class="service-icon">🏗️</div>
+                    <h3>System Architecture</h3>
+                    <p>Design scalable, maintainable solutions for enterprise environments. Cloud-native architecture, microservices, distributed systems.</p>
+                </a>
+
+                <a href="#" class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>AI & LLM Integration<span class="ai-badge">AI</span></h3>
+                    <p>Implement intelligent AI solutions with Semantic Kernel, Claude, RAG systems. Transform business processes with generative AI.</p>
+                </a>
+
+                <a href="#" class="service-card">
+                    <div class="service-icon">☁️</div>
+                    <h3>Cloud & DevOps</h3>
+                    <p>Modern cloud solutions with Azure, .NET Aspire. CI/CD pipelines, infrastructure automation, Kubernetes orchestration.</p>
+                </a>
+
+                <a href="#" class="service-card">
+                    <div class="service-icon">👥</div>
+                    <h3>Technical Leadership</h3>
+                    <p>Team mentoring, architectural guidance, DevOps culture. Build high-performing engineering organizations with best practices.</p>
+                </a>
+
+                <a href="#" class="service-card">
+                    <div class="service-icon">🔗</div>
+                    <h3>Enterprise Integration</h3>
+                    <p>Complex system integration, legacy modernization, multi-tenant platforms. Connect disparate systems seamlessly.</p>
+                </a>
+
+                <a href="#" class="service-card">
+                    <div class="service-icon">🛡️</div>
+                    <h3>Security & Compliance</h3>
+                    <p>Enterprise security, encryption, access control. Government-grade systems with HSM integration and audit compliance.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Expertise Section -->
+        <section id="expertise">
+            <div class="expertise-section">
+                <h2 style="text-align: left; margin-bottom: 30px;">Core Technical Expertise</h2>
+
+                <div class="expertise-grid">
+                    <div class="expertise-item">
+                        <strong>.NET & Cloud</strong>
+                        <span>.NET 9+, Aspire, Azure SQL, Managed Identity, Key Vault, App Services</span>
+                    </div>
+                    <div class="expertise-item">
+                        <strong>AI & LLM</strong>
+                        <span>Semantic Kernel, Claude API, Azure OpenAI, RAG, Vector Embeddings, MCP Protocol</span>
+                    </div>
+                    <div class="expertise-item">
+                        <strong>Web & Backend</strong>
+                        <span>Blazor Server, Minimal APIs, ASP.NET Core, MAUI, Responsive Design</span>
+                    </div>
+                    <div class="expertise-item">
+                        <strong>Enterprise Architecture</strong>
+                        <span>Multi-tenant systems, Microservices, CQRS, Domain-Driven Design, Clean Architecture</span>
+                    </div>
+                    <div class="expertise-item">
+                        <strong>DevOps & Infrastructure</strong>
+                        <span>Kubernetes, Dapr, CI/CD, GitHub Actions, Azure DevOps, Infrastructure as Code</span>
+                    </div>
+                    <div class="expertise-item">
+                        <strong>Industrial & Integration</strong>
+                        <span>OPC UA, MQTT, IoT, Data Logging, Legacy System Modernization</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Codeware -->
+        <section>
+            <h2>Why Choose Codeware</h2>
+
+            <div class="why-choose">
+                <div class="why-item">
+                    <h3>✅ Proven Track Record</h3>
+                    <p>40+ years of experience delivering enterprise solutions. 15+ years trusted partner with Spikes, countless successful client engagements.</p>
+                </div>
+
+                <div class="why-item">
+                    <h3>✅ Modern Tech Stack</h3>
+                    <p>Latest technologies: .NET 9, Azure cloud, AI/LLM integration, Kubernetes. Always staying current with industry standards.</p>
+                </div>
+
+                <div class="why-item">
+                    <h3>✅ Strategic Vision</h3>
+                    <p>Not just coding—architecture, scalability, maintainability. Design solutions that grow with your business.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio">
+            <div class="portfolio-preview">
+                <h3>🎯 Explore Detailed Portfolio</h3>
+                <p>View in-depth case studies, project showcases, and technical implementations across various industries and domains.</p>
+                <a href="https://portfolio.codeware.be" class="btn btn-primary" target="_blank">Visit Full Portfolio</a>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="contact-section">
+                <h2>Ready to Transform Your Digital Infrastructure?</h2>
+                <p>Let's discuss how modern architecture and AI integration can solve your business challenges.</p>
+
+                <div class="contact-info">
+                    <div>
+                        <strong>📧 Email</strong><br>
+                        <a href="mailto:bart@codeware.be">bart@codeware.be</a>
+                    </div>
+                    <div>
+                        <strong>📱 Phone</strong><br>
+                        <a href="tel:+32497542179">+32 497 54 21 79</a>
+                    </div>
+                    <div>
+                        <strong>🔗 Social</strong><br>
+                        <a href="https://github.com/BartVanderAuweraert" target="_blank">GitHub</a> |
+                        <a href="https://linkedin.com/in/bart-van-der-auweraert" target="_blank">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#expertise">Expertise</a>
+            <a href="https://portfolio.codeware.be">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <p>&copy; 2024 Codeware. All rights reserved.</p>
+    </footer>
+</body>
+</html>
