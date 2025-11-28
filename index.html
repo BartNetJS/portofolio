@@ -195,6 +195,38 @@
             color: #e94560;
         }
 
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 0.65rem;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+            animation: pulse-glow 2s ease-in-out infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(139, 92, 246, 0.8);
+            }
+        }
+
+        .portfolio-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -224,7 +256,7 @@
             <div class="portfolios-grid">
                 <!-- Invoicing App -->
                 <a href="projects/invoicing-app/" class="portfolio-card">
-                    <h3>Invoicing App</h3>
+                    <h3>Invoicing App<span class="ai-badge">AI</span></h3>
                     <div class="role">.NET Aspire Full-Stack Application</div>
                     <p>
                         Production-ready invoice management system with Blazor frontend, Minimal APIs backend,
@@ -241,7 +273,7 @@
 
                 <!-- Investment Agent -->
                 <a href="projects/investment-agent/" class="portfolio-card">
-                    <h3>Investment Agent</h3>
+                    <h3>Investment Agent<span class="ai-badge">AI</span></h3>
                     <div class="role">AI-Powered Stock Analysis System</div>
                     <p>
                         Comprehensive .NET 9 Aspire application for intelligent investment analysis.
@@ -258,7 +290,7 @@
 
                 <!-- MCP Servers -->
                 <a href="projects/mcp-servers/" class="portfolio-card">
-                    <h3>MCP Servers</h3>
+                    <h3>MCP Servers<span class="ai-badge">AI</span></h3>
                     <div class="role">AI Integration Toolkit</div>
                     <p>
                         Collection of 6 production-ready Model Context Protocol servers enabling Claude and LLMs to access enterprise systems.
@@ -275,7 +307,7 @@
 
                 <!-- Tax Residence Management -->
                 <a href="projects/tax-residence-management/" class="portfolio-card">
-                    <h3>Tax Residence Management</h3>
+                    <h3>Tax Residence Management<span class="ai-badge">AI</span></h3>
                     <div class="role">Cross-Border Compliance Platform</div>
                     <p>
                         Proof-of-concept application for managing tax residency and compliance between Belgium and Netherlands.
@@ -361,7 +393,7 @@
 
                 <!-- AI Knowledge App -->
                 <a href="projects/ai-knowledge-app/" class="portfolio-card">
-                    <h3>AI Knowledge App</h3>
+                    <h3>AI Knowledge App<span class="ai-badge">AI</span></h3>
                     <div class="role">Intelligent Knowledge Management System</div>
                     <p>
                         AI-powered knowledge base with autonomous agents for automatic updates and knowledge enrichment.
@@ -419,7 +451,7 @@
 
                 <!-- Initum-AZ Presentation -->
                 <a href="presentations/initum-az/" class="portfolio-card">
-                    <h3>Initum-AZ</h3>
+                    <h3>Initum-AZ<span class="ai-badge">AI</span></h3>
                     <div class="role">Team Leadership & GenAI Expertise</div>
                     <p>
                         Comprehensive presentation of 40+ years of technical leadership, mentoring experience, and hands-on GenAI project implementations.
