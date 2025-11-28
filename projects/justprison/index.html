@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JustPrison - National Justice System Integration Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #e94560;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .tag.blue {
+            background: #3b82f6;
+        }
+
+        .tag.green {
+            background: #10b981;
+        }
+
+        .tag.purple {
+            background: #8b5cf6;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Portfolios</a>
+
+        <header>
+            <h1>JustPrison</h1>
+            <p class="subtitle">National Justice System Integration Platform <span class="badge">Production</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>⚖️ Project Overview</h2>
+            <p>
+                A sophisticated <strong>national justice system integration platform</strong> developed for the Belgian Federal Public Service Justice (FOD Justice).
+                JustPrison serves as the central integration hub connecting multiple legacy justice systems, databases, and external services into a unified platform
+                for prison management, case management, and inmate tracking across the Belgian justice system.
+            </p>
+            <ul>
+                <li><strong>Multi-System Integration</strong> - Connects 15+ legacy justice systems and databases</li>
+                <li><strong>Mission-Critical Operations</strong> - Manages prisoner data, case information, and justice procedures</li>
+                <li><strong>Microservices Architecture</strong> - Scalable, resilient integration platform</li>
+                <li><strong>Government-Grade Security</strong> - High security requirements for sensitive justice data</li>
+                <li><strong>Real-Time Integration</strong> - Synchronization with multiple government databases</li>
+                <li><strong>Automated Testing</strong> - Comprehensive Tracetest integration for continuous validation</li>
+                <li><strong>Kubernetes Orchestration</strong> - Cloud-native deployment with Dapr orchestration</li>
+                <li><strong>Cloud Infrastructure</strong> - Azure deployment with HSM security</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Features</h2>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">🔗</span>
+                    <div>
+                        <strong>Multi-System Integration</strong> - Connect and synchronize 15+ legacy justice systems seamlessly
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔐</span>
+                    <div>
+                        <strong>Government Security</strong> - HSM-protected certificates, OAuth integration via JSB (Justice Service Bus)
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔄</span>
+                    <div>
+                        <strong>Real-Time Synchronization</strong> - Live data updates across multiple justice systems
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚙️</span>
+                    <div>
+                        <strong>Microservices Architecture</strong> - Independent services for each integration point with SDK abstraction
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🧪</span>
+                    <div>
+                        <strong>Continuous Validation</strong> - Tracetest integration for automated health checks and integration tests
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📊</span>
+                    <div>
+                        <strong>Observability</strong> - Grafana dashboards, Loki logging, CoRoot tracing, and monitoring
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">☁️</span>
+                    <div>
+                        <strong>Cloud-Native Deployment</strong> - Kubernetes with Dapr orchestration and Azure infrastructure
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🛡️</span>
+                    <div>
+                        <strong>Configuration Management</strong> - Live configuration changes in running environments without downtime
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Architecture & Technology</h2>
+
+            <h3>Integrated Justice Systems</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Core Systems</h3>
+                    <p>
+                        <span class="tag blue">UCase (Court Cases)</span>
+                        <span class="tag blue">AOS2 (Offender System)</span>
+                        <span class="tag blue">DAS (Detention System)</span>
+                        <span class="tag blue">DBS (Database)</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Integration Services</h3>
+                    <p>
+                        <span class="tag green">National Register (BOSA)</span>
+                        <span class="tag green">RisOnWeb (Risk Assessment)</span>
+                        <span class="tag green">Epicure (Records)</span>
+                        <span class="tag green">Telio (Telecom)</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Infrastructure</h3>
+                    <p>
+                        <span class="tag purple">Kubernetes</span>
+                        <span class="tag purple">Dapr Orchestration</span>
+                        <span class="tag purple">Azure Cloud</span>
+                        <span class="tag purple">GitHub CI/CD</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Technology Stack</h3>
+                    <p>
+                        <span class="tag">.NET 6+</span>
+                        <span class="tag">C# 10+</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">SOAP/XML</span>
+                    </p>
+                </div>
+            </div>
+
+            <h3>Integration Points</h3>
+            <ul>
+                <li><strong>JP.Integration.Pull.AOS2</strong> - Offender System integration</li>
+                <li><strong>JP.Integration.Pull.DAS</strong> - Detention System integration</li>
+                <li><strong>JP.Integration.Pull.DBS</strong> - Database integration</li>
+                <li><strong>JP.JSB.NationalRegister</strong> - BOSA National Register integration</li>
+                <li><strong>JP.JSB.RisOnWeb</strong> - Risk assessment system integration</li>
+                <li><strong>JP.JSB.Epicure</strong> - Records management integration</li>
+                <li><strong>JP.JSB.Telio</strong> - Telecom system integration</li>
+                <li><strong>JP.JSB.FTP</strong> - File transfer protocol integration</li>
+                <li><strong>JP.UCase.Consult</strong> - Court case consultation services</li>
+                <li><strong>JP.Integration.Consult</strong> - Cross-system consultation layer</li>
+            </ul>
+
+            <h3>Key Technologies</h3>
+            <ul>
+                <li><strong>.NET 6+</strong> - Modern C# framework for microservices</li>
+                <li><strong>Kubernetes + Dapr</strong> - Distributed application runtime and orchestration</li>
+                <li><strong>Grafana & Loki</strong> - Monitoring, logging, and analytics</li>
+                <li><strong>Tracetest</strong> - Automated integration testing on each deployment</li>
+                <li><strong>CoRoot</strong> - Distributed tracing and observability</li>
+                <li><strong>Azure</strong> - Cloud infrastructure and HSM security</li>
+                <li><strong>GitHub</strong> - Version control, CI/CD, and governance</li>
+                <li><strong>JSB</strong> - Justice Service Bus for authentication and integration</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔐 Security & Government Compliance</h2>
+
+            <h3>Security Features</h3>
+            <ul>
+                <li><strong>HSM-Protected Certificates</strong> - Hardware security modules for sensitive credentials</li>
+                <li><strong>OAuth via JSB</strong> - Centralized government authentication</li>
+                <li><strong>Consumer Scoping</strong> - Granular access control per consumer and scope</li>
+                <li><strong>SFTP Keys</strong> - Secure file transfer with encrypted keys</li>
+                <li><strong>Azure KeyVault</strong> - Secrets management and rotation</li>
+                <li><strong>DAPR Bindings</strong> - Secure service-to-service communication</li>
+            </ul>
+
+            <h3>Compliance & Governance</h3>
+            <ul>
+                <li><strong>Justice Data Protection</strong> - Sensitive inmate and case information security</li>
+                <li><strong>Audit Logging</strong> - Complete audit trail for all operations</li>
+                <li><strong>GitHub Governance</strong> - Team integration and access control</li>
+                <li><strong>Performance Monitoring</strong> - Load testing and capacity planning</li>
+                <li><strong>Penetration Testing</strong> - Security validation and hardening</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📊 Operations & Monitoring</h2>
+
+            <h3>Continuous Integration & Deployment</h3>
+            <ul>
+                <li><strong>Tracetest Integration</strong> - Automated integration tests on every deployment</li>
+                <li><strong>Unit & Integration Tests</strong> - Comprehensive test coverage on PR, Master, and Release builds</li>
+                <li><strong>GitHub CI/CD</strong> - Automated build, test, and deployment pipeline</li>
+                <li><strong>Multi-Environment Deployment</strong> - Dev, Test, Acceptance, and Production stages</li>
+                <li><strong>Kubernetes Pod Management</strong> - Automatic sidecar injection and pod orchestration</li>
+            </ul>
+
+            <h3>Observability & Monitoring</h3>
+            <ul>
+                <li><strong>Grafana Dashboards</strong> - Real-time system metrics and alerts</li>
+                <li><strong>Loki Logging</strong> - Centralized log aggregation and analysis</li>
+                <li><strong>CoRoot Tracing</strong> - Distributed tracing for request tracking</li>
+                <li><strong>Health Endpoints</strong> - Service health monitoring and status pages</li>
+                <li><strong>Live Configuration</strong> - Update settings without service restarts</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Development Practices</h2>
+
+            <h3>Architecture Patterns</h3>
+            <ul>
+                <li><strong>Microservices</strong> - Independent services for each integration point</li>
+                <li><strong>SDK Abstraction</strong> - Clean service call interfaces (Services.UCase.GetDetaineePersonalDataAsync)</li>
+                <li><strong>Middleware Patterns</strong> - Common response handling for all APIs</li>
+                <li><strong>Middleware for Error Handling</strong> - Standardized 5xx, logging, and response formats</li>
+                <li><strong>Configuration Management</strong> - Environment-based configuration with live updates</li>
+            </ul>
+
+            <h3>DevOps Excellence</h3>
+            <ul>
+                <li>Automated testing on every deployment</li>
+                <li>Zero-downtime configuration updates</li>
+                <li>Kubernetes pod recovery and scaling</li>
+                <li>Comprehensive observability and monitoring</li>
+                <li>Multi-stage deployment strategy</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Project Demonstrates</h3>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Enterprise Integration</strong> - Complex multi-system coordination</li>
+                <li>✅ <strong>Government Systems</strong> - Mission-critical justice system development</li>
+                <li>✅ <strong>Microservices Architecture</strong> - Scalable distributed systems</li>
+                <li>✅ <strong>Kubernetes & Dapr</strong> - Cloud-native orchestration</li>
+                <li>✅ <strong>Security at Scale</strong> - HSM, OAuth, and compliance</li>
+                <li>✅ <strong>DevOps Excellence</strong> - Automated testing and deployment</li>
+                <li>✅ <strong>Observability</strong> - Monitoring, logging, and tracing</li>
+                <li>✅ <strong>Integration Testing</strong> - Tracetest for comprehensive validation</li>
+                <li>✅ <strong>Legacy System Modernization</strong> - Connecting old systems to new platforms</li>
+                <li>✅ <strong>High Availability</strong> - 24/7 mission-critical operations</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Project Status</h2>
+            <p>
+                JustPrison is a <strong>production-deployed system</strong> serving the Belgian Federal Public Service Justice with continuous operation.
+                The platform continues to evolve with ongoing enhancements, interface refinements, and system integrations.
+            </p>
+            <ul>
+                <li>✅ Core integration platform stable and operational</li>
+                <li>✅ Multi-system integration successful</li>
+                <li>✅ Automated testing framework operational</li>
+                <li>✅ Kubernetes deployment optimized</li>
+                <li>🔄 Continuous interface refinements ongoing</li>
+                <li>🔄 Load testing and pen testing in progress</li>
+                <li>🔄 Additional system integrations planned</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Client:</strong> FOD Justice (Belgian Federal Public Service Justice)
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
