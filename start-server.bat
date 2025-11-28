@@ -1,6 +1,6 @@
 @echo off
-REM Start local HTTP server for Codeware website and portofolio testing
-REM This batch file runs Python's built-in HTTP server hosting both www and portofolio
+REM Start local HTTP server for Codeware website testing
+REM This batch file runs Python's built-in HTTP server
 
 echo Starting Codeware HTTP Server...
 echo.
@@ -8,20 +8,16 @@ echo ========================================
 echo         Codeware Local Development
 echo ========================================
 echo.
-echo Main Website (www):
-echo   http://localhost:8000/www/
-echo.
-echo Portofolio:
+echo Main Website:
 echo   http://localhost:8000/
 echo.
-echo Prospects:
-echo   http://localhost:8000/prospects/
+echo Portofolio Hub:
+echo   http://localhost:8000/portfolio/
 echo.
-echo Presentations:
-echo   http://localhost:8000/presentations/
-echo.
-echo Projects:
-echo   http://localhost:8000/projects/
+echo Portfolio Sections:
+echo   - Projects:       http://localhost:8000/portfolio/projects/
+echo   - Presentations:  http://localhost:8000/portfolio/presentations/
+echo   - Prospects:      http://localhost:8000/portfolio/prospects/
 echo.
 echo ========================================
 echo.

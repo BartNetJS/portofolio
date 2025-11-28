@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bart Van der Auweraert - Portofolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        .portofolios-section {
+            margin-top: 50px;
+        }
+
+        .portofolios-section h2 {
+            font-size: 2rem;
+            color: #e94560;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .portofolios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .portofolio-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid #0f3460;
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portofolio-card:hover {
+            transform: translateY(-10px);
+            border-color: #e94560;
+            background: rgba(233, 69, 96, 0.1);
+            box-shadow: 0 20px 40px rgba(233, 69, 96, 0.2);
+        }
+
+        .portofolio-card h3 {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .portofolio-card .role {
+            color: #10b981;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .portofolio-card p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .portofolio-card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .portofolio-card .tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .portofolio-card .cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #e94560, #f15a77);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            align-self: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        .portofolio-card:hover .cta {
+            transform: translateX(5px);
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            border-color: #64748b;
+        }
+
+        .coming-soon .cta {
+            background: #64748b;
+            cursor: not-allowed;
+        }
+
+        .coming-soon:hover {
+            border-color: #64748b;
+            background: rgba(255, 255, 255, 0.05);
+            transform: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        .contact {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+
+        .contact a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .contact a:hover {
+            color: #e94560;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 0.65rem;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+            animation: pulse-glow 2s ease-in-out infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(139, 92, 246, 0.8);
+            }
+        }
+
+        .portofolio-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .portofolios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bart Van der Auweraert</h1>
+            <p class="subtitle">Technical Architect & GenAI Enthusiast</p>
+            <p class="intro">
+                40+ years of development experience combined with hands-on expertise in AI/LLM integration, cloud architecture, and team leadership.
+                Specialized in GenAI solutions, DevOps, and mentoring high-performing teams.
+            </p>
+        </header>
+
+        <section class="portofolios-section">
+            <h2>📚 Portofolio Showcase</h2>
+            <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">Personal portofolio projects highlighting expertise and experience</p>
+
+            <div class="portofolios-grid">
+                <!-- Invoicing App -->
+                <a href="projects/invoicing-app/" class="portofolio-card">
+                    <h3>Invoicing App<span class="ai-badge">AI</span></h3>
+                    <div class="role">.NET Aspire Full-Stack Application</div>
+                    <p>
+                        Production-ready invoice management system with Blazor frontend, Minimal APIs backend,
+                        and MCP server integration for AI-powered operations. Complete JSON persistence implementation.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET 9</span>
+                        <span class="tag">Aspire</span>
+                        <span class="tag">Blazor</span>
+                        <span class="tag">MCP Server</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+
+                <!-- Investment Agent -->
+                <a href="projects/investment-agent/" class="portofolio-card">
+                    <h3>Investment Agent<span class="ai-badge">AI</span></h3>
+                    <div class="role">AI-Powered Stock Analysis System</div>
+                    <p>
+                        Comprehensive .NET 9 Aspire application for intelligent investment analysis.
+                        Features Semantic Kernel, Prompty integration, real-time stock data, and MCP server for LLM integration.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET 9</span>
+                        <span class="tag">Aspire</span>
+                        <span class="tag">Semantic Kernel</span>
+                        <span class="tag">Prompty</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+
+                <!-- MCP Servers -->
+                <a href="projects/mcp-servers/" class="portofolio-card">
+                    <h3>MCP Servers<span class="ai-badge">AI</span></h3>
+                    <div class="role">AI Integration Toolkit</div>
+                    <p>
+                        Collection of 6 production-ready Model Context Protocol servers enabling Claude and LLMs to access enterprise systems.
+                        Includes DevOps, MSSQL, financial data, ML, local LLMs, and intelligent routing.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">MCP Protocol</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Claude Integration</span>
+                        <span class="tag">Enterprise</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+                <!-- AI Knowledge App -->
+                <a href="projects/ai-knowledge-app/" class="portofolio-card">
+                    <h3>AI Knowledge App<span class="ai-badge">AI</span></h3>
+                    <div class="role">Intelligent Knowledge Management System</div>
+                    <p>
+                        AI-powered knowledge base with autonomous agents for automatic updates and knowledge enrichment.
+                        Implements lean storage with vector embeddings, MCP integration for Claude, and AI-driven dossier management.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET</span>
+                        <span class="tag">Agents</span>
+                        <span class="tag">MCP Server</span>
+                        <span class="tag">Vector DB</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+                <!-- Tax Residence Management -->
+                <a href="projects/tax-residence-management/" class="portofolio-card">
+                    <h3>Tax Residence Management<span class="ai-badge">AI</span></h3>
+                    <div class="role">Cross-Border Compliance Platform</div>
+                    <p>
+                        Proof-of-concept application for managing tax residency and compliance between Belgium and Netherlands.
+                        Features residence tracking, work distribution documentation, financial tracking, and AI-powered guidance.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET Aspire</span>
+                        <span class="tag">Blazor</span>
+                        <span class="tag">MAUI</span>
+                        <span class="tag">AI Integration</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+
+                <!-- VVE Management System -->
+                <a href="projects/vve/" class="portofolio-card">
+                    <h3>VVE Management System</h3>
+                    <div class="role">Homeowners Association Platform</div>
+                    <p>
+                        Alpha-stage application for managing Dutch homeowners associations.
+                        Features project management, apartment tracking, user roles, and flexible storage architecture
+                        with comprehensive Clean Architecture and domain-driven design.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET 10</span>
+                        <span class="tag">Aspire</span>
+                        <span class="tag">Blazor Server</span>
+                        <span class="tag">Clean Architecture</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+
+                <!-- DataLogger -->
+                <a href="projects/datalogger/" class="portofolio-card">
+                    <h3>DataLogger</h3>
+                    <div class="role">Enterprise Serial Data Logging with Encryption</div>
+                    <p>
+                        Production-ready Windows service and WPF application for secure, high-performance serial data logging.
+                        Features AES-256-GCM encryption, hardware-locked licensing, encryption key recovery system, and tamper-evident audit logging.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET 10</span>
+                        <span class="tag">Windows Service</span>
+                        <span class="tag">AES-256 Encryption</span>
+                        <span class="tag">Licensing</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+
+                <!-- BDO ApplicationPortal -->
+                <a href="projects/bdo-application-portal/" class="portofolio-card">
+                    <h3>BDO ApplicationPortal</h3>
+                    <div class="role">Enterprise Data Warehouse & Multi-Tenant Portal</div>
+                    <p>
+                        Production-grade data warehouse and multi-client portal built with .NET Aspire and Blazor Server.
+                        Multi-tenant architecture with complex role-based access control, Azure integration, and advanced reporting capabilities.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET Aspire</span>
+                        <span class="tag">Blazor Server</span>
+                        <span class="tag">Multi-Tenant</span>
+                        <span class="tag">Azure</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+
+                <!-- ePAC OPC Proxies -->
+                <a href="projects/epac-opc-proxies/" class="portofolio-card">
+                    <h3>ePAC OPC Proxies</h3>
+                    <div class="role">Industrial IoT Integration Platform</div>
+                    <p>
+                        Production-deployed OPC UA proxy solutions for industrial plants worldwide.
+                        Bridges legacy industrial systems with modern cloud platforms via OPC UA and MQTT, enabling real-time data collection and analytics.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">OPC UA</span>
+                        <span class="tag">MQTT</span>
+                        <span class="tag">Industrial IoT</span>
+                        <span class="tag">Multi-Plant</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+
+                <!-- JustPrison -->
+                <a href="projects/justprison/" class="portofolio-card">
+                    <h3>JustPrison</h3>
+                    <div class="role">National Justice System Integration Platform</div>
+                    <p>
+                        Mission-critical government integration platform connecting 15+ Belgian justice systems.
+                        Microservices architecture with Kubernetes, Dapr, comprehensive observability, and continuous integration testing.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET 6+</span>
+                        <span class="tag">Kubernetes</span>
+                        <span class="tag">Dapr</span>
+                        <span class="tag">Government</span>
+                    </div>
+                    <span class="cta">View Portofolio →</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="portofolios-section">
+            <h2>🎯 Client Presentations</h2>
+            <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">Project-specific presentations for client engagements</p>
+
+            <div class="portofolios-grid">
+                <!-- Spikes Engagement -->
+                <a href="presentations/spikes/" class="portofolio-card">
+                    <h3>Spikes</h3>
+                    <div class="role">15 Years of Enterprise Solutions</div>
+                    <p>
+                        Long-standing sub-contractor partnership delivering enterprise software solutions for diverse client portofolio.
+                        Demonstrates proven reliability, technical competence, and ability to deliver consistent value over 15+ years.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET</span>
+                        <span class="tag">Enterprise</span>
+                        <span class="tag">15+ Years</span>
+                        <span class="tag">Leadership</span>
+                    </div>
+                    <span class="cta">View Presentation →</span>
+                </a>
+
+                <!-- Colruyt Engagement -->
+                <a href="presentations/colruyt/" class="portofolio-card">
+                    <h3>Colruyt</h3>
+                    <div class="role">Enterprise Infrastructure Transformation</div>
+                    <p>
+                        Large-scale infrastructure transformation managing transition of complete enterprise cloud infrastructure to India operations.
+                        Led technical debt reduction, repository consolidation, and comprehensive knowledge transfer program.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Azure</span>
+                        <span class="tag">Infrastructure</span>
+                        <span class="tag">DevSecOps</span>
+                        <span class="tag">Leadership</span>
+                    </div>
+                    <span class="cta">View Presentation →</span>
+                </a>
+
+                <!-- DCM Engagement -->
+                <a href="presentations/dcm/" class="portofolio-card">
+                    <h3>DCM</h3>
+                    <div class="role">Enterprise Data Logging & Security Solutions</div>
+                    <p>
+                        Development of DataLogger - enterprise-grade data logging platform with AES-256-GCM encryption, hardware-locked licensing,
+                        and comprehensive key recovery system. Includes DeltaV Proxy integration for advanced industrial control scenarios.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET 10</span>
+                        <span class="tag">Windows Service</span>
+                        <span class="tag">Encryption</span>
+                        <span class="tag">Licensing</span>
+                    </div>
+                    <span class="cta">View Presentation →</span>
+                </a>
+
+                <!-- BDO Engagement -->
+                <a href="presentations/bdo/" class="portofolio-card">
+                    <h3>BDO</h3>
+                    <div class="role">Enterprise Data Warehouse & Portal</div>
+                    <p>
+                        Development of comprehensive multi-tenant enterprise data warehouse and portal for BDO.
+                        Built with .NET Aspire, Blazor Server, and Azure cloud services with complex multi-client data isolation and reporting.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET Aspire</span>
+                        <span class="tag">Blazor</span>
+                        <span class="tag">Azure</span>
+                        <span class="tag">Enterprise</span>
+                    </div>
+                    <span class="cta">View Presentation →</span>
+                </a>
+
+                <!-- ePAC Engagement -->
+                <a href="presentations/epac/" class="portofolio-card">
+                    <h3>ePAC</h3>
+                    <div class="role">Industrial IoT & OPC Integration</div>
+                    <p>
+                        Development of multi-plant OPC UA proxy platform for industrial facilities worldwide.
+                        Bridges legacy industrial systems with modern cloud platforms via OPC UA and MQTT for real-time data collection and analytics.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">OPC UA</span>
+                        <span class="tag">MQTT</span>
+                        <span class="tag">Industrial IoT</span>
+                        <span class="tag">Multi-Plant</span>
+                    </div>
+                    <span class="cta">View Presentation →</span>
+                </a>
+
+                <!-- FOD Justice Engagement -->
+                <a href="presentations/fodj/" class="portofolio-card">
+                    <h3>FOD Justice</h3>
+                    <div class="role">National Justice System Integration</div>
+                    <p>
+                        Development of JustPrison - mission-critical integration platform for Belgian Federal Public Service Justice.
+                        Connects 15+ legacy justice systems via microservices with Kubernetes, Dapr, comprehensive monitoring, and continuous testing.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">.NET 6+</span>
+                        <span class="tag">Kubernetes</span>
+                        <span class="tag">Government</span>
+                        <span class="tag">Integration</span>
+                    </div>
+                    <span class="cta">View Presentation →</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="portofolios-section">
+            <h2>🎯 Prospects & Opportunities</h2>
+            <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">Potential projects and future engagement opportunities</p>
+
+            <div class="portofolios-grid">
+                <!-- Initum-AZ Prospect -->
+                <a href="prospects/initum-az/" class="portofolio-card">
+                    <h3>Initum-AZ<span class="ai-badge">AI</span></h3>
+                    <div class="role">Team Leadership & GenAI Expertise</div>
+                    <p>
+                        Comprehensive presentation of 40+ years of technical leadership, mentoring experience, and hands-on GenAI project implementations.
+                        Features real-world AI integrations including RAG systems, LLM orchestration, and healthcare AI context.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Semantic Kernel</span>
+                        <span class="tag">Azure OpenAI</span>
+                        <span class="tag">Leadership</span>
+                        <span class="tag">AI/LLM</span>
+                    </div>
+                    <span class="cta">View Prospect →</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <div class="contact">
+                <span>📧 bart@example.com</span>
+                <span>📱 +32 497 54 21 79</span>
+                <span><a href="https://github.com/BartNetJS" target="_blank">GitHub</a></span>
+                <span><a href="https://www.linkedin.com/in/codeware/" target="_blank">LinkedIn</a></span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
