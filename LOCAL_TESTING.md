@@ -27,8 +27,8 @@ Then open your browser to: **http://localhost:8000**
 
 ## ✅ All Links Work Perfectly With HTTP Server!
 
-- Portfolio hub displays at `http://localhost:8000`
-- Initum-AZ portfolio at `http://localhost:8000/projects/initum-az/`
+- Portofolio hub displays at `http://localhost:8000`
+- Initum-AZ portofolio at `http://localhost:8000/projects/initum-az/`
 - Invoicing App at `http://localhost:8000/projects/invoicing-app/`
 - Back buttons return to hub correctly
 
@@ -79,14 +79,14 @@ When you open HTML directly with `file:///C:/Users/.../index.html`:
 All links use **relative paths** that work everywhere:
 
 - Root index.html links to: `projects/initum-az/` ✅
-- Portfolio pages link back: `../../` ✅
+- Portofolio pages link back: `../../` ✅
 - Works with HTTP server ✅
 - Works on GitHub Pages ✅
 
 When you test locally with `python -m http.server 8000`:
-- **Root**: `http://localhost:8000` → Portfolio hub
-- **Initum-AZ**: `http://localhost:8000/projects/initum-az/` → Portfolio page
-- **Invoicing App**: `http://localhost:8000/projects/invoicing-app/` → Portfolio page
+- **Root**: `http://localhost:8000` → Portofolio hub
+- **Initum-AZ**: `http://localhost:8000/projects/initum-az/` → Portofolio page
+- **Invoicing App**: `http://localhost:8000/projects/invoicing-app/` → Portofolio page
 
 All navigation works perfectly!
 
@@ -97,7 +97,7 @@ All navigation works perfectly!
 After pushing to GitHub and enabling Pages, you'll have:
 
 - **Root**: `https://username.github.io/portefolio/`
-- **Portfolios**: `https://username.github.io/portefolio/projects/initum-az/`
+- **Portofolios**: `https://username.github.io/portefolio/projects/initum-az/`
 - **Back buttons**: Work correctly in all pages
 
 Same code, same links, works everywhere! 🎉

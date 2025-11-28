@@ -1,16 +1,16 @@
-# Portfolio & Presentations Hub
+# Portofolio & Presentations Hub
 
-A scalable portfolio system for showcasing expertise and hosting client-specific presentations on GitHub Pages.
+A scalable portofolio system for showcasing expertise and hosting client-specific presentations on GitHub Pages.
 
 ## 📁 Structure
 
 ```
 portefolio/
-├── index.html                      # Landing page - links to all portfolios & presentations
+├── index.html                      # Landing page - links to all portofolios & presentations
 │
-├── projects/                       # Portfolio showcase projects
+├── projects/                       # Portofolio showcase projects
 │   └── initum-az/
-│       ├── index.html             # Portfolio page
+│       ├── index.html             # Portofolio page
 │       └── assets/                # Images, documents, etc. (optional)
 │
 ├── presentations/                  # Client-specific presentations
@@ -26,11 +26,11 @@ portefolio/
 
 ## 🎯 Two Categories
 
-### 📚 **Portfolio Projects** (`/projects/`)
-Personal portfolio pieces showcasing your expertise, skills, and significant work. These are **polished, reusable showcases** that represent your brand and capabilities.
+### 📚 **Portofolio Projects** (`/projects/`)
+Personal portofolio pieces showcasing your expertise, skills, and significant work. These are **polished, reusable showcases** that represent your brand and capabilities.
 
-- **Initum-AZ** - Team leadership & GenAI expertise portfolio
-- Future portfolios for different expertise areas
+- **Initum-AZ** - Team leadership & GenAI expertise portofolio
+- Future portofolios for different expertise areas
 
 ### 🎯 **Client Presentations** (`/presentations/`)
 **Project-specific, client-tailored** presentations for active engagements. These are **temporary** and customized for specific clients/projects.
@@ -43,31 +43,31 @@ Personal portfolio pieces showcasing your expertise, skills, and significant wor
 
 ## 🚀 Quick Start
 
-### Adding a Portfolio Project
+### Adding a Portofolio Project
 
 ```bash
 # 1. Create folder structure
-mkdir -p projects/my-portfolio
-touch projects/my-portfolio/index.html
+mkdir -p projects/my-portofolio
+touch projects/my-portofolio/index.html
 
 # 2. Add to root index.html with:
-<a href="/projects/my-portfolio/" class="portfolio-card">
-    <h3>My Portfolio</h3>
+<a href="/projects/my-portofolio/" class="portofolio-card">
+    <h3>My Portofolio</h3>
     <div class="role">Your Role</div>
     <p>Description...</p>
     <div class="tags">
         <span class="tag">Tech 1</span>
         <span class="tag">Tech 2</span>
     </div>
-    <span class="cta">View Portfolio →</span>
+    <span class="cta">View Portofolio →</span>
 </a>
 
-# 3. In portfolio/index.html add:
-<a href="/" class="back-link">← Back to Portfolios</a>
+# 3. In portofolio/index.html add:
+<a href="/" class="back-link">← Back to Portofolios</a>
 
 # 4. Commit and push
 git add .
-git commit -m "Add my-portfolio project"
+git commit -m "Add my-portofolio project"
 git push
 ```
 
@@ -79,7 +79,7 @@ mkdir -p presentations/client-xyz
 touch presentations/client-xyz/index.html
 
 # 2. Add to root index.html with:
-<a href="/presentations/client-xyz/" class="portfolio-card">
+<a href="/presentations/client-xyz/" class="portofolio-card">
     <h3>Client XYZ</h3>
     <div class="role">Project Title</div>
     <p>Description...</p>
@@ -115,7 +115,7 @@ git push
 After enabling GitHub Pages, your sites will be live at:
 
 - **Root Hub**: `https://YOUR-USERNAME.github.io/portefolio/`
-- **Initum-AZ Portfolio**: `https://YOUR-USERNAME.github.io/portefolio/projects/initum-az/`
+- **Initum-AZ Portofolio**: `https://YOUR-USERNAME.github.io/portefolio/projects/initum-az/`
 - **Client Presentations**: `https://YOUR-USERNAME.github.io/portefolio/presentations/client-xyz/`
 
 ### Custom Domain (Optional)
@@ -123,7 +123,7 @@ After enabling GitHub Pages, your sites will be live at:
 If you own a domain:
 
 1. Go to **Settings → Pages → Custom domain**
-2. Enter your domain (e.g., `portfolio.example.com`)
+2. Enter your domain (e.g., `portofolio.example.com`)
 3. Configure DNS records at your domain provider:
    ```
    A    @     185.199.108.153
@@ -141,7 +141,7 @@ If you own a domain:
 
 - Use **root-relative paths** in links: `href="/projects/initum-az/"`
 - Use **root-relative paths** for images: `src="/projects/initum-az/assets/image.jpg"`
-- Keep each portfolio/presentation **independent**
+- Keep each portofolio/presentation **independent**
 - Use consistent styling across projects
 - Add a back-link on every sub-page
 - Keep file sizes small for fast loading
@@ -190,7 +190,7 @@ portefolio/
 - Clear browser cache (Ctrl+Shift+Delete / Cmd+Shift+Delete)
 - Wait 2-3 minutes after pushing
 
-### 404 on portfolio pages
+### 404 on portofolio pages
 - Verify each folder has an `index.html`
 - Check links use root-relative paths: `/projects/project-name/`
 - Check file naming matches links exactly
@@ -212,10 +212,10 @@ portefolio/
 This structure gives you:
 
 ✅ **One hub** (`index.html`) linking to everything
-✅ **Scalable portfolios** for career growth
+✅ **Scalable portofolios** for career growth
 ✅ **Client separation** with presentations folder
 ✅ **Easy to manage** - just add folders and update index.html
 ✅ **Professional hosting** on GitHub Pages
 ✅ **Fast loading** - pure HTML/CSS (no database)
 
-Start with **Initum-AZ** as your flagship portfolio, then add more portfolios as you complete significant work!
+Start with **Initum-AZ** as your flagship portofolio, then add more portofolios as you complete significant work!

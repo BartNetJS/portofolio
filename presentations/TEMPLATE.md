@@ -174,7 +174,7 @@ Copy the HTML below and save as `presentations/client-name/index.html`
 Add to the "Client Presentations" section in `/index.html`:
 
 ```html
-<a href="/presentations/client-name/" class="portfolio-card">
+<a href="/presentations/client-name/" class="portofolio-card">
     <h3>Client Name</h3>
     <div class="role">Project Title</div>
     <p>Brief description of the engagement and deliverables.</p>

@@ -1,7 +1,7 @@
 #!/bin/bash
-# Start local HTTP server for portfolio testing
+# Start local HTTP server for portofolio testing
 
-echo "Starting Portfolio HTTP Server..."
+echo "Starting Portofolio HTTP Server..."
 echo ""
 echo "Opening http://localhost:8000 in your browser"
 echo ""
