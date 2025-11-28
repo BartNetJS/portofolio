@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Servers - AI Integration Toolkit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #e94560;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .tag.blue {
+            background: #3b82f6;
+        }
+
+        .tag.green {
+            background: #10b981;
+        }
+
+        .tag.purple {
+            background: #8b5cf6;
+        }
+
+        .server-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .server-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .server-card:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .server-card .name {
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .server-card .description {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .server-card .capabilities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .capability {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Portfolios</a>
+
+        <header>
+            <h1>MCP Servers</h1>
+            <p class="subtitle">AI Integration Toolkit for Claude & LLMs <span class="badge">Production Ready</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>🔌 Project Overview</h2>
+            <p>
+                A comprehensive collection of <strong>Model Context Protocol (MCP) servers</strong> enabling seamless integration
+                between <strong>Claude, ChatGPT, and other LLMs</strong> with enterprise systems and data sources. Each server is
+                designed as a production-ready tool exposing business logic to AI agents.
+            </p>
+            <ul>
+                <li><strong>6 Production MCP Servers</strong> - Each addressing specific integration needs</li>
+                <li><strong>Node.js/TypeScript</strong> - Built with modern JavaScript stack</li>
+                <li><strong>AI-Ready Tools</strong> - Expose business operations to Claude and LLMs</li>
+                <li><strong>Authentication & Security</strong> - Enterprise-grade access control</li>
+                <li><strong>Comprehensive Testing</strong> - Unit and integration tests included</li>
+                <li><strong>Production Deployment</strong> - Ready for immediate use</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 MCP Servers Collection</h2>
+            <p>Six specialized servers enabling AI integration across different systems:</p>
+
+            <div class="server-showcase">
+                <!-- DevOps Server -->
+                <div class="server-card">
+                    <div class="name">🔧 DevOps Server</div>
+                    <div class="description">
+                        Azure DevOps integration for work item management, project tracking, and development workflow automation.
+                    </div>
+                    <div class="capabilities">
+                        <span class="capability">Work Items</span>
+                        <span class="capability">Projects</span>
+                        <span class="capability">Teams</span>
+                        <span class="capability">Automation</span>
+                    </div>
+                </div>
+
+                <!-- MSSQL Server -->
+                <div class="server-card">
+                    <div class="name">🗄️ MSSQL Server</div>
+                    <div class="description">
+                        Direct SQL Server integration for querying databases, executing operations, and data manipulation through natural language.
+                    </div>
+                    <div class="capabilities">
+                        <span class="capability">Queries</span>
+                        <span class="capability">DDL/DML</span>
+                        <span class="capability">Analysis</span>
+                        <span class="capability">Reporting</span>
+                    </div>
+                </div>
+
+                <!-- AlphaVantage Server -->
+                <div class="server-card">
+                    <div class="name">📈 AlphaVantage Server</div>
+                    <div class="description">
+                        Real-time stock market data integration for financial analysis, investment recommendations, and market insights.
+                    </div>
+                    <div class="capabilities">
+                        <span class="capability">Stock Data</span>
+                        <span class="capability">Analysis</span>
+                        <span class="capability">Quotes</span>
+                        <span class="capability">Charts</span>
+                    </div>
+                </div>
+
+                <!-- H2O AI Server -->
+                <div class="server-card">
+                    <div class="name">🤖 H2O AI Server</div>
+                    <div class="description">
+                        H2O.ai integration for machine learning, model evaluation, and predictive analytics through AI interaction.
+                    </div>
+                    <div class="capabilities">
+                        <span class="capability">ML Models</span>
+                        <span class="capability">Predictions</span>
+                        <span class="capability">Analysis</span>
+                        <span class="capability">Training</span>
+                    </div>
+                </div>
+
+                <!-- Ollama Server -->
+                <div class="server-card">
+                    <div class="name">🦙 Ollama Server</div>
+                    <div class="description">
+                        Local LLM integration for running open-source models, enabling on-premise AI capabilities without external APIs.
+                    </div>
+                    <div class="capabilities">
+                        <span class="capability">Local Models</span>
+                        <span class="capability">Inference</span>
+                        <span class="capability">Embeddings</span>
+                        <span class="capability">Fine-tuning</span>
+                    </div>
+                </div>
+
+                <!-- Question Relay Server -->
+                <div class="server-card">
+                    <div class="name">💬 Question Relay Server</div>
+                    <div class="description">
+                        Intelligent question routing and relay system for distributing queries to appropriate handlers and services.
+                    </div>
+                    <div class="capabilities">
+                        <span class="capability">Routing</span>
+                        <span class="capability">Delegation</span>
+                        <span class="capability">Context</span>
+                        <span class="capability">Responses</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 Key Features</h2>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">🔗</span>
+                    <div>
+                        <strong>Model Context Protocol (MCP)</strong> - Standard protocol for AI tool integration with Claude and other LLMs
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🛠️</span>
+                    <div>
+                        <strong>Enterprise Integration</strong> - Connect Claude directly to your systems (DevOps, SQL, APIs)
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔐</span>
+                    <div>
+                        <strong>Secure Authentication</strong> - PAT tokens, API keys, and connection management
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚡</span>
+                    <div>
+                        <strong>Fast Implementation</strong> - Node.js/TypeScript for rapid development and deployment
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🧪</span>
+                    <div>
+                        <strong>Production-Grade Testing</strong> - Comprehensive test coverage with Jest and debugging
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📚</span>
+                    <div>
+                        <strong>Well-Documented</strong> - Clear setup instructions, examples, and API documentation
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🚀</span>
+                    <div>
+                        <strong>Ready to Deploy</strong> - Containerizable, cloud-ready implementations
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔄</span>
+                    <div>
+                        <strong>Modular Design</strong> - Use individual servers or combine multiple for complex workflows
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Architecture & Technology</h2>
+
+            <h3>Stack Overview</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Runtime & Language</h3>
+                    <p>
+                        <span class="tag blue">Node.js v18+</span>
+                        <span class="tag blue">TypeScript</span>
+                        <span class="tag blue">Modern ES Modules</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>MCP & Protocol</h3>
+                    <p>
+                        <span class="tag green">Model Context Protocol</span>
+                        <span class="tag green">Claude Integration</span>
+                        <span class="tag green">LLM Tools</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Integrations</h3>
+                    <p>
+                        <span class="tag purple">Azure DevOps</span>
+                        <span class="tag purple">SQL Server</span>
+                        <span class="tag purple">REST APIs</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Testing & Quality</h3>
+                    <p>
+                        <span class="tag">Jest</span>
+                        <span class="tag">Debugging</span>
+                        <span class="tag">Coverage</span>
+                    </p>
+                </div>
+            </div>
+
+            <h3>How MCP Servers Work</h3>
+            <ul>
+                <li><strong>Tool Definition</strong> - Each server defines tools that Claude can call</li>
+                <li><strong>Tool Handler</strong> - Implements the business logic for each tool</li>
+                <li><strong>Parameter Validation</strong> - Validates input from Claude before execution</li>
+                <li><strong>Context Management</strong> - Maintains conversation context across interactions</li>
+                <li><strong>Response Formatting</strong> - Returns structured data to Claude</li>
+                <li><strong>Error Handling</strong> - Graceful handling of failures with informative messages</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Use Cases & Applications</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>DevOps Automation</h3>
+                    <p>
+                        "Claude, create a sprint with these user stories" - Let AI orchestrate your DevOps workflows through natural language.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Data Analysis</h3>
+                    <p>
+                        Query databases naturally: "What are the top 10 customers by revenue?" - Claude executes the SQL and analyzes results.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Financial Intelligence</h3>
+                    <p>
+                        Real-time stock analysis: "Should I buy APPLE stock?" - Claude analyzes market data and provides insights.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Predictive Analytics</h3>
+                    <p>
+                        ML model integration: "Predict customer churn" - Claude triggers models and interprets results.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Local AI Processing</h3>
+                    <p>
+                        Privacy-first processing: Run local LLMs for sensitive operations without external API calls.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Intelligent Routing</h3>
+                    <p>
+                        Smart delegation: Route questions to appropriate services based on context and content.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💻 Development Features</h2>
+
+            <h3>Testing Setup</h3>
+            <ul>
+                <li><strong>Jest Framework</strong> - Comprehensive test runner with built-in coverage</li>
+                <li><strong>VSCode Debugging</strong> - Press F5 to debug tests directly in your IDE</li>
+                <li><strong>Watch Mode</strong> - Auto-run tests on file changes with <code>npm run test:watch</code></li>
+                <li><strong>Test Coverage</strong> - Track coverage metrics for quality assurance</li>
+                <li><strong>CI Integration</strong> - Automated testing in pipelines</li>
+            </ul>
+
+            <h3>Development Workflow</h3>
+            <ul>
+                <li><strong>Environment Configuration</strong> - Easy setup with environment variables</li>
+                <li><strong>Hot Reload</strong> - Rapid development iteration</li>
+                <li><strong>TypeScript Support</strong> - Type-safe development</li>
+                <li><strong>Error Debugging</strong> - Clear error messages and stack traces</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Project Demonstrates</h3>
+            <p>
+                The MCP Servers collection showcases expertise in:
+            </p>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>AI Integration</strong> - Deep understanding of LLM tool protocols</li>
+                <li>✅ <strong>System Integration</strong> - Connecting diverse enterprise systems</li>
+                <li>✅ <strong>API Design</strong> - Well-structured tool interfaces for AI consumption</li>
+                <li>✅ <strong>Security</strong> - Authentication, authorization, and data protection</li>
+                <li>✅ <strong>Testing Practices</strong> - Comprehensive test coverage and quality assurance</li>
+                <li>✅ <strong>Modern JavaScript</strong> - TypeScript, Node.js, best practices</li>
+                <li>✅ <strong>Production Readiness</strong> - Deployable, maintainable code</li>
+                <li>✅ <strong>Documentation</strong> - Clear setup and usage instructions</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Getting Started</h2>
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Node.js v18 or higher</li>
+                <li>npm v9 or higher</li>
+                <li>API keys/tokens for relevant services (Azure DevOps, MSSQL, etc.)</li>
+            </ul>
+
+            <h3>Quick Setup</h3>
+            <ul>
+                <li>Clone the repository from codeware/mcp/codeware</li>
+                <li>Navigate to specific server: <code>cd mcp-server-devops</code></li>
+                <li>Install dependencies: <code>npm install</code></li>
+                <li>Configure environment variables via <code>set-env.ps1</code></li>
+                <li>Run tests: <code>npm test</code></li>
+                <li>Start server and integrate with Claude</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Repository:</strong> <a href="https://github.com/BartVanderAuweraert/codeware/tree/main/mcp" target="_blank">github.com/BartVanderAuweraert/codeware/mcp</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
