@@ -274,6 +274,31 @@
         .badge.orange {
             background: #f59e0b;
         }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 0.75rem;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+            animation: pulse-glow 2s ease-in-out infinite;
+            margin: 0 10px;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(139, 92, 246, 0.9);
+            }
+        }
     </style>
 </head>
 <body>
@@ -282,7 +307,7 @@
 
         <header>
             <h1>Bart Van der Auweraert</h1>
-            <p class="subtitle">Technical Architect & GenAI Enthusiast</p>
+            <p class="subtitle">Technical Architect & GenAI Enthusiast <span class="ai-badge">AI</span></p>
         </header>
 
         <!-- SECTIE: Team Leadership -->

@@ -4,7 +4,8 @@
       "Bash(dir \"c:\\Users\\BartVanderAuweraert\\Sources\\portefolio\\projects\")",
       "Bash(dir:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(powershell -Command \"Get-ChildItem ''''C:\\Users\\BartVanderAuweraert\\Sources\\DCM\\DCM DeltaV Proxy'''' -Force\")"
     ],
     "deny": [],
     "ask": []
