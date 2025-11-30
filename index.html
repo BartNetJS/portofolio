@@ -752,6 +752,10 @@
     <script>
       (() => {
         const DEFAULT_BRANCH = "master";
+        const PRODUCTION_HOSTS = ["codeware.be", "www.codeware.be"];
+
+        const isProductionHost = () =>
+          PRODUCTION_HOSTS.includes(window.location.hostname.toLowerCase());
 
         const getBranchFromQuery = () => {
           const params = new URLSearchParams(window.location.search);
@@ -789,6 +793,8 @@
         };
 
         (async () => {
+          if (isProductionHost()) return;
+
           const branchSources = [
             getBranchFromQuery(),
             getBranchFromMeta(),
