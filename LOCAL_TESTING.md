@@ -2,6 +2,17 @@
 
 ## Quick Start - Test Now! (3 Easy Options)
 
+### Preview a branch via GitHub Pages (no local server)
+
+If you're on mobile and can't run a server:
+
+1. In GitHub, switch to the branch you want to preview (or push the branch to your fork).
+2. Go to **Settings → Pages** and choose **Deploy from a branch**.
+3. Select that branch with the **/** (root) folder and **Save**.
+4. After 1–3 minutes, open `https://<your-user>.github.io/portofolio/` to see the live preview.
+
+> Tip: If a custom domain is set, temporarily clear it in **Settings → Pages** so the default `github.io` URL works for your fork.
+
 ### Option 1: Double-click the batch file (Windows - Easiest!)
 
 1. Go to: `c:\Users\BartVanderAuweraert\Sources\portefolio\`

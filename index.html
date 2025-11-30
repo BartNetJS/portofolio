@@ -28,6 +28,25 @@
         backdrop-filter: blur(10px);
       }
 
+      body.branch-banner-active .navbar {
+        top: 52px;
+      }
+
+      .branch-banner {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 120;
+        background: linear-gradient(90deg, #0f3460, #1f4068);
+        color: #e2e8f0;
+        text-align: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid #60a5fa;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
       .navbar-container {
         max-width: 1200px;
         margin: 0 auto;
@@ -427,8 +446,23 @@
         }
 
         .navbar-links {
+          width: 100%;
+          justify-content: center;
+          flex-wrap: wrap;
           gap: 15px;
           font-size: 0.9rem;
+          margin-top: 12px;
+        }
+
+        .navbar-container {
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .navbar-brand {
+          width: 100%;
+          text-align: center;
         }
 
         .cta-buttons {
@@ -714,5 +748,61 @@
       </div>
       <p>&copy; 2024 Codeware. All rights reserved.</p>
     </footer>
+
+    <script>
+      (() => {
+        const DEFAULT_BRANCH = "master";
+
+        const getBranchFromQuery = () => {
+          const params = new URLSearchParams(window.location.search);
+          return params.get("branch")?.trim();
+        };
+
+        const getBranchFromMeta = () => {
+          const meta = document.querySelector('meta[name="deployed-branch"]');
+          return meta?.content?.trim();
+        };
+
+        const fetchBranchInfo = async () => {
+          try {
+            const response = await fetch("./branch-info.json", {
+              cache: "no-store",
+            });
+
+            if (!response.ok) return null;
+
+            const data = await response.json();
+            return data?.branch?.trim();
+          } catch (error) {
+            console.warn("Branch banner: unable to load branch-info.json", error);
+            return null;
+          }
+        };
+
+        const renderBanner = (branchName) => {
+          const banner = document.createElement("div");
+          banner.className = "branch-banner";
+          banner.textContent = `Previewing branch: ${branchName}`;
+
+          document.body.prepend(banner);
+          document.body.classList.add("branch-banner-active");
+        };
+
+        (async () => {
+          const branchSources = [
+            getBranchFromQuery(),
+            getBranchFromMeta(),
+            await fetchBranchInfo(),
+          ];
+
+          const activeBranch = branchSources.find((value) => !!value);
+
+          if (!activeBranch) return;
+          if (activeBranch.toLowerCase() === DEFAULT_BRANCH) return;
+
+          renderBanner(activeBranch);
+        })();
+      })();
+    </script>
   </body>
 </html>
