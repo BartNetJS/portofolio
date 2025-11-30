@@ -751,8 +751,12 @@
 
     <script>
       (() => {
-        const DEFAULT_BRANCH = "master";
         const PRODUCTION_HOSTS = ["www.codeware.be", "codeware.be"];
+
+        const getDefaultBranch = () => {
+          const meta = document.querySelector('meta[name="default-branch"]');
+          return meta?.content?.trim() || "master";
+        };
 
         const getBranchFromQuery = () => {
           const params = new URLSearchParams(window.location.search);
@@ -790,6 +794,7 @@
         };
 
         (async () => {
+          const defaultBranch = getDefaultBranch().toLowerCase();
           const branchFromQuery = getBranchFromQuery();
           const isProductionHost = PRODUCTION_HOSTS.includes(
             window.location.hostname
@@ -804,7 +809,7 @@
           const activeBranch = branchSources.find((value) => !!value);
 
           if (!activeBranch) return;
-          if (activeBranch.toLowerCase() === DEFAULT_BRANCH) return;
+          if (activeBranch.toLowerCase() === defaultBranch) return;
           if (isProductionHost && !branchFromQuery) return;
 
           renderBanner(activeBranch);
