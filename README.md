@@ -128,6 +128,7 @@ If you're away from your PC, you can still preview any branch directly from GitH
 - The site will display a thin banner when the deployed branch is **not** `master`.
 - Keep `branch-info.json` updated with the current branch name so the banner stays accurate (example GitHub Actions step: `echo '{"branch":"'"'${GITHUB_REF_NAME}'"'"}' > branch-info.json`).
 - You can also override for ad-hoc previews via `?branch=<name>` or a `<meta name="deployed-branch" content="branch-name" />` in the `<head>`.
+- On the production domain (`codeware.be` / `www.codeware.be`), the banner stays hidden unless you explicitly pass `?branch=<name>` for debugging.
 
 ### Live URLs
 
