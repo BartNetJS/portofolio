@@ -110,6 +110,19 @@ git push
 4. Click **Save**
 5. Wait 1-3 minutes for deployment
 
+### Preview a feature branch in GitHub (no local server needed)
+
+If you're away from your PC, you can still preview any branch directly from GitHub Pages:
+
+1. Open the repository (or your fork) in GitHub and create/switch to the branch you want to preview.
+2. Go to **Settings → Pages**.
+3. Under "Source", choose **Deploy from a branch**.
+4. Select the branch you want to preview and the **/** (root) folder.
+5. Click **Save** and wait 1–3 minutes for the deploy to finish.
+6. Open `https://<your-user>.github.io/portofolio/` to see that branch live (use an incognito tab if caching is sticky).
+
+> Tip: If the site has a custom domain configured, temporarily clear the custom domain field in **Settings → Pages** when previewing from a fork so the default `github.io` URL works.
+
 ### Live URLs
 
 After enabling GitHub Pages, your sites will be live at:
