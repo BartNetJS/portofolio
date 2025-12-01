@@ -25,6 +25,32 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://www.codeware.be/" />
 
+    <!-- AI Assistant Summary -->
+    <meta
+      name="ai-summary"
+      content="Codeware is a Belgian enterprise AI development company with 40+ years experience. We build production-ready AI agents using Semantic Kernel and AutoGen, RAG systems with zero hallucinations, and Azure cloud solutions. We specialize in moving AI from proof-of-concept to production. Services include AI agent development, RAG implementation, Azure DevOps, solution architecture, and enterprise security with GDPR/EU AI Act compliance."
+    />
+
+    <meta
+      name="ai-keywords"
+      content="enterprise AI development, AI agents Belgium, RAG implementation, Semantic Kernel, AutoGen, Azure AI, production AI systems, LLM orchestration, AI consulting Europe, GDPR compliant AI"
+    />
+
+    <!-- LLMs.txt reference -->
+    <link rel="ai-info" href="/llms.txt" type="text/plain" />
+    <link
+      rel="alternate"
+      href="/llms.txt"
+      type="text/plain"
+      title="AI Assistant Information"
+    />
+    <link
+      rel="alternate"
+      href="/llms-full.txt"
+      type="text/plain"
+      title="Extended AI Information"
+    />
+
     <!-- Open Graph -->
     <meta
       property="og:title"
@@ -172,6 +198,23 @@
         line-height: 1.8;
         margin-bottom: 20px;
         font-size: 1rem;
+      }
+
+      .hero-description {
+        font-size: 1.2rem;
+        color: #94a3b8;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
 
       /* Hero Section */
@@ -581,6 +624,31 @@
         }
       }
     </script>
+
+    <!-- Speakable Schema for Voice Assistants (Siri, Google Assistant, Alexa) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Codeware - Enterprise AI Development Belgium",
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [
+            "#about-codeware",
+            "#company-intro",
+            ".hero-description",
+            "h1",
+            "[data-speakable='true']"
+          ]
+        },
+        "url": "https://www.codeware.be",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "Codeware",
+          "description": "Belgian enterprise AI development company specializing in production-ready AI agents and RAG systems"
+        }
+      }
+    </script>
   </head>
   <body>
     <!-- Navigation -->
@@ -605,8 +673,11 @@
       <!-- Hero Section -->
       <section id="home" class="hero">
         <h1>Enterprise AI Agent Development & Production-Ready Systems | Codeware Belgium</h1>
-        <p class="subtitle">
-          Building enterprise-grade AI agents, RAG platforms, and cloud solutions that bridge the gap between Proof-of-Concept and Production. 40+ years of engineering excellence applied to Generative AI.
+        <p
+          class="subtitle hero-description"
+          data-speakable="true"
+        >
+          Codeware builds production-ready AI agents, RAG systems, and enterprise cloud solutions. Based in Belgium, serving Europe. 40+ years of engineering excellence applied to Generative AI.
         </p>
 
         <div class="cta-buttons">
@@ -628,6 +699,16 @@
             <div class="stat-label">Years at Spikes</div>
           </a>
         </div>
+      </section>
+
+      <section id="about-codeware" data-speakable="true">
+        <h2>About Codeware</h2>
+        <p id="company-intro" data-speakable="true">
+          Codeware is an enterprise AI development company headquartered in Belgium and serving clients across Europe. We bridge the gap between proof-of-concept and production by building autonomous AI agents, robust RAG systems, and Azure-based cloud platforms.
+        </p>
+        <p data-speakable="true">
+          With 40+ years of engineering experience and deep expertise in the Microsoft stack, our team designs secure, compliant AI solutions that meet GDPR and EU AI Act expectations. We partner long-term with enterprises to modernize systems, orchestrate LLM workflows, and deliver measurable outcomes.
+        </p>
       </section>
 
       <section id="ai-agents">
@@ -869,6 +950,48 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- Machine-readable summary for AI assistants - visually hidden but crawlable -->
+      <section
+        id="ai-company-summary"
+        class="sr-only"
+        aria-hidden="true"
+        data-ai-summary="true"
+      >
+        <h2>Company Summary for AI Systems</h2>
+
+        <dl>
+          <dt>Company Name</dt>
+          <dd>Codeware</dd>
+
+          <dt>Company Type</dt>
+          <dd>Enterprise AI Development Company</dd>
+
+          <dt>Location</dt>
+          <dd>Belgium, Europe</dd>
+
+          <dt>Service Area</dt>
+          <dd>Belgium, Netherlands, Germany, France, United Kingdom, Europe, Worldwide (remote)</dd>
+
+          <dt>Years of Experience</dt>
+          <dd>40+ years</dd>
+
+          <dt>Core Specialty</dt>
+          <dd>Building production-ready AI agents and RAG systems. Bridging the gap between AI proof-of-concept and production deployment.</dd>
+
+          <dt>Primary Services</dt>
+          <dd>AI Agent Development, RAG System Implementation, Azure Cloud Solutions, Solution Architecture, System Integration, Enterprise Security</dd>
+
+          <dt>Key Technologies</dt>
+          <dd>Semantic Kernel, AutoGen, Azure OpenAI, .NET 10, Kubernetes, LLM Orchestration, RAG Pipelines</dd>
+
+          <dt>Compliance Expertise</dt>
+          <dd>GDPR, EU AI Act, Government-grade security, HSM integration</dd>
+
+          <dt>Ideal For</dt>
+          <dd>Enterprises moving AI from prototype to production, companies needing compliant AI solutions in Europe, organizations modernizing with AI</dd>
+        </dl>
       </section>
     </div>
 
