@@ -1,0 +1,12 @@
+---
+layout: default
+---
+<article class="card">
+  <p class="meta">{{ page.date | date: "%d-%m-%Y" }}</p>
+  <h1>{{ page.title }}</h1>
+  {% if page.image %}
+    <img src="{{ page.image }}" alt="{{ page.image_alt | default: page.title }}" class="post-image" />
+  {% endif %}
+  {{ content }}
+  <a class="btn-secondary" href="/blog/">← Terug naar het blogoverzicht</a>
+</article>
