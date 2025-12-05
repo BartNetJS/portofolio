@@ -399,6 +399,36 @@
             // Ease ion towards target
             ion.x = ion.x + (targetX - ion.x) * 0.1;
         });
+        
+        // --- ANNOTATIONS ---
+        // Dynamically update labels to explain the "Why"
+        const gAnnotations = d3.select("g").selectAll(".annotation").data([1]);
+        const gAnnEnter = gAnnotations.enter().append("g").attr("class", "annotation");
+        
+        // 1. Voltage/Input Label
+        gAnnEnter.append("text")
+            .attr("x", -150).attr("y", buffer => CONFIG.memristorH/2)
+            .attr("fill", "#ccc").attr("font-size", "12px")
+            .text("INPUT (Voltage/Energy)");
+            
+        // 2. Conductance/Weight Label
+        // Positioned at the boundary line
+        d3.select(".boundary-label").remove(); // Clear old
+        d3.select("g").append("text")
+            .attr("class", "boundary-label")
+            .attr("x", boundaryX + 10).attr("y", CONFIG.memristorH/2)
+            .attr("fill", "var(--accent-cyan)").attr("font-size", "14px")
+            .text(`WIDTH = WEIGHT (${state.weight.toFixed(2)})`);
+            
+        // 3. Current/Output Label (only during infer)
+        d3.select(".output-label").remove();
+        if(state.mode === 'inference') {
+             d3.select("g").append("text")
+                .attr("class", "output-label")
+                .attr("x", CONFIG.memristorW/2).attr("y", CONFIG.memristorH + 40)
+                .attr("fill", "var(--accent-green)").attr("font-size", "14px").attr("text-anchor", "middle")
+                .text(`FLOW = RESULT (${(state.weight * parseFloat(document.getElementById('input-test').value || 0)).toFixed(1)})`);
+        }
     }
 
     // --- D3 VISUALIZATION ---
@@ -489,27 +519,41 @@
     }
 
     function animateCurrent(inputVal) {
-        // Create particles flowing from top to bottom
-        // Speed/Density proportional to Output Current
-        const outputVal = inputVal * state.weight;
-        const numParticles = Math.min(20, Math.floor(outputVal / 2)); 
+        // VISUAL ANALOGY: The "Calculation" IS the flow.
+        // Input (Voltage) pushes particles.
+        // Weight (Conductance) is the WIDTH of the pipe.
+        // Result (Current) is how much gets through.
         
-        const gContainer = d3.select("g"); // select the transformed group
+        // 1. Calculate the 'Pipe Width' (Doped Region)
+        const pipeWidth = CONFIG.memristorW * state.dopingRatio;
+        
+        // 2. Determine number of particles (Result)
+        const outputVal = inputVal * state.weight;
+        const numParticles = Math.min(50, Math.floor(outputVal * 2)); 
+        
+        const gContainer = d3.select("g"); 
         
         for(let i=0; i<numParticles; i++) {
+            // 3. Constrain particles to flow ONLY through the conductive pipe
+            // This visually proves that "Wider Pipe = More Flow"
+            const startX = Math.random() * pipeWidth;
+            
             gContainer.append("circle")
                 .attr("class", "current-particle")
                 .attr("r", 3)
-                .attr("cx", Math.random() * CONFIG.memristorW)
+                .attr("cx", startX) // Constrained to doped width
                 .attr("cy", -10)
-                .attr("opacity", 1)
+                .attr("opacity", 0.8)
                 .transition()
-                .delay(i * 100)
-                .duration(1000)
+                .delay(i * 50)
+                .duration(1500) // Consistent speed
                 .ease(d3.easeLinear)
                 .attr("cy", CONFIG.memristorH + 10)
                 .on("end", function() { d3.select(this).remove(); });
         }
+        
+        // Show explanatory toast
+        log(`Physics: ${inputVal}V pushed through a ${pipeWidth.toFixed(0)}px wide pipe.`, "info");
     }
 
     // --- LOGIC & UI ---
