@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8FSDD3KHS3');
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codeware Belgium | 40 Years of Software Excellence, Now with AI</title>
+    <meta
+      name="description"
+      content="Solution architecture, cloud, system integration — built on 40+ years of experience. AI agents & RAG systems — our newest expertise. Enterprise software partner in Belgium."
+    />
+    <meta
+      name="keywords"
+      content="AI agent development, enterprise AI Belgium, RAG implementation, Azure consulting, .NET development, Semantic Kernel, LLM orchestration"
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.codeware.be/" />
+
+    <!-- AI Assistant Summary -->
+    <meta
+      name="ai-summary"
+      content="Codeware is a Belgian enterprise AI development company with 40+ years experience. We build production-ready AI agents using Semantic Kernel and AutoGen, RAG systems with zero hallucinations, and Azure cloud solutions. We specialize in moving AI from proof-of-concept to production. Services include AI agent development, RAG implementation, Azure DevOps, solution architecture, and enterprise security with GDPR/EU AI Act compliance."
+    />
+
+    <meta
+      name="ai-keywords"
+      content="enterprise AI development, AI agents Belgium, RAG implementation, Semantic Kernel, AutoGen, Azure AI, production AI systems, LLM orchestration, AI consulting Europe, GDPR compliant AI"
+    />
+
+    <!-- LLMs.txt reference -->
+    <link rel="ai-info" href="/llms.txt" type="text/plain" />
+    <link
+      rel="alternate"
+      href="/llms.txt"
+      type="text/plain"
+      title="AI Assistant Information"
+    />
+    <link
+      rel="alternate"
+      href="/llms-full.txt"
+      type="text/plain"
+      title="Extended AI Information"
+    />
+
+      <!-- Open Graph -->
+      <meta
+        property="og:title"
+        content="Codeware | 40 Years of Software Excellence, Now with AI"
+      />
+      <meta
+        property="og:description"
+        content="Solution architecture, cloud, system integration — built on 40+ years of experience. AI agents & RAG systems — our newest expertise."
+      />
+      <meta property="og:url" content="https://www.codeware.be/" />
+      <meta property="og:type" content="website" />
+      <meta property="og:locale" content="en_BE" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Codeware | Enterprise AI Agents & Systems"
+    />
+    <meta
+      name="twitter:description"
+      content="From Proof-of-Concept to Production. Enterprise AI solutions in Belgium."
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #fff;
+        min-height: 100vh;
+      }
+
+      .navbar {
+        background: rgba(26, 26, 46, 0.95);
+        border-bottom: 2px solid #0f3460;
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+      }
+
+      body.branch-banner-active .navbar {
+        top: 52px;
+      }
+
+      .branch-banner {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 120;
+        background: linear-gradient(90deg, #0f3460, #1f4068);
+        color: #e2e8f0;
+        text-align: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid #60a5fa;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #e94560;
+        text-decoration: none;
+      }
+
+      .navbar-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .navbar-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .navbar-links a:hover {
+        color: #e94560;
+      }
+
+      .navbar-links a.portofolio-link {
+        color: #60a5fa;
+        border: 2px solid #60a5fa;
+        padding: 6px 12px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-links a.portofolio-link:hover {
+        background: #60a5fa;
+        color: #1a1a2e;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      section {
+        margin-bottom: 80px;
+      }
+
+      h1 {
+        font-size: 3rem;
+        color: #e94560;
+        margin-bottom: 20px;
+        line-height: 1.2;
+      }
+
+      h2 {
+        font-size: 2.2rem;
+        color: #e94560;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+        color: #60a5fa;
+        margin-bottom: 15px;
+      }
+
+      p {
+        color: #cbd5e1;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        font-size: 1rem;
+      }
+
+      .hero-description {
+        font-size: 1.2rem;
+        color: #94a3b8;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Hero Section */
+      .hero {
+        padding: 100px 20px;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          rgba(233, 69, 96, 0.1) 0%,
+          rgba(96, 165, 250, 0.05) 100%
+        );
+        border-radius: 16px;
+        margin-bottom: 60px;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 30px;
+      }
+
+      .hero .subtitle {
+        font-size: 1.4rem;
+        color: #94a3b8;
+        margin-bottom: 40px;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 15px 35px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #e94560, #f15a77);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(233, 69, 96, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #60a5fa;
+        border: 2px solid #60a5fa;
+      }
+
+      .btn-secondary:hover {
+        background: #60a5fa;
+        color: #1a1a2e;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .stat {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 25px;
+        border-radius: 12px;
+        border-left: 4px solid #e94560;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        color: #10b981;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .stat-label {
+        color: #94a3b8;
+        font-size: 0.95rem;
+      }
+
+      /* Services Grid */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .service-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid #0f3460;
+        border-radius: 16px;
+        padding: 30px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        border-color: #e94560;
+        background: rgba(233, 69, 96, 0.1);
+        box-shadow: 0 20px 40px rgba(233, 69, 96, 0.2);
+      }
+
+      .service-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+
+      .service-card h3 {
+        margin-bottom: 15px;
+        color: #60a5fa;
+      }
+
+      .service-card p {
+        margin-bottom: 0;
+        font-size: 0.95rem;
+      }
+
+      /* Expertise Tags */
+      .expertise-section {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 50px;
+        border-left: 4px solid #10b981;
+        margin-bottom: 60px;
+      }
+
+      .expertise-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .expertise-item {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 3px solid #60a5fa;
+      }
+
+      .expertise-item strong {
+        color: #10b981;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+      }
+
+      .expertise-item span {
+        color: #cbd5e1;
+        font-size: 0.9rem;
+      }
+
+      /* Portofolio Link */
+      .portofolio-preview {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.1) 0%,
+          rgba(139, 92, 246, 0.1) 100%
+        );
+        border-radius: 16px;
+        padding: 50px;
+        border: 2px dashed #6366f1;
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .portofolio-preview h3 {
+        margin-bottom: 15px;
+        color: #8b5cf6;
+      }
+
+      .portofolio-preview p {
+        margin-bottom: 25px;
+      }
+
+      /* Why Choose Section */
+      .why-choose {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .why-item {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 30px;
+        border-radius: 12px;
+        border-left: 4px solid #10b981;
+      }
+
+      .why-item h3 {
+        color: #10b981;
+        margin-bottom: 15px;
+      }
+
+      /* Contact Section */
+      .contact-section {
+        background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+        border-radius: 16px;
+        padding: 60px;
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .contact-section h2 {
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .contact-section p {
+        color: #cbd5e1;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+      }
+
+      .contact-info {
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        color: #cbd5e1;
+      }
+
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .contact-info a:hover {
+        color: #10b981;
+      }
+
+      /* Footer */
+      footer {
+        background: rgba(15, 52, 96, 0.5);
+        border-top: 2px solid #0f3460;
+        padding: 40px 20px;
+        text-align: center;
+        color: #64748b;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: #60a5fa;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: #e94560;
+      }
+
+      /* AI Badge */
+      .ai-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        font-weight: bold;
+        font-size: 0.6rem;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        margin-left: 8px;
+        vertical-align: middle;
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 25px rgba(139, 92, 246, 0.8);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        h2 {
+          font-size: 1.8rem;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero {
+          padding: 60px 20px 80px;
+        }
+
+        .navbar-links {
+          width: 100%;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 15px;
+          font-size: 0.9rem;
+          margin-top: 12px;
+        }
+
+        .navbar-container {
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .navbar-brand {
+          width: 100%;
+          text-align: center;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+        }
+
+        .contact-section {
+          padding: 40px 20px;
+        }
+
+        .expertise-grid,
+        .services-grid,
+        .why-choose {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Codeware",
+        "url": "https://www.codeware.be",
+        "logo": "https://www.codeware.be/logo.png",
+        "description": "Enterprise AI agent development and systems integration company based in Belgium. Specializing in production-ready RAG systems, LLM orchestration, and Azure cloud solutions.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "BE"
+        },
+        "sameAs": [],
+        "serviceArea": {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "addressCountry": "Belgium"
+          }
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "AI & Software Development Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "AI Agent Development",
+                "description": "Production-ready AI agents using Semantic Kernel and AutoGen"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "RAG Implementation",
+                "description": "Retrieval Augmented Generation systems for enterprise documentation"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Azure Cloud & DevOps",
+                "description": "Cloud-native solutions, CI/CD pipelines, Kubernetes orchestration"
+              }
+            }
+          ]
+        }
+      }
+    </script>
+
+    <!-- Speakable Schema for Voice Assistants (Siri, Google Assistant, Alexa) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Codeware - Enterprise AI Development Belgium",
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [
+            "#about-codeware",
+            "#company-intro",
+            ".hero-description",
+            "h1",
+            "[data-speakable='true']"
+          ]
+        },
+        "url": "https://www.codeware.be",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "Codeware",
+          "description": "Belgian enterprise AI development company specializing in production-ready AI agents and RAG systems"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="#home" class="navbar-brand">Codeware</a>
+        <ul class="navbar-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#expertise">Expertise</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li>
+            <a href="portfolio/" class="portofolio-link"
+              >View Full Portfolio →</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- Hero Section -->
+      <section id="home" class="hero">
+        <h1>40 Years of Software Excellence, Now with AI</h1>
+        <p
+          class="subtitle hero-description"
+          data-speakable="true"
+        >
+          Solution architecture, cloud, system integration — built on 40+ years of experience.
+          AI agents & RAG systems — our newest expertise.
+        </p>
+
+        <div class="cta-buttons">
+          <a href="#portofolio" class="btn btn-primary">View Enterprise AI Projects</a>
+          <a href="#contact" class="btn btn-secondary">Discuss an AI Engagement</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-number">40+</div>
+            <div class="stat-label">Years of Experience</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Enterprise Projects</div>
+          </div>
+          <a href="portfolio/presentations/spikes/" class="stat" style="text-decoration: none; display: block; transition: transform 0.3s ease;">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Years at Spikes</div>
+          </a>
+        </div>
+      </section>
+
+      <section id="about-codeware" data-speakable="true">
+        <h2>About Codeware</h2>
+        <p id="company-intro" data-speakable="true">
+          Codeware is an enterprise AI development company headquartered in Belgium and serving clients across Europe. We bridge the gap between proof-of-concept and production by building autonomous AI agents, robust RAG systems, and Azure-based cloud platforms.
+        </p>
+        <p data-speakable="true">
+          With 40+ years of engineering experience and deep expertise in the Microsoft stack, our team designs secure, compliant AI solutions that meet GDPR and EU AI Act expectations. We partner long-term with enterprises to modernize systems, orchestrate LLM workflows, and deliver measurable outcomes.
+        </p>
+      </section>
+
+      <section id="ai-agents">
+        <h2>AI Agent Development Services</h2>
+        <p>
+          Codeware specializes in building autonomous AI agents that go beyond proof-of-concept to deliver production-ready enterprise solutions. Using cutting-edge frameworks like <strong>Semantic Kernel</strong> and <strong>AutoGen</strong>, we develop intelligent agents capable of complex reasoning, task execution, and seamless integration with your existing systems.
+        </p>
+
+        <h3>Our AI Agent Capabilities</h3>
+        <ul>
+          <li><strong>Autonomous Workflow Agents</strong> - AI systems that analyze data and execute tasks independently</li>
+          <li><strong>RAG-Powered Assistants</strong> - Zero-hallucination chatbots trained on your internal documentation</li>
+          <li><strong>LLM Orchestration</strong> - Multi-model pipelines with evaluation and monitoring</li>
+          <li><strong>Enterprise Integration</strong> - Secure deployment within your existing infrastructure</li>
+        </ul>
+
+        <p>
+          Based in Belgium, we serve enterprise clients across Europe who need reliable, scalable AI solutions that meet strict security and compliance requirements. Explore our
+          <a href="#featured-projects">AI case studies</a>
+          to see how we deliver measurable business outcomes.
+        </p>
+      </section>
+
+      <section id="rag">
+        <h2>Production-Ready RAG Systems & LLM Orchestration</h2>
+        <p>
+          We design Retrieval Augmented Generation platforms with robust evaluation pipelines, grounding, and monitoring to eliminate hallucinations. Our engineers combine Azure OpenAI, vector databases, and observability tooling to build transparent knowledge assistants that keep stakeholders in control.
+        </p>
+        <p>
+          Engagements include data ingestion pipelines, secure document enrichment, red-teaming, and governance processes so you can deploy conversational AI that respects enterprise standards.
+        </p>
+      </section>
+
+        <!-- Featured AI Projects -->
+        <section id="featured-projects">
+            <h2>Our AI Projects & Case Studies</h2>
+            <div class="services-grid">
+                <a href="portfolio/projects/investment-agent/" class="service-card" style="border-color: #8b5cf6; background: rgba(139, 92, 246, 0.05);">
+                    <div class="service-icon">🤖</div>
+                    <h3>Autonomous Investment Agent (POC)</h3>
+                    <p>Proof of Concept for an agentic workflow capable of analyzing market data and executing trades autonomously.</p>
+                </a>
+
+                <a href="portfolio/projects/invoicing-app/" class="service-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.05);">
+                    <div class="service-icon">🧾</div>
+                    <h3>Smart Invoicing & Chatbot</h3>
+                    <p>Intelligent invoicing platform featuring an integrated AI chatbot for automated customer support and query resolution.</p>
+                </a>
+
+                <a href="portfolio/projects/ai-knowledge-app/" class="service-card" style="border-color: #e94560; background: rgba(233, 69, 96, 0.05);">
+                    <div class="service-icon">🧠</div>
+                    <h3>Enterprise RAG System</h3>
+                    <p>Retrieval Augmented Generation application allowing teams to chat with their internal documentation with zero hallucinations.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+      <section id="services">
+        <h2>Azure Cloud Solutions & DevOps Consulting</h2>
+        <p>
+          Cloud-native, microservices, and distributed systems built on Azure and .NET 10. We design CI/CD pipelines, container orchestration on Kubernetes, and observability so your enterprise platforms stay reliable under real-world load.
+          <a href="#contact">Talk to us about Azure modernization</a>
+          to accelerate delivery without compromising governance.
+        </p>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">🏗️</div>
+            <h3>Solution Architecture</h3>
+            <p>
+              Design scalable, maintainable solutions for enterprise environments. Cloud-native architecture, microservices, and distributed systems tailored to regulated industries.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🤖</div>
+            <h3>AI Engineering & Agents<span class="ai-badge">AI</span></h3>
+            <p>Build autonomous agents with Semantic Kernel and AutoGen, including production-ready RAG systems, evaluation pipelines, and LLM orchestration with defense-in-depth.</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">☁️</div>
+            <h3>Cloud & DevOps</h3>
+            <p>
+              Modern cloud solutions with Azure and .NET Aspire. CI/CD pipelines, infrastructure automation, Kubernetes orchestration, and performance tuning baked in.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">👥</div>
+            <h3>Technical Leadership</h3>
+            <p>
+              Team mentoring, architectural guidance, and DevOps culture. Build high-performing engineering organizations with best practices and transparent decision making.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🔗</div>
+            <h3>Enterprise Integration</h3>
+            <p>
+              Complex system integration, legacy modernization, and multi-tenant platforms. Connect disparate systems seamlessly with secure APIs and event-driven patterns.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">🛡️</div>
+            <h3>Security & Compliance</h3>
+            <p>
+              Enterprise security, encryption, and access control. Government-grade systems with HSM integration, audit compliance, and continuous threat modeling.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="integration">
+        <h2>Enterprise System Integration & Modernization</h2>
+        <p>
+          We modernize legacy platforms and connect critical data across your ecosystem using secure APIs, event streams, and resilient messaging. From industrial protocols to multi-tenant SaaS, Codeware delivers integration strategies that reduce operational risk while unlocking new product capabilities.
+        </p>
+      </section>
+
+      <!-- Expertise Section -->
+      <section id="expertise">
+        <div class="expertise-section">
+          <h2 style="text-align: left; margin-bottom: 30px">
+            Core Technical Expertise
+          </h2>
+
+          <div class="expertise-grid">
+            <div class="expertise-item">
+              <strong>.NET & Cloud</strong>
+              <span
+                >.NET 10+, Aspire, Azure SQL, Managed Identity, Key Vault, App
+                Services</span
+              >
+            </div>
+            <div class="expertise-item">
+              <strong>AI & LLM Stack</strong>
+              <span>Semantic Kernel, AutoGen, LangChain, Azure OpenAI, Claude API, Vector DBs (Qdrant), RAG</span>
+            </div>
+            <div class="expertise-item">
+              <strong>Web & Backend</strong>
+              <span
+                >Blazor Server, Minimal APIs, ASP.NET Core, MAUI, Responsive
+                Design</span
+              >
+            </div>
+            <div class="expertise-item">
+              <strong>Enterprise Architecture</strong>
+              <span
+                >Multi-tenant systems, Microservices, CQRS, Domain-Driven
+                Design, Clean Architecture</span
+              >
+            </div>
+            <div class="expertise-item">
+              <strong>DevOps & Infrastructure</strong>
+              <span
+                >Kubernetes, Dapr, CI/CD, GitHub Actions, Azure DevOps,
+                Infrastructure as Code</span
+              >
+            </div>
+            <div class="expertise-item">
+              <strong>Industrial & Integration</strong>
+              <span
+                >OPC UA, MQTT, IoT, Data Logging, Legacy System
+                Modernization</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Choose Codeware -->
+      <section>
+        <h2>Why Choose Codeware for Enterprise AI</h2>
+
+        <div class="why-choose">
+          <div class="why-item">
+            <h3>✅ Proven Track Record</h3>
+            <p>
+              40+ years of experience delivering enterprise solutions. 15+ years
+              trusted partner with Spikes, countless successful client
+              engagements.
+            </p>
+          </div>
+
+          <div class="why-item">
+            <h3>✅ Modern Tech Stack</h3>
+            <p>
+              Latest technologies: .NET 10, Azure cloud, AI/LLM integration,
+              Kubernetes. Always staying current with industry standards.
+            </p>
+          </div>
+
+          <div class="why-item">
+            <h3>✅ Strategic Vision</h3>
+            <p>
+              Not just coding—architecture, scalability, maintainability. Design
+              solutions that grow with your business.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portofolio Section -->
+      <section id="portofolio">
+        <div class="portofolio-preview">
+          <h3>🎯 Explore Detailed Portofolio</h3>
+          <p>
+            View in-depth case studies, project showcases, and technical
+            implementations across various industries and domains.
+          </p>
+          <a href="portfolio/" class="btn btn-primary">Visit Full Portofolio</a>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact">
+        <div class="contact-section">
+          <h2>Ready to Transform Your Digital Infrastructure?</h2>
+          <p>
+            Let's discuss how modern architecture and AI integration can solve
+            your business challenges.
+          </p>
+
+          <div class="contact-info">
+            <div>
+              <strong>📧 Email</strong><br />
+              <a href="mailto:bart@codeware.be">bart@codeware.be</a>
+            </div>
+            <div>
+              <strong>🔗 Social</strong><br />
+              <a href="https://github.com/BartNetJS" target="_blank">GitHub</a>
+              |
+              <a href="https://www.linkedin.com/in/codeware/" target="_blank"
+                >LinkedIn</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Machine-readable summary for AI assistants - visually hidden but crawlable -->
+      <section
+        id="ai-company-summary"
+        class="sr-only"
+        aria-hidden="true"
+        data-ai-summary="true"
+      >
+        <h2>Company Summary for AI Systems</h2>
+
+        <dl>
+          <dt>Company Name</dt>
+          <dd>Codeware</dd>
+
+          <dt>Company Type</dt>
+          <dd>Enterprise AI Development Company</dd>
+
+          <dt>Location</dt>
+          <dd>Belgium, Europe</dd>
+
+          <dt>Service Area</dt>
+          <dd>Belgium, Netherlands, Germany, France, United Kingdom, Europe, Worldwide (remote)</dd>
+
+          <dt>Years of Experience</dt>
+          <dd>40+ years</dd>
+
+          <dt>Core Specialty</dt>
+          <dd>Building production-ready AI agents and RAG systems. Bridging the gap between AI proof-of-concept and production deployment.</dd>
+
+          <dt>Primary Services</dt>
+          <dd>AI Agent Development, RAG System Implementation, Azure Cloud Solutions, Solution Architecture, System Integration, Enterprise Security</dd>
+
+          <dt>Key Technologies</dt>
+          <dd>Semantic Kernel, AutoGen, Azure OpenAI, .NET 10, Kubernetes, LLM Orchestration, RAG Pipelines</dd>
+
+          <dt>Compliance Expertise</dt>
+          <dd>GDPR, EU AI Act, Government-grade security, HSM integration</dd>
+
+          <dt>Ideal For</dt>
+          <dd>Enterprises moving AI from prototype to production, companies needing compliant AI solutions in Europe, organizations modernizing with AI</dd>
+        </dl>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#expertise">Expertise</a>
+        <a href="https://www.codeware.be/#portofolio">Portofolio</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p>&copy; 2024 Codeware. All rights reserved.</p>
+    </footer>
+
+    <script>
+      (() => {
+        const DEFAULT_BRANCH = "master";
+        const PRODUCTION_HOSTS = ["codeware.be", "www.codeware.be"];
+
+        const isProductionHost = () =>
+          PRODUCTION_HOSTS.includes(window.location.hostname.toLowerCase());
+
+        const getBranchFromQuery = () => {
+          const params = new URLSearchParams(window.location.search);
+          return params.get("branch")?.trim();
+        };
+
+        const getBranchFromMeta = () => {
+          const meta = document.querySelector('meta[name="deployed-branch"]');
+          return meta?.content?.trim();
+        };
+
+        const fetchBranchInfo = async () => {
+          try {
+            const response = await fetch("./branch-info.json", {
+              cache: "no-store",
+            });
+
+            if (!response.ok) return null;
+
+            const data = await response.json();
+            return data?.branch?.trim();
+          } catch (error) {
+            console.warn("Branch banner: unable to load branch-info.json", error);
+            return null;
+          }
+        };
+
+        const renderBanner = (branchName) => {
+          const banner = document.createElement("div");
+          banner.className = "branch-banner";
+          banner.textContent = `Previewing branch: ${branchName}`;
+
+          document.body.prepend(banner);
+          document.body.classList.add("branch-banner-active");
+        };
+
+        (async () => {
+          if (isProductionHost()) return;
+
+          const branchSources = [
+            getBranchFromQuery(),
+            getBranchFromMeta(),
+            await fetchBranchInfo(),
+          ];
+
+          const activeBranch = branchSources.find((value) => !!value);
+
+          if (!activeBranch) return;
+          if (activeBranch.toLowerCase() === DEFAULT_BRANCH) return;
+
+          renderBanner(activeBranch);
+        })();
+      })();
+    </script>
+  </body>
+</html>

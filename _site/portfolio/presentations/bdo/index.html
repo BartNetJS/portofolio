@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8FSDD3KHS3');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDO - Enterprise Data Warehouse & Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Presentations</a>
+
+        <header>
+            <h1>BDO</h1>
+            <p class="subtitle">Enterprise Data Warehouse & Multi-Tenant Portal <span class="badge">Production</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>📊 Engagement Overview</h2>
+            <p>
+                Led the development of <strong>BDO ApplicationPortal</strong>, a comprehensive enterprise data warehouse and multi-tenant portal system.
+                This production-grade application serves multiple BDO clients with isolated data views, featuring <strong>.NET Aspire orchestration</strong>,
+                <strong>Blazor Server interface</strong>, and complete <strong>Azure cloud integration</strong>.
+            </p>
+            <ul>
+                <li><strong>Multi-Tenant Architecture</strong> - Isolated data and views per client within single application</li>
+                <li><strong>Enterprise Data Warehouse</strong> - Complex SQL database with ETL and data synchronization</li>
+                <li><strong>.NET Aspire Orchestration</strong> - Modern cloud-native application architecture</li>
+                <li><strong>Role-Based Access Control</strong> - Granular permissions with Azure AD integration</li>
+                <li><strong>Azure Cloud Integration</strong> - SQL, Managed Identity, Key Vault, and services</li>
+                <li><strong>Advanced Reporting</strong> - Complex data visualization and reporting capabilities</li>
+                <li><strong>Automated Operations</strong> - Scheduled jobs for reports, users, and notifications</li>
+                <li><strong>Production Deployment</strong> - Multi-stage environments (Dev, ACC, PRD) with CI/CD</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Technical Scope</h2>
+
+            <h3>Multi-Tenant Portal System</h3>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">🏢</span>
+                    <div>
+                        <strong>Multi-Client Isolation</strong> - Each client sees only their own data with complete data isolation
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔐</span>
+                    <div>
+                        <strong>Role Synchronization</strong> - Automatic syncing of roles and permissions from Azure AD per client
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📊</span>
+                    <div>
+                        <strong>Advanced Reporting</strong> - Complex data visualization, analytics, and reporting capabilities
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔄</span>
+                    <div>
+                        <strong>Data Synchronization</strong> - Automated ETL and data syncing from multiple sources
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📧</span>
+                    <div>
+                        <strong>Email Notifications</strong> - Automated reporting and notification system with templates
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚙️</span>
+                    <div>
+                        <strong>Scheduled Jobs</strong> - Background jobs for reports, user sync, and email notifications
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Technology Stack</h3>
+            <ul>
+                <li><strong>.NET Aspire</strong> - Cloud-native orchestration and service coordination</li>
+                <li><strong>Blazor Server</strong> - Rich web interface with real-time updates</li>
+                <li><strong>Azure SQL</strong> - Managed relational database for data warehouse</li>
+                <li><strong>Azure Managed Identity</strong> - Secure authentication without passwords</li>
+                <li><strong>Azure Key Vault</strong> - Secure storage of secrets and certificates</li>
+                <li><strong>Minimal APIs</strong> - RESTful backend services</li>
+                <li><strong>Clean Architecture</strong> - Layered domain, business logic, and infrastructure</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💼 Engagement Value</h2>
+
+            <h3>Business Impact</h3>
+            <ul>
+                <li><strong>Centralized Data Access</strong> - Single portal for all client data needs</li>
+                <li><strong>Multi-Client Management</strong> - Serve multiple clients from unified platform</li>
+                <li><strong>Automated Reporting</strong> - Reduce manual reporting effort with scheduled jobs</li>
+                <li><strong>Secure Data Isolation</strong> - Complete client data separation with compliance</li>
+                <li><strong>Cloud-Native Architecture</strong> - Scalable, maintainable, and cost-efficient</li>
+            </ul>
+
+            <h3>Technical Leadership</h3>
+            <ul>
+                <li><strong>Enterprise Architecture</strong> - Design of scalable multi-tenant systems</li>
+                <li><strong>Cloud Integration</strong> - Full Azure services integration and deployment</li>
+                <li><strong>Data Warehouse Design</strong> - Complex ETL and synchronization strategies</li>
+                <li><strong>DevOps Excellence</strong> - Multi-stage CI/CD pipelines and deployments</li>
+                <li><strong>Role-Based Security</strong> - Granular access control implementation</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Engagement Demonstrates</h3>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Multi-Tenant Architecture</strong> - Complex data isolation and per-client customization</li>
+                <li>✅ <strong>Enterprise Applications</strong> - Large-scale systems for complex business needs</li>
+                <li>✅ <strong>.NET Aspire Mastery</strong> - Cloud-native application orchestration</li>
+                <li>✅ <strong>Blazor Server Development</strong> - Rich interactive web interfaces</li>
+                <li>✅ <strong>Azure Cloud Services</strong> - SQL, Managed Identity, Key Vault integration</li>
+                <li>✅ <strong>Data Warehouse Design</strong> - Complex ETL and data synchronization</li>
+                <li>✅ <strong>CI/CD & DevOps</strong> - Multi-stage deployments and automation</li>
+                <li>✅ <strong>Production Operations</strong> - Reliable 24/7 enterprise applications</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Project Status</h2>
+            <p>
+                BDO ApplicationPortal is a <strong>production-deployed system</strong> serving multiple clients across development, acceptance, and production environments.
+                The application continues to evolve with ongoing enhancements and optimizations.
+            </p>
+            <ul>
+                <li>✅ Multi-tenant architecture deployed and operational</li>
+                <li>✅ All clients successfully migrated and operational</li>
+                <li>✅ Reporting and notification systems fully functional</li>
+                <li>✅ Azure integration complete and optimized</li>
+                <li>🔄 Continuous improvements and feature enhancements</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Client:</strong> BDO - Enterprise Data Warehouse & Portal Solution
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

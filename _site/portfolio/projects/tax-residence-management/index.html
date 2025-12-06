@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8FSDD3KHS3');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Residence Management - Cross-Border Compliance Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #e94560;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .tag.blue {
+            background: #3b82f6;
+        }
+
+        .tag.green {
+            background: #10b981;
+        }
+
+        .tag.purple {
+            background: #8b5cf6;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+
+        .requirement-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .requirement-box strong {
+            color: #10b981;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 0.75rem;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+            animation: pulse-glow 2s ease-in-out infinite;
+            margin: 0 10px;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(139, 92, 246, 0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Portofolios</a>
+
+        <header>
+            <h1>Tax Residence Management</h1>
+            <p class="subtitle">Cross-Border Compliance Platform for Belgium/Netherlands <span class="ai-badge">AI</span> <span class="badge">POC</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>🌍 Project Overview</h2>
+            <p>
+                A sophisticated <strong>cross-border tax compliance platform</strong> designed to help professionals manage
+                their residence status and documentation between Belgium and the Netherlands. This <strong>proof-of-concept</strong>
+                application demonstrates how technology can solve complex tax and social security compliance challenges.
+            </p>
+            <ul>
+                <li><strong>Residence Tracking</strong> - Document time spent in each country for tax compliance</li>
+                <li><strong>Work Distribution Documentation</strong> - Maintain evidence for 75/25 work requirements</li>
+                <li><strong>Financial Activity Tracking</strong> - Record economic ties and business operations</li>
+                <li><strong>Compliance Reporting</strong> - Generate reports for tax authorities</li>
+                <li><strong>Multi-Platform</strong> - Web (Blazor) and mobile (MAUI) interfaces</li>
+                <li><strong>AI Integration</strong> - Claude & Gemini guidance for complex situations</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Features</h2>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">📍</span>
+                    <div>
+                        <strong>Residence Tracking</strong> - Track time spent in Belgium vs Netherlands with calendar integration
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📊</span>
+                    <div>
+                        <strong>Work Distribution Analysis</strong> - Monitor 75/25 work requirement compliance
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">💼</span>
+                    <div>
+                        <strong>Financial Documentation</strong> - Log business activities and economic ties
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📄</span>
+                    <div>
+                        <strong>Report Generation</strong> - Create tax authority-ready compliance reports
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📱</span>
+                    <div>
+                        <strong>Mobile Access</strong> - Track activities on-the-go with MAUI app
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🤖</span>
+                    <div>
+                        <strong>AI Guidance</strong> - Get recommendations from Claude & Gemini on compliance strategies
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔄</span>
+                    <div>
+                        <strong>Cloud Sync</strong> - Synchronize between web and mobile with cloud storage
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔐</span>
+                    <div>
+                        <strong>Privacy First</strong> - Local storage with optional cloud backup
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Architecture & Technology</h2>
+
+            <h3>Technology Stack</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>.NET Ecosystem</h3>
+                    <p>
+                        <span class="tag blue">.NET Aspire</span>
+                        <span class="tag blue">Blazor Server</span>
+                        <span class="tag blue">.NET MAUI</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Data & Storage</h3>
+                    <p>
+                        <span class="tag green">SQLite</span>
+                        <span class="tag green">Local-First</span>
+                        <span class="tag green">Cloud Sync</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Integration</h3>
+                    <p>
+                        <span class="tag purple">Microsoft Graph API</span>
+                        <span class="tag purple">Claude API</span>
+                        <span class="tag purple">Gemini API</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Architecture</h3>
+                    <p>
+                        <span class="tag">Vertical Slice</span>
+                        <span class="tag">Feature-Driven</span>
+                        <span class="tag">Domain-Centric</span>
+                    </p>
+                </div>
+            </div>
+
+            <h3>Vertical Slice Architecture</h3>
+            <p>
+                The application uses vertical slice architecture, organizing code around business features rather than technical layers.
+                Each feature is self-contained with UI, business logic, and data access integrated together, enabling:
+            </p>
+            <ul>
+                <li>Independent feature development</li>
+                <li>Minimal cross-feature dependencies</li>
+                <li>Easy testing and deployment</li>
+                <li>Clear business context mapping</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💡 Business Requirements</h2>
+
+            <div class="requirement-box">
+                <strong>Tax Compliance:</strong> Track time spent in each country to prove tax residence status and maintain
+                evidence for Belgian social security retention benefits.
+            </div>
+
+            <div class="requirement-box">
+                <strong>Work Distribution:</strong> Maintain documentation proving the 75/25 work distribution requirement
+                between the two countries.
+            </div>
+
+            <div class="requirement-box">
+                <strong>Financial Tracking:</strong> Document financial activities and economic ties to demonstrate proper
+                tax residency classification.
+            </div>
+
+            <div class="requirement-box">
+                <strong>Pension Optimization:</strong> Track and plan for optimal pension distribution using Belgium's
+                favorable 10% tax rate.
+            </div>
+
+            <div class="requirement-box">
+                <strong>Social Security:</strong> Maintain evidence for social security compliance across both countries'
+                regulations.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Documentation</h2>
+            <p>
+                Comprehensive documentation organized in the <code>UserStories</code> folder:
+            </p>
+            <ul>
+                <li><strong>01-TaxResidenceAnalysis.md</strong> - High-level analysis of requirements</li>
+                <li><strong>02-TechnicalRequirements.md</strong> - Detailed technical specifications</li>
+                <li><strong>03-VerticalArchitecture.md</strong> - Implementation guide for architecture</li>
+                <li><strong>04-ImplementationPlan.md</strong> - Detailed implementation specifications</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Multi-Platform Experience</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Web Dashboard (Blazor)</h3>
+                    <p>
+                        Full-featured web interface for comprehensive tracking, reporting, and configuration.
+                        Access from any browser with full functionality and visualizations.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Mobile App (MAUI)</h3>
+                    <p>
+                        Native cross-platform mobile app for on-the-go tracking. Works on iOS and Android
+                        with local-first data storage.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Cloud Synchronization</h3>
+                    <p>
+                        Seamless sync between web and mobile devices. Local data syncs to cloud,
+                        ensuring information is always up-to-date.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Calendar Integration</h3>
+                    <p>
+                        Integrates with Microsoft Graph API to pull calendar events for accurate
+                        residence tracking automation.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🤖 AI-Powered Guidance</h2>
+            <p>
+                Integration with multiple LLM providers for intelligent guidance on complex tax and compliance situations:
+            </p>
+            <ul>
+                <li><strong>Claude API</strong> - Expert analysis and compliance recommendations</li>
+                <li><strong>Gemini API</strong> - Alternative LLM provider for diverse perspectives</li>
+                <li><strong>Context-Aware</strong> - Provides guidance based on user's specific situation and data</li>
+                <li><strong>Real-Time Updates</strong> - AI adapts recommendations as situation changes</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Project Demonstrates</h3>
+            <p>
+                The Tax Residence Management POC showcases expertise in:
+            </p>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Complex Domain Modeling</strong> - Tax and legal compliance requirements</li>
+                <li>✅ <strong>Architecture Design</strong> - Vertical slice architecture for maintainability</li>
+                <li>✅ <strong>Full-Stack .NET</strong> - Aspire, Blazor, MAUI integration</li>
+                <li>✅ <strong>Cross-Platform Development</strong> - Web and mobile unified codebase</li>
+                <li>✅ <strong>LLM Integration</strong> - Claude and Gemini for intelligent features</li>
+                <li>✅ <strong>Cloud APIs</strong> - Microsoft Graph and cloud synchronization</li>
+                <li>✅ <strong>Data Privacy</strong> - Local-first with optional cloud backup</li>
+                <li>✅ <strong>Business Analysis</strong> - Deep understanding of cross-border tax needs</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Project Status</h2>
+            <p>
+                This is a <strong>proof-of-concept</strong> project currently in the planning and initial development phase.
+                The comprehensive documentation provides the foundation for implementation, with code developed following
+                the specified patterns and guidelines.
+            </p>
+            <ul>
+                <li>✅ Requirements analysis complete</li>
+                <li>✅ Technical specifications documented</li>
+                <li>✅ Architecture designed</li>
+                <li>✅ Implementation plan finalized</li>
+                <li>🔄 Initial code development in progress</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Repository:</strong> <a href="https://github.com/BartVanderAuweraert/codeware/tree/main/TaxResidenceManagement" target="_blank">github.com/BartVanderAuweraert/codeware</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
