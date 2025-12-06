@@ -6,8 +6,8 @@ permalink: /blog/
 <section>
   <h1>Codeware Blog</h1>
   <p>
-    Verhalen uit onze praktijk: enterprise software, AI-agents, cloud en 40 jaar engineeringervaring.
-    Alle data in dd-mm-jjjj notatie zodat het aansluit bij onze Belgische roots.
+    Stories from the field: enterprise software, AI agents, cloud, and 40 years of engineering experience.
+    Dates stay in dd-mm-yyyy format to match our Belgian roots.
   </p>
 </section>
 
@@ -20,7 +20,7 @@ permalink: /blog/
       <img src="{{ post.image }}" alt="{{ post.image_alt | default: post.title }}" class="post-image" />
     {% endif %}
     <p>{{ post.excerpt | strip_html | truncate: 220 }}</p>
-    <a class="btn-secondary" href="{{ post.url }}">Lees verder</a>
+    <a class="btn-secondary" href="{{ post.url }}">Read more</a>
   </article>
   {% endfor %}
 </section>

@@ -1,35 +1,35 @@
 ---
 layout: post
-title: "Eerste stappen met AI-agents en RAG"
+title: "First steps with AI agents and RAG"
 date: 2024-11-05 09:00:00 +0200
 image: /images/posts/agent-workflow-placeholder.svg
-image_alt: "Schematische AI agent workflow"
+image_alt: "Schematic AI agent workflow"
 ---
 
-De voorbije maanden hebben we meerdere AI-agenten live gezet bij klanten. We startten klein, met één taak en een duidelijke bron van waarheid, en breidden daarna uit met orchestratie en monitoring. Deze post geeft een kort overzicht van de aanpak.
+Over the past few months we have deployed multiple AI agents for clients. We started small with a single task and a clear source of truth, then scaled out with orchestration and monitoring. This post gives a short overview of the approach.
 
 ![Agent workflow placeholder](/images/posts/agent-workflow-placeholder.svg)
 
-## Waarom agenten + RAG?
+## Why agents + RAG?
 
-Een agent kan zelfstandig stappen nemen, maar zonder RAG blijft hij blind. Door retrieval, validatie en tool-calls te combineren vermijden we hallucinaties en maken we acties traceerbaar voor auditors.
+An agent can take steps on its own, but without RAG it stays blind. By combining retrieval, validation, and tool calls we avoid hallucinations and keep every action traceable for auditors.
 
 ```csharp
 var response = await agent.InvokeAsync(new AgentRequest
 {
-    Intent = "Maak een migratieplan voor de CRM-data",
-    KnowledgeBase = rag.Index("crm-archief"),
+    Intent = "Create a migration plan for the CRM data",
+    KnowledgeBase = rag.Index("crm-archive"),
     Tools = new[] { MigrationPlanner, RiskScorer }
 });
 
 Console.WriteLine(response.Steps.Last().Summary);
 ```
 
-## Wat we geleerd hebben
+## What we learned
 
-- Begin met een klein domein en een duidelijke bron van waarheid.
-- Log elke stap die de agent neemt: prompt, retrieval, tool output.
-- Gebruik metriek (fouten, latency, hallucination checks) vanaf dag één.
-- Visualiseer de flow zodat business stakeholders kunnen volgen.
+- Start with a small domain and a single source of truth.
+- Log every step the agent takes: prompt, retrieval, tool output.
+- Track metrics (errors, latency, hallucination checks) from day one.
+- Visualize the flow so business stakeholders can follow along.
 
-We delen later meer detail over observability en hoe we onze Azure-infra gekoppeld hebben. Voor nu volstaat deze mini-case om de stijlgids van het blog te tonen.
+We will share more detail later about observability and how we connected our Azure infrastructure. For now this mini case is enough to demonstrate the blog style guide.
