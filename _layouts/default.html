@@ -190,15 +190,15 @@
   <body>
     <nav class="navbar">
       <div class="navbar-container">
-        <a href="/" class="navbar-brand">Codeware</a>
+        <a href="{{ "/" | relative_url }}" class="navbar-brand">Codeware</a>
         <ul class="navbar-links">
-          <li><a href="/" aria-label="Home">Home</a></li>
-          <li><a href="/#services">Services</a></li>
-          <li><a href="/#expertise">Expertise</a></li>
-          <li><a href="/#contact">Contact</a></li>
-          <li><a href="/blog/">Blog</a></li>
+          <li><a href="{{ "/" | relative_url }}" aria-label="Home">Home</a></li>
+          <li><a href="{{ "/#services" | relative_url }}">Services</a></li>
+          <li><a href="{{ "/#expertise" | relative_url }}">Expertise</a></li>
+          <li><a href="{{ "/#contact" | relative_url }}">Contact</a></li>
+          <li><a href="{{ "/blog/" | relative_url }}">Blog</a></li>
           <li>
-            <a href="/portfolio/" class="portofolio-link">View Full Portfolio →</a>
+            <a href="{{ "/portfolio/" | relative_url }}" class="portofolio-link">View Full Portfolio →</a>
           </li>
         </ul>
       </div>

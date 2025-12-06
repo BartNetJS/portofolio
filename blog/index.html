@@ -17,10 +17,10 @@ permalink: /blog/
     <p class="meta">{{ post.date | date: "%d-%m-%Y" }}</p>
     <h2 style="margin-bottom: 12px; font-size: 1.6rem;">{{ post.title }}</h2>
     {% if post.image %}
-      <img src="{{ post.image }}" alt="{{ post.image_alt | default: post.title }}" class="post-image" />
+      <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title }}" class="post-image" />
     {% endif %}
     <p>{{ post.excerpt | strip_html | truncate: 220 }}</p>
-    <a class="btn-secondary" href="{{ post.url }}">Read more</a>
+    <a class="btn-secondary" href="{{ post.url | relative_url }}">Read more</a>
   </article>
   {% endfor %}
 </section>
