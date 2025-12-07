@@ -1,0 +1,26 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+---
+<section>
+  <h1>Codeware Blog</h1>
+  <p>
+    Stories from the field: enterprise software, AI agents, cloud, and 40 years of engineering experience.
+    Dates stay in dd-mm-yyyy format to match our Belgian roots.
+  </p>
+</section>
+
+<section class="posts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+  {% for post in site.posts %}
+  <article class="card">
+    <p class="meta">{{ post.date | date: "%d-%m-%Y" }}</p>
+    <h2 style="margin-bottom: 12px; font-size: 1.6rem;">{{ post.title }}</h2>
+    {% if post.image %}
+      <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title }}" class="post-image" />
+    {% endif %}
+    <p>{{ post.excerpt | strip_html | truncate: 220 }}</p>
+    <a class="btn-secondary" href="{{ post.url | relative_url }}">Read more</a>
+  </article>
+  {% endfor %}
+</section>

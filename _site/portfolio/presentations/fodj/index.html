@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8FSDD3KHS3');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOD Justice - National Justice System Integration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #e94560;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+
+        .section.highlight {
+            border-left: 4px solid #10b981;
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .section h2 {
+            color: #e94560;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section.highlight h2 {
+            color: #10b981;
+        }
+
+        .section h3 {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p, .section li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list .icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a0d8ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #0f3460;
+            color: #64748b;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #e94560;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Presentations</a>
+
+        <header>
+            <h1>FOD Justice</h1>
+            <p class="subtitle">Belgian Federal Public Service Justice - National System Integration <span class="badge">Production</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>⚖️ Engagement Overview</h2>
+            <p>
+                Led the development of <strong>JustPrison</strong>, a mission-critical integration platform for the Belgian Federal Public Service Justice (FOD Justice).
+                This complex government system serves as the central hub connecting 15+ legacy justice systems into a unified platform managing prisoner data,
+                case information, and justice procedures across the entire Belgian justice system.
+            </p>
+            <ul>
+                <li><strong>Multi-System Integration</strong> - Connect and synchronize 15+ legacy justice systems</li>
+                <li><strong>Mission-Critical Operations</strong> - 24/7 operation serving the entire Belgian justice system</li>
+                <li><strong>Government Security</strong> - HSM-protected certificates and OAuth via Justice Service Bus (JSB)</li>
+                <li><strong>Microservices Architecture</strong> - Scalable, resilient platform built with .NET and Kubernetes</li>
+                <li><strong>Continuous Validation</strong> - Automated integration testing on every deployment</li>
+                <li><strong>Full Observability</strong> - Monitoring, logging, and distributed tracing across all systems</li>
+                <li><strong>Team Leadership</strong> - Lead integration team with multiple developers and architects</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Technical Scope</h2>
+
+            <h3>Integration Challenge</h3>
+            <p>
+                JustPrison solves a critical challenge: connecting legacy justice systems built over decades into a modern, unified platform.
+                The system integrates 15+ different systems with varying protocols, data formats, and interfaces.
+            </p>
+
+            <h3>Key Integrated Systems</h3>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">📋</span>
+                    <div>
+                        <strong>UCase (Court Cases)</strong> - Case management and court procedures integration
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">👤</span>
+                    <div>
+                        <strong>AOS2 (Offender System)</strong> - Prisoner data and offender records integration
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔒</span>
+                    <div>
+                        <strong>DAS (Detention System)</strong> - Prison facility and detention tracking integration
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🗄️</span>
+                    <div>
+                        <strong>DBS (Database)</strong> - Core database system integration and synchronization
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🇧🇪</span>
+                    <div>
+                        <strong>National Register (BOSA)</strong> - Government citizen registry integration
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📊</span>
+                    <div>
+                        <strong>RisOnWeb</strong> - Risk assessment and evaluation system integration
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Additional Integrations</h3>
+            <ul>
+                <li><strong>Epicure</strong> - Records management system</li>
+                <li><strong>Telio</strong> - Telecom system integration</li>
+                <li><strong>FTP Services</strong> - Secure file transfer integration</li>
+                <li><strong>Email Systems</strong> - Notification and communication</li>
+                <li><strong>Justix, SISET</strong> - Justice external systems</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💼 Engagement Value</h2>
+
+            <h3>Technical Leadership Delivered</h3>
+            <ul>
+                <li><strong>Architecture Design</strong> - Microservices architecture connecting legacy systems</li>
+                <li><strong>Team Leadership</strong> - Led integration team with multiple developers and architects</li>
+                <li><strong>Security Implementation</strong> - Government-grade security with HSM and OAuth</li>
+                <li><strong>DevOps Excellence</strong> - Kubernetes, Dapr, and automated testing infrastructure</li>
+                <li><strong>Observability</strong> - Grafana, Loki, and CoRoot monitoring stack</li>
+            </ul>
+
+            <h3>Business Impact</h3>
+            <ul>
+                <li><strong>System Unification</strong> - Single platform replacing fragmented justice systems</li>
+                <li><strong>Operational Efficiency</strong> - Reduced manual data entry and system coordination</li>
+                <li><strong>Data Consistency</strong> - Real-time synchronization across all justice systems</li>
+                <li><strong>Government Compliance</strong> - Meeting strict security and audit requirements</li>
+                <li><strong>Service Reliability</strong> - 24/7 uptime for mission-critical justice operations</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Technology & Architecture</h2>
+
+            <h3>Technology Stack</h3>
+            <ul>
+                <li><strong>.NET 6+</strong> - Modern C# framework for microservices</li>
+                <li><strong>Kubernetes + Dapr</strong> - Cloud-native orchestration and distributed runtime</li>
+                <li><strong>Azure Cloud</strong> - Infrastructure and HSM security</li>
+                <li><strong>Grafana & Loki</strong> - Monitoring and centralized logging</li>
+                <li><strong>CoRoot</strong> - Distributed tracing and observability</li>
+                <li><strong>Tracetest</strong> - Automated integration testing framework</li>
+                <li><strong>GitHub</strong> - Version control, CI/CD, and team collaboration</li>
+            </ul>
+
+            <h3>Architectural Highlights</h3>
+            <ul>
+                <li><strong>Microservices</strong> - Independent services for each integration point</li>
+                <li><strong>SDK Abstraction</strong> - Clean service interfaces for easy integration</li>
+                <li><strong>Middleware Patterns</strong> - Standardized error handling and responses</li>
+                <li><strong>Continuous Validation</strong> - Automated tests on every deployment</li>
+                <li><strong>Live Configuration</strong> - Update settings without downtime</li>
+                <li><strong>Zero-Downtime Deployment</strong> - Kubernetes rolling updates</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Engagement Demonstrates</h3>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Enterprise Integration</strong> - Connecting 15+ legacy government systems</li>
+                <li>✅ <strong>Government Systems</strong> - Mission-critical justice system operations</li>
+                <li>✅ <strong>Security at Scale</strong> - HSM, OAuth, and compliance requirements</li>
+                <li>✅ <strong>Team Leadership</strong> - Leading cross-functional integration teams</li>
+                <li>✅ <strong>Microservices Mastery</strong> - Distributed systems architecture</li>
+                <li>✅ <strong>Kubernetes & Dapr</strong> - Cloud-native orchestration</li>
+                <li>✅ <strong>DevOps Excellence</strong> - Automated testing and deployment</li>
+                <li>✅ <strong>Observability</strong> - Monitoring, logging, and tracing</li>
+                <li>✅ <strong>Legacy Modernization</strong> - Connecting old systems to new platforms</li>
+                <li>✅ <strong>24/7 Operations</strong> - Mission-critical system reliability</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Project Status</h2>
+            <p>
+                JustPrison is a <strong>production-deployed system</strong> actively serving the Belgian Federal Public Service Justice with continuous improvement and expansion.
+            </p>
+            <ul>
+                <li>✅ Core integration platform stable and operational</li>
+                <li>✅ 15+ systems successfully integrated</li>
+                <li>✅ Automated testing framework operational</li>
+                <li>✅ Kubernetes deployment optimized</li>
+                <li>✅ Monitoring and observability fully functional</li>
+                <li>🔄 Continuous system refinements ongoing</li>
+                <li>🔄 Load testing and security validation in progress</li>
+                <li>🔄 Additional integrations planned</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Client:</strong> FOD Justice (Belgian Federal Public Service Justice)
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

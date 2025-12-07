@@ -1,0 +1,20 @@
+# Basic site settings for GitHub Pages + Jekyll
+# Keeps existing HTML pages functioning while enabling posts
+
+# Site metadata
+name: Codeware Belgium
+url: https://www.codeware.be
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+highlighter: rouge
+timezone: Europe/Brussels
+theme: null
+plugins: []
+
+# Ignore local helper scripts when building
+exclude:
+  - start-server.bat
+  - start-server.sh
+  - LOCAL_TESTING.md
