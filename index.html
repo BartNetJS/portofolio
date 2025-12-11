@@ -51,18 +51,18 @@
       title="Extended AI Information"
     />
 
-      <!-- Open Graph -->
-      <meta
-        property="og:title"
-        content="Codeware | 40 Years of Software Excellence, Now with AI"
-      />
-      <meta
-        property="og:description"
-        content="Solution architecture, cloud, system integration — built on 40+ years of experience. AI agents & RAG systems — our newest expertise."
-      />
-      <meta property="og:url" content="https://www.codeware.be/" />
-      <meta property="og:type" content="website" />
-      <meta property="og:locale" content="en_BE" />
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="Codeware | 40 Years of Software Excellence, Now with AI"
+    />
+    <meta
+      property="og:description"
+      content="Solution architecture, cloud, system integration — built on 40+ years of experience. AI agents & RAG systems — our newest expertise."
+    />
+    <meta property="og:url" content="https://www.codeware.be/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_BE" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -75,30 +75,37 @@
       content="From Proof-of-Concept to Production. Enterprise AI solutions in Belgium."
     />
     <style>
+      :root {
+        --bg: #0b1021;
+        --panel: #0f162b;
+        --card: #101a33;
+        --primary: #e94560;
+        --accent: #60a5fa;
+        --lime: #10b981;
+        --muted: #9fb0d3;
+        --text: #e2e8f0;
+        --border: #1f2a44;
+        --shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+      }
+
       * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
       }
 
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        color: #fff;
+        background: radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.15), transparent 30%),
+          radial-gradient(circle at 80% 0%, rgba(233, 69, 96, 0.18), transparent 35%),
+          linear-gradient(135deg, #0b1021 0%, #0b1327 60%, #0c1630 100%);
+        color: var(--text);
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
         min-height: 100vh;
+        padding-bottom: 80px;
       }
 
-      .navbar {
-        background: rgba(26, 26, 46, 0.95);
-        border-bottom: 2px solid #0f3460;
-        padding: 20px 0;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        backdrop-filter: blur(10px);
-      }
-
-      body.branch-banner-active .navbar {
+      body.branch-banner-active header {
         top: 52px;
       }
 
@@ -117,92 +124,295 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
 
-      .navbar-container {
+      a { color: inherit; }
+
+      .page-shell {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 32px 22px 0;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 110;
+        background: rgba(11, 16, 33, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
         display: flex;
+        align-items: center;
         justify-content: space-between;
+        gap: 20px;
+        padding: 18px 22px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.4px;
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary), #f472b6);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        box-shadow: 0 10px 35px rgba(233, 69, 96, 0.35);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 16px;
         align-items: center;
       }
 
-      .navbar-brand {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #e94560;
+      .nav-links a {
+        padding: 10px 14px;
+        border-radius: 10px;
+        color: var(--muted);
         text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s ease;
       }
 
-      .navbar-links {
-        display: flex;
+      .nav-links a:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .nav-cta {
+        background: linear-gradient(135deg, var(--accent), #a855f7);
+        color: #0b1021;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-weight: 700;
+        box-shadow: 0 10px 30px rgba(96, 165, 250, 0.4);
+      }
+
+      .layout-grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .hero {
+        background: linear-gradient(120deg, rgba(233, 69, 96, 0.08), rgba(96, 165, 250, 0.05));
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 40px;
+        box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: 2fr 1.2fr;
         gap: 30px;
-        list-style: none;
+        margin: 28px 0 12px;
       }
 
-      .navbar-links a {
-        color: #cbd5e1;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s ease;
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
       }
 
-      .navbar-links a:hover {
-        color: #e94560;
-      }
-
-      .navbar-links a.portofolio-link {
-        color: #60a5fa;
-        border: 2px solid #60a5fa;
-        padding: 6px 12px;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-      }
-
-      .navbar-links a.portofolio-link:hover {
-        background: #60a5fa;
-        color: #1a1a2e;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 40px 20px;
-      }
-
-      section {
-        margin-bottom: 80px;
+      .pill {
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.9rem;
       }
 
       h1 {
-        font-size: 3rem;
-        color: #e94560;
-        margin-bottom: 20px;
-        line-height: 1.2;
+        font-size: clamp(2.4rem, 4vw, 3.4rem);
+        line-height: 1.15;
+        margin: 18px 0 14px;
+        color: #fff;
       }
 
-      h2 {
-        font-size: 2.2rem;
-        color: #e94560;
-        margin-bottom: 40px;
+      .hero p {
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin: 26px 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), #f472b6);
+        color: #0b1021;
+        box-shadow: 0 15px 35px rgba(233, 69, 96, 0.35);
+      }
+
+      .btn-secondary {
+        border-color: var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+      }
+
+      .btn:hover { transform: translateY(-2px); }
+
+      .list-check {
+        list-style: none;
+        margin-top: 16px;
+        color: var(--muted);
+      }
+
+      .list-check li { margin-bottom: 10px; }
+
+      .list-check strong { color: var(--text); }
+
+      .panel {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .panel h3 { color: var(--accent); margin-bottom: 6px; }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+      }
+
+      .stat {
+        padding: 18px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+
+      .stat-number {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: var(--lime);
+      }
+
+      .stat-label { color: var(--muted); }
+
+      section { margin: 60px 0; }
+
+      section h2 {
+        font-size: clamp(2rem, 3vw, 2.4rem);
+        margin-bottom: 14px;
+      }
+
+      section > p { color: var(--muted); }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+        margin-top: 24px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary);
+        background: rgba(233, 69, 96, 0.06);
+      }
+
+      .card h3 { margin-bottom: 8px; color: var(--accent); }
+
+      .card p { color: var(--muted); }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .tag {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        padding: 6px 10px;
+        border-radius: 10px;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .highlight-card {
+        border-left: 4px solid var(--lime);
+      }
+
+      .why-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .why-card h3 { color: var(--lime); margin-bottom: 8px; }
+
+      .contact {
+        padding: 28px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--primary), #0f3460);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: var(--shadow);
+        color: #fff;
         text-align: center;
       }
 
-      h3 {
-        font-size: 1.3rem;
-        color: #60a5fa;
-        margin-bottom: 15px;
+      .contact p { color: #e2e8f0; }
+
+      footer {
+        margin-top: 60px;
+        padding: 26px 0;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        text-align: center;
       }
 
-      p {
-        color: #cbd5e1;
-        line-height: 1.8;
-        margin-bottom: 20px;
-        font-size: 1rem;
-      }
-
-      .hero-description {
-        font-size: 1.2rem;
-        color: #94a3b8;
+      .footer-links {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
       }
 
       .sr-only {
@@ -213,751 +423,293 @@
         margin: -1px;
         overflow: hidden;
         clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
         border: 0;
       }
 
-      /* Hero Section */
-      .hero {
-        padding: 100px 20px;
-        text-align: center;
-        background: linear-gradient(
-          135deg,
-          rgba(233, 69, 96, 0.1) 0%,
-          rgba(96, 165, 250, 0.05) 100%
-        );
-        border-radius: 16px;
-        margin-bottom: 60px;
-      }
-
-      .hero h1 {
-        font-size: 3.5rem;
-        margin-bottom: 30px;
-      }
-
-      .hero .subtitle {
-        font-size: 1.4rem;
-        color: #94a3b8;
-        margin-bottom: 40px;
-      }
-
-      .cta-buttons {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 40px;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 15px 35px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        border: 2px solid transparent;
-      }
-
-      .btn-primary {
-        background: linear-gradient(135deg, #e94560, #f15a77);
-        color: white;
-      }
-
-      .btn-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(233, 69, 96, 0.3);
-      }
-
-      .btn-secondary {
-        background: transparent;
-        color: #60a5fa;
-        border: 2px solid #60a5fa;
-      }
-
-      .btn-secondary:hover {
-        background: #60a5fa;
-        color: #1a1a2e;
-      }
-
-      .hero-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 30px;
-        margin-top: 50px;
-      }
-
-      .stat {
-        background: rgba(255, 255, 255, 0.08);
-        padding: 25px;
-        border-radius: 12px;
-        border-left: 4px solid #e94560;
-      }
-
-      .stat-number {
-        font-size: 2.5rem;
-        color: #10b981;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-
-      .stat-label {
-        color: #94a3b8;
-        font-size: 0.95rem;
-      }
-
-      /* Services Grid */
-      .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-        margin-bottom: 60px;
-      }
-
-      .service-card {
-        background: rgba(255, 255, 255, 0.08);
-        border: 2px solid #0f3460;
-        border-radius: 16px;
-        padding: 30px;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        color: inherit;
-      }
-
-      .service-card:hover {
-        transform: translateY(-10px);
-        border-color: #e94560;
-        background: rgba(233, 69, 96, 0.1);
-        box-shadow: 0 20px 40px rgba(233, 69, 96, 0.2);
-      }
-
-      .service-icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
-      }
-
-      .service-card h3 {
-        margin-bottom: 15px;
-        color: #60a5fa;
-      }
-
-      .service-card p {
-        margin-bottom: 0;
-        font-size: 0.95rem;
-      }
-
-      /* Expertise Tags */
-      .expertise-section {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 16px;
-        padding: 50px;
-        border-left: 4px solid #10b981;
-        margin-bottom: 60px;
-      }
-
-      .expertise-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        margin-top: 30px;
-      }
-
-      .expertise-item {
-        background: rgba(255, 255, 255, 0.08);
-        padding: 20px;
-        border-radius: 8px;
-        border-left: 3px solid #60a5fa;
-      }
-
-      .expertise-item strong {
-        color: #10b981;
-        display: block;
-        margin-bottom: 8px;
-        font-size: 1.1rem;
-      }
-
-      .expertise-item span {
-        color: #cbd5e1;
-        font-size: 0.9rem;
-      }
-
-      /* Portofolio Link */
-      .portofolio-preview {
-        background: linear-gradient(
-          135deg,
-          rgba(99, 102, 241, 0.1) 0%,
-          rgba(139, 92, 246, 0.1) 100%
-        );
-        border-radius: 16px;
-        padding: 50px;
-        border: 2px dashed #6366f1;
-        text-align: center;
-        margin-bottom: 60px;
-      }
-
-      .portofolio-preview h3 {
-        margin-bottom: 15px;
-        color: #8b5cf6;
-      }
-
-      .portofolio-preview p {
-        margin-bottom: 25px;
-      }
-
-      /* Why Choose Section */
-      .why-choose {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-        margin-bottom: 60px;
-      }
-
-      .why-item {
-        background: rgba(255, 255, 255, 0.08);
-        padding: 30px;
-        border-radius: 12px;
-        border-left: 4px solid #10b981;
-      }
-
-      .why-item h3 {
-        color: #10b981;
-        margin-bottom: 15px;
-      }
-
-      /* Contact Section */
-      .contact-section {
-        background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
-        border-radius: 16px;
-        padding: 60px;
-        text-align: center;
-        margin-bottom: 60px;
-      }
-
-      .contact-section h2 {
-        color: white;
-        margin-bottom: 20px;
-      }
-
-      .contact-section p {
-        color: #cbd5e1;
-        font-size: 1.1rem;
-        margin-bottom: 30px;
-      }
-
-      .contact-info {
-        display: flex;
-        gap: 40px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 30px;
-        color: #cbd5e1;
-      }
-
-      .contact-info a {
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-      }
-
-      .contact-info a:hover {
-        color: #10b981;
-      }
-
-      /* Footer */
-      footer {
-        background: rgba(15, 52, 96, 0.5);
-        border-top: 2px solid #0f3460;
-        padding: 40px 20px;
-        text-align: center;
-        color: #64748b;
-      }
-
-      .footer-links {
-        display: flex;
-        gap: 30px;
-        justify-content: center;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
-
-      .footer-links a {
-        color: #60a5fa;
-        text-decoration: none;
-      }
-
-      .footer-links a:hover {
-        color: #e94560;
-      }
-
-      /* AI Badge */
-      .ai-badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-        color: white;
-        font-weight: bold;
-        font-size: 0.6rem;
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-        margin-left: 8px;
-        vertical-align: middle;
-        animation: pulse-glow 2s ease-in-out infinite;
-      }
-
-      @keyframes pulse-glow {
-        0%,
-        100% {
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-        }
-        50% {
-          box-shadow: 0 0 25px rgba(139, 92, 246, 0.8);
-        }
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 2.2rem;
-        }
-
-        h2 {
-          font-size: 1.8rem;
-        }
-
-        .hero h1 {
-          font-size: 2.5rem;
-        }
-
-        .hero {
-          padding: 60px 20px 80px;
-        }
-
-        .navbar-links {
-          width: 100%;
-          justify-content: center;
-          flex-wrap: wrap;
-          gap: 15px;
-          font-size: 0.9rem;
-          margin-top: 12px;
-        }
-
-        .navbar-container {
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .navbar-brand {
-          width: 100%;
-          text-align: center;
-        }
-
-        .cta-buttons {
-          flex-direction: column;
-        }
-
-        .btn {
-          width: 100%;
-        }
-
-        .contact-section {
-          padding: 40px 20px;
-        }
-
-        .expertise-grid,
-        .services-grid,
-        .why-choose {
-          grid-template-columns: 1fr;
-        }
+      @media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; }
+        header { position: sticky; }
+        .nav { flex-wrap: wrap; }
+        .nav-links { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
       }
     </style>
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Codeware",
-        "url": "https://www.codeware.be",
-        "logo": "https://www.codeware.be/logo.png",
-        "description": "Enterprise AI agent development and systems integration company based in Belgium. Specializing in production-ready RAG systems, LLM orchestration, and Azure cloud solutions.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "BE"
-        },
-        "sameAs": [],
-        "serviceArea": {
-          "@type": "GeoCircle",
-          "geoMidpoint": {
-            "@type": "GeoCoordinates",
-            "addressCountry": "Belgium"
-          }
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "AI & Software Development Services",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "AI Agent Development",
-                "description": "Production-ready AI agents using Semantic Kernel and AutoGen"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "RAG Implementation",
-                "description": "Retrieval Augmented Generation systems for enterprise documentation"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Azure Cloud & DevOps",
-                "description": "Cloud-native solutions, CI/CD pipelines, Kubernetes orchestration"
-              }
-            }
-          ]
-        }
-      }
-    </script>
-
-    <!-- Speakable Schema for Voice Assistants (Siri, Google Assistant, Alexa) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Codeware - Enterprise AI Development Belgium",
-        "speakable": {
-          "@type": "SpeakableSpecification",
-          "cssSelector": [
-            "#about-codeware",
-            "#company-intro",
-            ".hero-description",
-            "h1",
-            "[data-speakable='true']"
-          ]
-        },
-        "url": "https://www.codeware.be",
-        "mainEntity": {
-          "@type": "Organization",
-          "name": "Codeware",
-          "description": "Belgian enterprise AI development company specializing in production-ready AI agents and RAG systems"
-        }
-      }
-    </script>
   </head>
   <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="navbar-container">
-        <a href="#home" class="navbar-brand">Codeware</a>
-        <ul class="navbar-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#expertise">Expertise</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li>
-            <a href="portfolio/" class="portofolio-link"
-              >View Full Portofolio →</a
-            >
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="container">
-      <!-- Hero Section -->
-      <section id="home" class="hero">
-        <h1>40 Years of Software Excellence, Now with AI</h1>
-        <p
-          class="subtitle hero-description"
-          data-speakable="true"
-        >
-          Solution architecture, cloud, system integration — built on 40+ years of experience.
-          AI agents & RAG systems — our newest expertise.
-        </p>
-
-        <div class="cta-buttons">
-          <a href="#portofolio" class="btn btn-primary">View Enterprise AI Projects</a>
-          <a href="#contact" class="btn btn-secondary">Discuss an AI Engagement</a>
+    <header>
+      <div class="nav">
+        <a href="#home" class="brand">
+          <span class="brand-mark">CW</span>
+          <span>Codeware — Enterprise AI & Cloud Engineering</span>
+        </a>
+        <div class="nav-links">
+          <a href="#services">Services</a>
+          <a href="#featured-projects">AI Projects</a>
+          <a href="#expertise">Expertise</a>
+          <a href="#about-codeware">About</a>
+          <a href="#contact" class="nav-cta">Contact</a>
         </div>
+      </div>
+    </header>
 
-        <div class="hero-stats">
-          <div class="stat">
-            <div class="stat-number">40+</div>
-            <div class="stat-label">Years of Experience</div>
+    <main class="page-shell" id="home">
+      <section class="hero">
+        <div>
+          <div class="badge-row">
+            <span class="pill">40+ years of engineering</span>
+            <span class="pill">Belgium & Europe</span>
+            <span class="pill">Production AI & Azure</span>
           </div>
-          <div class="stat">
-            <div class="stat-number">50+</div>
-            <div class="stat-label">Enterprise Projects</div>
+          <h1>AI agents and cloud systems built for production — not just POCs.</h1>
+          <p>
+            Codeware delivers enterprise-grade AI agents, RAG systems, and Azure platforms that hold up under compliance, security, and real-world load. We bridge the gap between proof-of-concept excitement and reliable production deployments.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#contact">Book a call</a>
+            <a class="btn btn-secondary" href="/portfolio/">View portfolio</a>
           </div>
-          <a href="portfolio/presentations/spikes/" class="stat" style="text-decoration: none; display: block; transition: transform 0.3s ease;">
-            <div class="stat-number">15+</div>
-            <div class="stat-label">Years at Spikes</div>
+          <ul class="list-check">
+            <li>✅ <strong>Autonomous AI agents</strong> with Semantic Kernel and AutoGen</li>
+            <li>✅ <strong>RAG platforms</strong> with zero-hallucination guardrails and evaluation</li>
+            <li>✅ <strong>Cloud & DevOps</strong> on Azure with observability and governance baked in</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Delivery highlights</h3>
+          <p>Enterprise-first approach focused on security, compliance, and measurable outcomes.</p>
+          <div class="stat-grid">
+            <div class="stat">
+              <div class="stat-number">40+</div>
+              <div class="stat-label">Years of engineering</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">15+</div>
+              <div class="stat-label">Years trusted partner with Spikes</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Enterprise projects delivered</div>
+            </div>
+          </div>
+          <div class="tag-row" style="margin-top:16px;">
+            <span class="tag">GDPR & EU AI Act aware</span>
+            <span class="tag">Azure OpenAI</span>
+            <span class="tag">.NET 10 / Aspire</span>
+            <span class="tag">Kubernetes</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="services">
+        <h2>Enterprise services that move AI from prototype to production</h2>
+        <p>
+          We design, build, and harden AI-driven platforms on Azure with a focus on orchestration, observability, and long-term maintainability.
+        </p>
+        <div class="card-grid">
+          <div class="card highlight-card">
+            <h3>AI Engineering & Agents</h3>
+            <p>Autonomous agents, evaluators, and RAG pipelines using Semantic Kernel and AutoGen, designed for secure enterprise environments.</p>
+            <div class="tag-row">
+              <span class="tag">Multi-agent workflows</span>
+              <span class="tag">Grounding & evals</span>
+              <span class="tag">Azure OpenAI</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Solution Architecture</h3>
+            <p>Future-proof designs for microservices, event-driven systems, and multi-tenant SaaS — with clear trade-offs documented.</p>
+          </div>
+          <div class="card">
+            <h3>Cloud & DevOps on Azure</h3>
+            <p>CI/CD, Kubernetes, observability, and infrastructure as code so teams ship faster without sacrificing governance.</p>
+          </div>
+          <div class="card">
+            <h3>Enterprise Integration</h3>
+            <p>Secure APIs, messaging, and data gateways that connect legacy platforms with new AI assistants and cloud services.</p>
+          </div>
+          <div class="card">
+            <h3>Security & Compliance</h3>
+            <p>Defense-in-depth with Managed Identity, Key Vault, HSM integration, and monitoring aligned to GDPR and EU AI Act expectations.</p>
+          </div>
+          <div class="card">
+            <h3>Technical Leadership</h3>
+            <p>Architecture guidance, pairing, and capability building to help teams adopt AI responsibly and sustainably.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="ai-agents">
+        <h2>AI Agent Development</h2>
+        <p>
+          We build intelligent agents capable of complex reasoning and action, integrated with your existing systems and guardrails.
+        </p>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Autonomous Workflow Agents</h3>
+            <p>Agents that orchestrate tasks end-to-end with monitoring, auditing, and human-in-the-loop controls.</p>
+          </div>
+          <div class="card">
+            <h3>RAG-Powered Assistants</h3>
+            <p>Zero-hallucination assistants grounded in your documentation, enriched with evaluation datasets and telemetry.</p>
+          </div>
+          <div class="card">
+            <h3>LLM Orchestration</h3>
+            <p>Multi-model pipelines, evaluators, and retry logic to keep responses accurate and production-ready.</p>
+          </div>
+          <div class="card">
+            <h3>Enterprise Integration</h3>
+            <p>Secure deployment in Azure with secret rotation, role-based access, and identity-aware connectivity.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="rag">
+        <h2>Production-ready RAG systems</h2>
+        <p>
+          Retrieval Augmented Generation platforms with robust ingestion, grounding, and evaluation to eliminate hallucinations and keep stakeholders in control.
+        </p>
+        <div class="why-grid">
+          <div class="card">
+            <h3>Data pipelines</h3>
+            <p>Document enrichment, embeddings, and multi-tenant isolation backed by Azure storage and vector DBs.</p>
+          </div>
+          <div class="card">
+            <h3>Evaluation & monitoring</h3>
+            <p>Red-teaming, regression suites, and live observability to prove trustworthiness over time.</p>
+          </div>
+          <div class="card">
+            <h3>Governance</h3>
+            <p>Clear controls for privacy, access, and policy enforcement aligned with EU AI Act guidance.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="featured-projects">
+        <h2>Featured AI Projects</h2>
+        <div class="card-grid">
+          <a href="portfolio/projects/investment-agent/" class="card">
+            <h3>Autonomous Investment Agent (POC)</h3>
+            <p>Agentic workflow that analyzes market data and executes trades with human-in-the-loop supervision.</p>
+            <div class="tag-row">
+              <span class="tag">Agentic POC</span>
+              <span class="tag">Azure OpenAI</span>
+            </div>
+          </a>
+          <a href="portfolio/projects/invoicing-app/" class="card">
+            <h3>Smart Invoicing & Chatbot</h3>
+            <p>Intelligent invoicing platform with embedded AI support for automated customer conversations.</p>
+            <div class="tag-row">
+              <span class="tag">Assistant</span>
+              <span class="tag">Automation</span>
+            </div>
+          </a>
+          <a href="portfolio/projects/ai-knowledge-app/" class="card">
+            <h3>Enterprise RAG System</h3>
+            <p>Knowledge assistant allowing teams to query internal documentation with grounded answers and observability.</p>
+            <div class="tag-row">
+              <span class="tag">RAG</span>
+              <span class="tag">Vector DB</span>
+            </div>
           </a>
         </div>
       </section>
 
-      <section id="about-codeware" data-speakable="true">
+      <section id="services-azure">
+        <h2>Azure cloud solutions & DevOps consulting</h2>
+        <p>
+          Modern cloud-native platforms, microservices, and distributed systems built on Azure and .NET 10 with CI/CD, infrastructure as code, and performance tuning baked in.
+          <a href="#contact">Talk to us about Azure modernization</a> to accelerate delivery without compromising governance.
+        </p>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Solution Architecture</h3>
+            <p>Design scalable, maintainable solutions for regulated environments with clear architectural decisions.</p>
+          </div>
+          <div class="card">
+            <h3>Cloud & DevOps</h3>
+            <p>CI/CD pipelines, Kubernetes orchestration, and observability with GitHub Actions or Azure DevOps.</p>
+          </div>
+          <div class="card">
+            <h3>Technical Leadership</h3>
+            <p>Mentoring and technical direction to build high-performing engineering organizations.</p>
+          </div>
+          <div class="card">
+            <h3>Enterprise Security</h3>
+            <p>Encryption, access control, and continuous threat modeling for government-grade systems.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="expertise">
+        <h2>Core technical expertise</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3>.NET & Cloud</h3>
+            <p>.NET 10+, Aspire, Azure SQL, Managed Identity, Key Vault, App Services.</p>
+          </div>
+          <div class="card">
+            <h3>AI & LLM Stack</h3>
+            <p>Semantic Kernel, AutoGen, LangChain, Azure OpenAI, Claude API, vector databases (Qdrant), RAG.</p>
+          </div>
+          <div class="card">
+            <h3>Web & Backend</h3>
+            <p>Blazor Server, Minimal APIs, ASP.NET Core, MAUI, responsive design.</p>
+          </div>
+          <div class="card">
+            <h3>Enterprise Architecture</h3>
+            <p>Multi-tenant systems, microservices, CQRS, Domain-Driven Design, Clean Architecture.</p>
+          </div>
+          <div class="card">
+            <h3>DevOps & Infrastructure</h3>
+            <p>Kubernetes, Dapr, CI/CD, GitHub Actions, Azure DevOps, infrastructure as code.</p>
+          </div>
+          <div class="card">
+            <h3>Industrial & Integration</h3>
+            <p>OPC UA, MQTT, IoT, data logging, and legacy system modernization for connected platforms.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="about-codeware">
         <h2>About Codeware</h2>
-        <p id="company-intro" data-speakable="true">
+        <p>
           Codeware is an enterprise AI development company headquartered in Belgium and serving clients across Europe. We bridge the gap between proof-of-concept and production by building autonomous AI agents, robust RAG systems, and Azure-based cloud platforms.
         </p>
-        <p data-speakable="true">
+        <p>
           With 40+ years of engineering experience and deep expertise in the Microsoft stack, our team designs secure, compliant AI solutions that meet GDPR and EU AI Act expectations. We partner long-term with enterprises to modernize systems, orchestrate LLM workflows, and deliver measurable outcomes.
         </p>
       </section>
 
-      <section id="ai-agents">
-        <h2>AI Agent Development Services</h2>
-        <p>
-          Codeware specializes in building autonomous AI agents that go beyond proof-of-concept to deliver production-ready enterprise solutions. Using cutting-edge frameworks like <strong>Semantic Kernel</strong> and <strong>AutoGen</strong>, we develop intelligent agents capable of complex reasoning, task execution, and seamless integration with your existing systems.
-        </p>
-
-        <h3>Our AI Agent Capabilities</h3>
-        <ul>
-          <li><strong>Autonomous Workflow Agents</strong> - AI systems that analyze data and execute tasks independently</li>
-          <li><strong>RAG-Powered Assistants</strong> - Zero-hallucination chatbots trained on your internal documentation</li>
-          <li><strong>LLM Orchestration</strong> - Multi-model pipelines with evaluation and monitoring</li>
-          <li><strong>Enterprise Integration</strong> - Secure deployment within your existing infrastructure</li>
-        </ul>
-
-        <p>
-          Based in Belgium, we serve enterprise clients across Europe who need reliable, scalable AI solutions that meet strict security and compliance requirements. Explore our
-          <a href="#featured-projects">AI case studies</a>
-          to see how we deliver measurable business outcomes.
-        </p>
-      </section>
-
-      <section id="rag">
-        <h2>Production-Ready RAG Systems & LLM Orchestration</h2>
-        <p>
-          We design Retrieval Augmented Generation platforms with robust evaluation pipelines, grounding, and monitoring to eliminate hallucinations. Our engineers combine Azure OpenAI, vector databases, and observability tooling to build transparent knowledge assistants that keep stakeholders in control.
-        </p>
-        <p>
-          Engagements include data ingestion pipelines, secure document enrichment, red-teaming, and governance processes so you can deploy conversational AI that respects enterprise standards.
-        </p>
-      </section>
-
-        <!-- Featured AI Projects -->
-        <section id="featured-projects">
-            <h2>Our AI Projects & Case Studies</h2>
-            <div class="services-grid">
-                <a href="portfolio/projects/investment-agent/" class="service-card" style="border-color: #8b5cf6; background: rgba(139, 92, 246, 0.05);">
-                    <div class="service-icon">🤖</div>
-                    <h3>Autonomous Investment Agent (POC)</h3>
-                    <p>Proof of Concept for an agentic workflow capable of analyzing market data and executing trades autonomously.</p>
-                </a>
-
-                <a href="portfolio/projects/invoicing-app/" class="service-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.05);">
-                    <div class="service-icon">🧾</div>
-                    <h3>Smart Invoicing & Chatbot</h3>
-                    <p>Intelligent invoicing platform featuring an integrated AI chatbot for automated customer support and query resolution.</p>
-                </a>
-
-                <a href="portfolio/projects/ai-knowledge-app/" class="service-card" style="border-color: #e94560; background: rgba(233, 69, 96, 0.05);">
-                    <div class="service-icon">🧠</div>
-                    <h3>Enterprise RAG System</h3>
-                    <p>Retrieval Augmented Generation application allowing teams to chat with their internal documentation with zero hallucinations.</p>
-                </a>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-      <section id="services">
-        <h2>Azure Cloud Solutions & DevOps Consulting</h2>
-        <p>
-          Cloud-native, microservices, and distributed systems built on Azure and .NET 10. We design CI/CD pipelines, container orchestration on Kubernetes, and observability so your enterprise platforms stay reliable under real-world load.
-          <a href="#contact">Talk to us about Azure modernization</a>
-          to accelerate delivery without compromising governance.
-        </p>
-
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-icon">🏗️</div>
-            <h3>Solution Architecture</h3>
-            <p>
-              Design scalable, maintainable solutions for enterprise environments. Cloud-native architecture, microservices, and distributed systems tailored to regulated industries.
-            </p>
+      <section id="why">
+        <h2>Why choose Codeware for enterprise AI</h2>
+        <div class="why-grid">
+          <div class="card why-card">
+            <h3>✅ Proven track record</h3>
+            <p>40+ years delivering enterprise solutions and 15+ years as a trusted partner for Spikes.</p>
           </div>
-
-          <div class="service-card">
-            <div class="service-icon">🤖</div>
-            <h3>AI Engineering & Agents<span class="ai-badge">AI</span></h3>
-            <p>Build autonomous agents with Semantic Kernel and AutoGen, including production-ready RAG systems, evaluation pipelines, and LLM orchestration with defense-in-depth.</p>
+          <div class="card why-card">
+            <h3>✅ Modern tech stack</h3>
+            <p>.NET 10, Azure cloud, AI/LLM integration, Kubernetes — always current with industry standards.</p>
           </div>
-
-          <div class="service-card">
-            <div class="service-icon">☁️</div>
-            <h3>Cloud & DevOps</h3>
-            <p>
-              Modern cloud solutions with Azure and .NET Aspire. CI/CD pipelines, infrastructure automation, Kubernetes orchestration, and performance tuning baked in.
-            </p>
+          <div class="card why-card">
+            <h3>✅ Strategic vision</h3>
+            <p>Architecture, scalability, and maintainability baked in so solutions grow with your business.</p>
           </div>
-
-          <div class="service-card">
-            <div class="service-icon">👥</div>
-            <h3>Technical Leadership</h3>
-            <p>
-              Team mentoring, architectural guidance, and DevOps culture. Build high-performing engineering organizations with best practices and transparent decision making.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-icon">🔗</div>
-            <h3>Enterprise Integration</h3>
-            <p>
-              Complex system integration, legacy modernization, and multi-tenant platforms. Connect disparate systems seamlessly with secure APIs and event-driven patterns.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-icon">🛡️</div>
-            <h3>Security & Compliance</h3>
-            <p>
-              Enterprise security, encryption, and access control. Government-grade systems with HSM integration, audit compliance, and continuous threat modeling.
-            </p>
+          <div class="card why-card">
+            <h3>✅ Production discipline</h3>
+            <p>Observability, security, and governance patterns to keep AI systems reliable in production.</p>
           </div>
         </div>
       </section>
 
-      <section id="integration">
-        <h2>Enterprise System Integration & Modernization</h2>
-        <p>
-          We modernize legacy platforms and connect critical data across your ecosystem using secure APIs, event streams, and resilient messaging. From industrial protocols to multi-tenant SaaS, Codeware delivers integration strategies that reduce operational risk while unlocking new product capabilities.
-        </p>
-      </section>
-
-      <!-- Expertise Section -->
-      <section id="expertise">
-        <div class="expertise-section">
-          <h2 style="text-align: left; margin-bottom: 30px">
-            Core Technical Expertise
-          </h2>
-
-          <div class="expertise-grid">
-            <div class="expertise-item">
-              <strong>.NET & Cloud</strong>
-              <span
-                >.NET 10+, Aspire, Azure SQL, Managed Identity, Key Vault, App
-                Services</span
-              >
-            </div>
-            <div class="expertise-item">
-              <strong>AI & LLM Stack</strong>
-              <span>Semantic Kernel, AutoGen, LangChain, Azure OpenAI, Claude API, Vector DBs (Qdrant), RAG</span>
-            </div>
-            <div class="expertise-item">
-              <strong>Web & Backend</strong>
-              <span
-                >Blazor Server, Minimal APIs, ASP.NET Core, MAUI, Responsive
-                Design</span
-              >
-            </div>
-            <div class="expertise-item">
-              <strong>Enterprise Architecture</strong>
-              <span
-                >Multi-tenant systems, Microservices, CQRS, Domain-Driven
-                Design, Clean Architecture</span
-              >
-            </div>
-            <div class="expertise-item">
-              <strong>DevOps & Infrastructure</strong>
-              <span
-                >Kubernetes, Dapr, CI/CD, GitHub Actions, Azure DevOps,
-                Infrastructure as Code</span
-              >
-            </div>
-            <div class="expertise-item">
-              <strong>Industrial & Integration</strong>
-              <span
-                >OPC UA, MQTT, IoT, Data Logging, Legacy System
-                Modernization</span
-              >
-            </div>
-          </div>
+      <section id="contact" class="contact">
+        <h2>Let’s build your next AI platform</h2>
+        <p>Ready to deploy trustworthy AI and cloud systems? We’ll help you move fast without breaking compliance.</p>
+        <div class="cta-row" style="justify-content:center; margin-top:18px;">
+          <a class="btn btn-secondary" href="mailto:info@codeware.be">info@codeware.be</a>
+          <a class="btn btn-primary" href="https://www.linkedin.com/company/codeware-be/">Connect on LinkedIn</a>
         </div>
       </section>
 
-      <!-- Why Choose Codeware -->
-      <section>
-        <h2>Why Choose Codeware for Enterprise AI</h2>
-
-        <div class="why-choose">
-          <div class="why-item">
-            <h3>✅ Proven Track Record</h3>
-            <p>
-              40+ years of experience delivering enterprise solutions. 15+ years
-              trusted partner with Spikes, countless successful client
-              engagements.
-            </p>
-          </div>
-
-          <div class="why-item">
-            <h3>✅ Modern Tech Stack</h3>
-            <p>
-              Latest technologies: .NET 10, Azure cloud, AI/LLM integration,
-              Kubernetes. Always staying current with industry standards.
-            </p>
-          </div>
-
-          <div class="why-item">
-            <h3>✅ Strategic Vision</h3>
-            <p>
-              Not just coding—architecture, scalability, maintainability. Design
-              solutions that grow with your business.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Portofolio Section -->
-      <section id="portofolio">
-        <div class="portofolio-preview">
-          <h3>🎯 Explore Detailed Portofolio</h3>
-          <p>
-            View in-depth case studies, project showcases, and technical
-            implementations across various industries and domains.
-          </p>
-          <a href="portfolio/" class="btn btn-primary">Visit Full Portofolio</a>
-        </div>
-      </section>
-
-      <!-- Contact Section -->
-      <section id="contact">
-        <div class="contact-section">
-          <h2>Ready to Transform Your Digital Infrastructure?</h2>
-          <p>
-            Let's discuss how modern architecture and AI integration can solve
-            your business challenges.
-          </p>
-
-          <div class="contact-info">
-            <div>
-              <strong>📧 Email</strong><br />
-              <a href="mailto:bart@codeware.be">bart@codeware.be</a>
-            </div>
-            <div>
-              <strong>🔗 Social</strong><br />
-              <a href="https://github.com/BartNetJS" target="_blank">GitHub</a>
-              |
-              <a href="https://www.linkedin.com/in/codeware/" target="_blank"
-                >LinkedIn</a
-              >
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Machine-readable summary for AI assistants - visually hidden but crawlable -->
       <section
         id="ai-company-summary"
         class="sr-only"
@@ -998,9 +750,8 @@
           <dd>Enterprises moving AI from prototype to production, companies needing compliant AI solutions in Europe, organizations modernizing with AI</dd>
         </dl>
       </section>
-    </div>
+    </main>
 
-    <!-- Footer -->
     <footer>
       <div class="footer-links">
         <a href="#home">Home</a>
