@@ -101,7 +101,7 @@
     <div class="bg-background-light dark:bg-background-dark shadow-lg">
       <div class="fixed top-0 left-0 right-0 z-50">
         <div class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm px-4 pt-4 pb-3">
-          <div class="max-w-sm md:max-w-5xl mx-auto">
+          <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
             <header class="flex justify-between items-center py-2">
               <button class="material-icons-outlined text-gray-800 dark:text-gray-200 text-3xl md:hidden" aria-label="Open menu">menu</button>
               <h1 class="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-50">Codeware</h1>
@@ -111,62 +111,64 @@
         </div>
       </div>
 
-      <main class="pt-20 pb-24">
-        <div class="max-w-sm md:max-w-5xl mx-auto">
-        <section id="home" class="relative px-4 py-8 bg-gradient-to-b from-background-light/60 to-white dark:from-background-dark/60 dark:to-gray-900 overflow-hidden">
-          <div class="flex flex-col md:flex-row items-start md:items-center md:space-x-6 space-y-4 md:space-y-0">
-            <div class="w-full md:w-3/5">
-              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-50 leading-tight">Innovating Your Digital Future.</h2>
-              <p class="text-gray-600 dark:text-gray-400 mt-2">Custom software solutions for forward-thinking businesses.</p>
-              <div class="mt-4 md:mt-6">
-                <a class="bg-primary text-white font-semibold py-3 px-6 rounded-lg text-center inline-block transition-opacity hover:opacity-90" href="#">Start Your Project</a>
-              </div>
-            </div>
-          </div>
-          <!-- large decorative logo on the right (overlapping) -->
-          <img
-            class="absolute right-4 top-4 w-48 md:w-72 lg:w-80 h-auto pointer-events-none"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9qUbMOzOpAEePL6SPUkMWKA6bkt1YtWhnFzY-MMu_Yjf3zT0hjHmFUAzsV97UgAMM4zoE-I9RjDarwf4A4rNbLX3PHSdPLBxrtBbgtxMYeUj9TZENIKrvTSQUCAoj8Q-UeRX3bCMd8c2nPHiNF9zT0Ljh5kaG_Yf1ZB-DyC7R0UPBOoakAP6DA4tI5Y6VYYYOGRv3RcNdONsK9snA1IfjaCOHkGG8CvPHld1VZidvkgA0gWt1U-eO-LOeWNkvQWyig2FNycdDG0k"
-            alt="Abstract network graphic"
-          />
-        </section>
+	      <main class="pt-20 pb-24">
+	        <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+		        <section id="home" class="scroll-mt-20 relative px-4 py-8 bg-gradient-to-b from-background-light/60 to-white dark:from-background-dark/60 dark:to-gray-900 overflow-hidden">
+		          <div class="flex flex-col md:flex-row items-start md:items-center md:space-x-6 space-y-4 md:space-y-0">
+			            <div class="w-full md:w-7/12">
+			              <div class="flex items-start justify-between gap-4">
+				              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-50 leading-tight">Innovating Your Digital Future.</h2>
+				              <img
+					              class="w-16 sm:w-20 h-auto flex-shrink-0 pointer-events-none opacity-90 md:absolute md:w-64 md:right-4 md:top-4"
+					              src="portfolio/images/logo-atoms.png"
+					              alt="Codeware atoms logo"
+				              />
+			              </div>
+		              <p class="text-gray-600 dark:text-gray-400 mt-2">Custom software solutions for forward-thinking businesses.</p>
+		              <div class="mt-4 md:mt-6">
+		                <a class="bg-primary text-white font-semibold py-3 px-6 rounded-lg text-center inline-block transition-opacity hover:opacity-90" href="#">Start Your Project</a>
+		              </div>
+		            </div>
+		          </div>
+		        </section>
 
-        <section id="services" class="px-4 py-8">
-          <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">Our Expertise</h3>
-          <div class="-mx-4 px-4">
-            <div class="flex gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-1 md:gap-4 md:overflow-visible md:pb-0">
-              <div class="min-w-[14rem] flex-shrink-0 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
-              <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
-                <span class="material-icons-outlined text-primary">dvr</span>
-              </div>
-              <h4 class="font-bold text-gray-900 dark:text-gray-50">Web Development</h4>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with modern tech.</p>
-              <div class="min-w-[14rem] flex-shrink-0 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
-                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
-                  <span class="material-icons-outlined text-primary">smartphone</span>
-                </div>
-                <h4 class="font-bold text-gray-900 dark:text-gray-50">Mobile App Solutions</h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with tech.</p>
-              </div>
-              <div class="min-w-[14rem] flex-shrink-0 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
-                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
-                  <span class="material-icons-outlined text-primary">cloud_queue</span>
-                </div>
-                <h4 class="font-bold text-gray-900 dark:text-gray-50">Cloud Integration</h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with modern tech.</p>
-              </div>
-              <div class="min-w-[14rem] flex-shrink-0 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
-                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
-                  <span class="material-icons-outlined text-purple-600 dark:text-purple-400">psychology</span>
-                </div>
-                <h4 class="font-bold text-gray-900 dark:text-gray-50">AI &amp; Data Analytics</h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with ML.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+		        <section id="services" class="scroll-mt-20 px-4 py-8">
+		          <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">Our Expertise</h3>
+		          <div class="-mx-4 px-4">
+		            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+		              <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
+		                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+		                  <span class="material-icons-outlined text-primary">dvr</span>
+		                </div>
+		                <h4 class="font-bold text-gray-900 dark:text-gray-50">Web Development</h4>
+		                <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with modern tech.</p>
+		              </div>
+		              <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
+		                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+		                  <span class="material-icons-outlined text-primary">smartphone</span>
+		                </div>
+		                <h4 class="font-bold text-gray-900 dark:text-gray-50">Mobile App Solutions</h4>
+		                <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with tech.</p>
+		              </div>
+		              <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
+		                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+		                  <span class="material-icons-outlined text-primary">cloud_queue</span>
+		                </div>
+		                <h4 class="font-bold text-gray-900 dark:text-gray-50">Cloud Integration</h4>
+		                <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with modern tech.</p>
+		              </div>
+		              <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex flex-col items-start text-left space-y-2">
+		                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
+		                  <span class="material-icons-outlined text-purple-600 dark:text-purple-400">psychology</span>
+		                </div>
+		                <h4 class="font-bold text-gray-900 dark:text-gray-50">AI &amp; Data Analytics</h4>
+		                <p class="text-sm text-gray-600 dark:text-gray-400">Scalable platforms built with ML.</p>
+		              </div>
+		            </div>
+		          </div>
+		        </section>
 
-        <section id="about" class="px-4 py-8">
+        <section id="about" class="scroll-mt-20 px-4 py-8">
           <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">About Codeware</h3>
           <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
             We combine four decades of engineering experience with modern cloud and AI innovation. From solution architecture to
@@ -180,7 +182,7 @@
           </div>
         </section>
 
-        <section id="portfolio" class="px-4 py-8">
+        <section id="portfolio" class="scroll-mt-20 px-4 py-8">
           <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">Client Success</h3>
           <div class="space-y-4">
             <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm flex items-start space-x-4">
@@ -214,7 +216,7 @@
           </div>
         </section>
 
-        <section id="contact" class="px-4 py-8 bg-white dark:bg-gray-900 text-center">
+        <section id="contact" class="scroll-mt-20 px-4 py-8 bg-white dark:bg-gray-900 text-center">
           <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">Ready to build something great? Let's talk.</h3>
           <p class="text-primary mt-4 mb-2">hello@codeware.com</p>
           <p class="text-gray-600 dark:text-gray-400 mb-4">+1 (555) 123-4567</p>
@@ -247,12 +249,12 @@
         </div>
       </main>
 
-      <nav class="fixed bottom-0 left-0 right-0 md:hidden bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
-        <div class="max-w-sm mx-auto">
-          <div class="flex justify-around items-center h-20">
-            <a class="flex flex-col items-center text-primary space-y-1" href="#home">
-              <span class="material-icons-outlined text-2xl">home</span>
-              <span class="text-xs font-semibold">Home</span>
+	      <nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
+	        <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+	          <div class="flex justify-around items-center h-20">
+	            <a class="flex flex-col items-center text-primary space-y-1" href="#home">
+	              <span class="material-icons-outlined text-2xl">home</span>
+	              <span class="text-xs font-semibold">Home</span>
               <span class="block w-8 h-1 bg-primary rounded-full mt-1"></span>
             </a>
             <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1" href="#services">
