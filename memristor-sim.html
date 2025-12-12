@@ -195,6 +195,86 @@
             position: relative;
         }
         
+        /* Inference explanation panel */
+        .inference-explanation {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 280px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Rajdhani', sans-serif;
+            z-index: 100;
+            display: none;
+        }
+        
+        .inference-explanation.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .inference-explanation h4 {
+            margin: 0 0 10px 0;
+            color: var(--accent-cyan);
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        
+        .inference-explanation .step {
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+        
+        .inference-explanation .step.active {
+            opacity: 1;
+            border-left: 3px solid var(--accent-green);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        .inference-explanation .step.completed {
+            opacity: 0.7;
+            border-left: 3px solid var(--accent-cyan);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-cyan);
+            color: #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .step-math {
+            display: block;
+            margin-top: 5px;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-orange);
+            font-size: 13px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
         .math-equation {
             font-size: 2em;
             font-family: 'Orbitron', sans-serif;
@@ -292,6 +372,31 @@
         <!-- Physical Visualization -->
         <div class="visualization-area">
             <svg id="memristor-svg"></svg>
+            
+            <!-- Inference Explanation Panel -->
+            <div class="inference-explanation" id="inference-explanation">
+                <h4>🔍 HOE BEREKENT DE MEMRISTOR?</h4>
+                <div class="step" id="step1">
+                    <span class="step-number">1</span>
+                    <span class="step-text">INPUT: Signaal komt binnen</span>
+                    <span class="step-math" id="step1-math">V = ?</span>
+                </div>
+                <div class="step" id="step2">
+                    <span class="step-number">2</span>
+                    <span class="step-text">WEIGHT: Kanaal breedte bepaalt vermenigvuldiging</span>
+                    <span class="step-math" id="step2-math">W = ?</span>
+                </div>
+                <div class="step" id="step3">
+                    <span class="step-number">3</span>
+                    <span class="step-text">BEREKENING: Elk input-deeltje → W output-deeltjes</span>
+                    <span class="step-math" id="step3-math">? × ? = ?</span>
+                </div>
+                <div class="step" id="step4">
+                    <span class="step-number">4</span>
+                    <span class="step-text">OUTPUT: Resultaat stroomt uit</span>
+                    <span class="step-math" id="step4-math">I = ?</span>
+                </div>
+            </div>
         </div>
 
         <div class="stats-bar">
@@ -319,8 +424,8 @@
 <script>
     // --- CONFIGURATION ---
     const CONFIG = {
-        width: 800,
-        height: 300,
+        width: 900,
+        height: 420,
         memristorX: 200,
         memristorY: 50,
         memristorW: 400,
@@ -676,30 +781,280 @@
     }
 
     // --- INFERENCE ---
-    function runInference() {
+    let inferenceRunning = false;
+    
+    async function runInference() {
+        if(inferenceRunning) return;
+        inferenceRunning = true;
+        
         const input = parseFloat(document.getElementById('input-test').value);
-        if(isNaN(input)) return;
+        if(isNaN(input) || input <= 0) {
+            inferenceRunning = false;
+            log("Please enter a positive number.", "warn");
+            return;
+        }
 
-        // Animate
-        animateCurrent(input);
-        
-        // Calculate
         const result = input * state.weight;
+        const gContainer = d3.select("#memristor-svg g");
         
-        // Show Math
-        document.getElementById('eq-i').innerText = result.toFixed(1);
+        // Clear any previous inference elements
+        gContainer.selectAll(".inference-element").remove();
+        gContainer.selectAll(".current-particle").remove();
+        
+        // Reset equation display
+        document.getElementById('eq-i').innerText = '?';
         document.getElementById('eq-v').innerText = input;
         document.getElementById('eq-w').innerText = state.weight.toFixed(2);
+        document.getElementById('inference-result').innerText = '...';
         
-        // Show Result
-        const resEl = document.getElementById('inference-result');
-        resEl.style.opacity = 0;
+        // Calculate visual parameters
+        const pipeWidth = CONFIG.memristorW * state.dopingRatio;
+        const inputParticleCount = Math.min(25, Math.max(3, Math.floor(input / 2)));
+        
+        // ===== PHASE 1: SHOW INPUT ENTERING =====
+        log(`Phase 1: Input signal V=${input} arriving...`, "info");
+        
+        // Create input indicator bar on the left
+        const inputBarHeight = Math.min(CONFIG.memristorH - 20, input * 6);
+        const inputBar = gContainer.append("rect")
+            .attr("class", "inference-element")
+            .attr("x", -100)
+            .attr("y", CONFIG.memristorH/2)
+            .attr("width", 40)
+            .attr("height", 0)
+            .attr("fill", "url(#inputGradient)")
+            .attr("opacity", 0.9)
+            .attr("rx", 5);
+        
+        // Add gradient definition if not exists
+        let defs = d3.select("#memristor-svg defs");
+        if(defs.empty()) {
+            defs = d3.select("#memristor-svg").append("defs");
+            
+            const inputGrad = defs.append("linearGradient")
+                .attr("id", "inputGradient")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "0%");
+            inputGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ff6600");
+            inputGrad.append("stop").attr("offset", "100%").attr("stop-color", "#ffaa00");
+            
+            const outputGrad = defs.append("linearGradient")
+                .attr("id", "outputGradient")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "0%");
+            outputGrad.append("stop").attr("offset", "0%").attr("stop-color", "#00ff88");
+            outputGrad.append("stop").attr("offset", "100%").attr("stop-color", "#00ffcc");
+        }
+        
+        // Input label
+        const inputLabel = gContainer.append("text")
+            .attr("class", "inference-element")
+            .attr("x", -80)
+            .attr("y", CONFIG.memristorH/2 - inputBarHeight/2 - 15)
+            .attr("fill", "var(--accent-orange)")
+            .attr("font-size", "18px")
+            .attr("font-family", "Orbitron")
+            .attr("text-anchor", "middle")
+            .attr("opacity", 0)
+            .text(`INPUT`);
+        
+        const inputValue = gContainer.append("text")
+            .attr("class", "inference-element")
+            .attr("x", -80)
+            .attr("y", CONFIG.memristorH/2 + 5)
+            .attr("fill", "#fff")
+            .attr("font-size", "24px")
+            .attr("font-family", "Orbitron")
+            .attr("font-weight", "bold")
+            .attr("text-anchor", "middle")
+            .attr("opacity", 0)
+            .text(input);
+        
+        // Animate input bar growing
+        inputBar.transition().duration(600)
+            .attr("y", CONFIG.memristorH/2 - inputBarHeight/2)
+            .attr("height", inputBarHeight);
+        
+        inputLabel.transition().delay(200).duration(400).attr("opacity", 1);
+        inputValue.transition().delay(400).duration(400).attr("opacity", 1);
+        
+        await new Promise(r => setTimeout(r, 1000));
+        
+        // ===== PHASE 2: SHOW PARTICLES ENTERING HORIZONTALLY =====
+        log(`Phase 2: ${inputParticleCount} energy units entering the channel...`, "info");
+        
+        // Create input particles that move from left into the device
+        const inputParticles = [];
+        for(let i = 0; i < inputParticleCount; i++) {
+            const yPos = (CONFIG.memristorH / (inputParticleCount + 1)) * (i + 1);
+            const particle = gContainer.append("circle")
+                .attr("class", "inference-element input-particle")
+                .attr("cx", -50)
+                .attr("cy", yPos)
+                .attr("r", 6)
+                .attr("fill", "var(--accent-orange)")
+                .attr("filter", "drop-shadow(0 0 4px #ffaa00)");
+            inputParticles.push({el: particle, y: yPos});
+        }
+        
+        // Animate particles moving into the channel (but stopping at the pipe width)
+        inputParticles.forEach((p, i) => {
+            p.el.transition()
+                .delay(i * 80)
+                .duration(800)
+                .attr("cx", pipeWidth / 2); // Stop in the middle of the conductive region
+        });
+        
+        // Show annotation: "Weight determines how much passes through"
+        const weightAnnotation = gContainer.append("text")
+            .attr("class", "inference-element")
+            .attr("x", pipeWidth / 2)
+            .attr("y", -35)
+            .attr("fill", "var(--accent-cyan)")
+            .attr("font-size", "14px")
+            .attr("font-family", "Rajdhani")
+            .attr("text-anchor", "middle")
+            .attr("opacity", 0)
+            .text(`⬇ WEIGHT (W=${state.weight.toFixed(2)}) = Channel Width`);
+        
+        weightAnnotation.transition().delay(500).duration(400).attr("opacity", 1);
+        
+        await new Promise(r => setTimeout(r, 1500));
+        
+        // ===== PHASE 3: MULTIPLICATION VISUALIZATION =====
+        log(`Phase 3: Multiplying ${input} × ${state.weight.toFixed(2)}...`, "info");
+        
+        // Show the multiplication happening
+        const multiplyText = gContainer.append("text")
+            .attr("class", "inference-element")
+            .attr("x", pipeWidth / 2)
+            .attr("y", CONFIG.memristorH / 2)
+            .attr("fill", "#fff")
+            .attr("font-size", "20px")
+            .attr("font-family", "Orbitron")
+            .attr("text-anchor", "middle")
+            .attr("opacity", 0)
+            .text(`${input} × ${state.weight.toFixed(2)}`);
+        
+        multiplyText.transition().duration(400).attr("opacity", 1);
+        
+        await new Promise(r => setTimeout(r, 800));
+        
+        // Transform input particles - some pass through, quantity based on weight
+        // Visual: particles split/transform based on weight
+        const outputParticleCount = Math.min(40, Math.max(1, Math.floor(result / 2)));
+        
+        // Fade out input particles
+        inputParticles.forEach((p, i) => {
+            p.el.transition()
+                .delay(i * 30)
+                .duration(300)
+                .attr("opacity", 0.3);
+        });
+        
+        // Fade out multiply text
+        multiplyText.transition().delay(300).duration(300).attr("opacity", 0);
+        
+        await new Promise(r => setTimeout(r, 600));
+        
+        // ===== PHASE 4: OUTPUT EMERGES =====
+        log(`Phase 4: Result = ${result.toFixed(1)} emerges as output current...`, "success");
+        
+        // Create output particles that flow downward (through the bottom electrode)
+        for(let i = 0; i < outputParticleCount; i++) {
+            const xPos = Math.random() * pipeWidth; // Constrained to pipe width!
+            const delay = i * 60;
+            
+            gContainer.append("circle")
+                .attr("class", "current-particle")
+                .attr("cx", xPos)
+                .attr("cy", 0)
+                .attr("r", 5)
+                .attr("fill", "var(--accent-green)")
+                .attr("filter", "drop-shadow(0 0 5px #00ff88)")
+                .attr("opacity", 0.9)
+                .transition()
+                .delay(delay)
+                .duration(1200)
+                .ease(d3.easeLinear)
+                .attr("cy", CONFIG.memristorH + 30)
+                .on("end", function() { d3.select(this).remove(); });
+        }
+        
+        // Create output collector/bar at the bottom
+        const outputBarWidth = Math.min(pipeWidth, result * 4);
+        const outputBar = gContainer.append("rect")
+            .attr("class", "inference-element")
+            .attr("x", pipeWidth/2)
+            .attr("y", CONFIG.memristorH + 45)
+            .attr("width", 0)
+            .attr("height", 30)
+            .attr("fill", "url(#outputGradient)")
+            .attr("opacity", 0.9)
+            .attr("rx", 5);
+        
+        const outputLabel = gContainer.append("text")
+            .attr("class", "inference-element")
+            .attr("x", pipeWidth/2)
+            .attr("y", CONFIG.memristorH + 95)
+            .attr("fill", "var(--accent-green)")
+            .attr("font-size", "16px")
+            .attr("font-family", "Orbitron")
+            .attr("text-anchor", "middle")
+            .attr("opacity", 0)
+            .text(`OUTPUT`);
+        
+        const outputValue = gContainer.append("text")
+            .attr("class", "inference-element")
+            .attr("x", pipeWidth/2)
+            .attr("y", CONFIG.memristorH + 115)
+            .attr("fill", "#fff")
+            .attr("font-size", "28px")
+            .attr("font-family", "Orbitron")
+            .attr("font-weight", "bold")
+            .attr("text-anchor", "middle")
+            .attr("opacity", 0)
+            .text(result.toFixed(1));
+        
+        // Animate output bar growing
+        outputBar.transition()
+            .delay(600)
+            .duration(800)
+            .attr("x", pipeWidth/2 - outputBarWidth/2)
+            .attr("width", outputBarWidth);
+        
+        outputLabel.transition().delay(1000).duration(400).attr("opacity", 1);
+        outputValue.transition().delay(1200).duration(400).attr("opacity", 1);
+        
+        // Update the equation display progressively
+        await new Promise(r => setTimeout(r, 800));
+        document.getElementById('eq-i').innerText = result.toFixed(1);
+        
+        await new Promise(r => setTimeout(r, 600));
+        
+        // Show final result
+        document.getElementById('inference-result').innerText = result.toFixed(1);
+        
+        // Final explanation annotation
+        const explanationText = gContainer.append("text")
+            .attr("class", "inference-element")
+            .attr("x", CONFIG.memristorW / 2)
+            .attr("y", CONFIG.memristorH + 140)
+            .attr("fill", "#888")
+            .attr("font-size", "12px")
+            .attr("font-family", "Rajdhani")
+            .attr("text-anchor", "middle")
+            .attr("opacity", 0)
+            .text(`The wider the channel (higher weight), the more signal passes through!`);
+        
+        explanationText.transition().delay(200).duration(500).attr("opacity", 1);
+        
+        log(`Inference complete: ${input} × ${state.weight.toFixed(2)} = ${result.toFixed(1)}`, "success");
+        
+        // Cleanup after animation
         setTimeout(() => {
-            resEl.innerText = result.toFixed(1);
-            resEl.style.opacity = 1;
-        }, 1000); // Delay for current animation
-        
-        log(`Inference: Input ${input} * Weight ${state.weight.toFixed(2)} = ${result.toFixed(2)}`, "info");
+            inferenceRunning = false;
+        }, 2000);
     }
 
     // Initialize
