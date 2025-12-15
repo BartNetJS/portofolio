@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8FSDD3KHS3');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATPC / VTTI - Terminal Automation &amp; DeltaV Integration</title>
+
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2563EB",
+              "background-light": "#F9FAFB",
+              "background-dark": "#111827",
+            },
+            fontFamily: {
+              display: ["Roboto", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.75rem",
+            },
+          },
+        },
+      };
+    </script>
+<link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="bg-background-light dark:bg-background-dark shadow-lg">
+      <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm px-4 pt-4 pb-3">
+          <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+            <div class="flex justify-between items-center py-2">
+              <a class="material-icons-outlined text-gray-800 dark:text-gray-200 text-3xl md:hidden" href="/#home" aria-label="Home">home</a>
+              <a class="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-50" href="/#home">Codeware</a>
+              <div class="w-8"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main class="pt-20 pb-24">
+        <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+          <div class="portfolio-content px-4 py-8">
+
+    <div class="container">
+        <a href="../../" class="back-link">&larr; Back to Presentations</a>
+
+        <header>
+            <h1>ATPC / VTTI Terminal Automation</h1>
+            <p class="subtitle">DeltaV Control System Integration <span class="badge">Production</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>Engagement Overview</h2>
+            <p>
+                Production-grade <strong>DeltaV integration platform</strong> operating at the ATPC / VTTI petroleum terminal.
+                The system bridges Emerson DeltaV control hardware with terminal back-office data, orchestrating safe,
+                real-time truck loading, badge authentication, recipe synchronization, and tank inventory visibility.
+            </p>
+            <ul>
+                <li><strong>Terminal Automation</strong> - End-to-end workflow from badge scan to valve control across 8 loading bays</li>
+                <li><strong>DeltaV Gateway</strong> - OPC DA bridge connecting field devices with SQL Server back-end systems</li>
+                <li><strong>Order and Recipe Sync</strong> - Automated synchronization of products, tanks, blends, and loading limits</li>
+                <li><strong>Operational Safety</strong> - Embedded interlocks, watchdog recovery, and audit trails for every transaction</li>
+                <li><strong>Offline Resilience</strong> - Graceful degradation with cached authorizations when central systems are unavailable</li>
+                <li><strong>15+ Years in Production</strong> - Continuous 24/7 operation within the VTTI terminal environment</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Terminal Operations Portfolio</h2>
+
+            <h3>Loading and Access Control</h3>
+            <p>
+                Integrated workflows that authorize drivers, validate orders, and execute secure loading sequences inside DeltaV.
+            </p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Truck Loading Workflow</h3>
+                    <p>
+                        Event-driven orchestration of CSN scan, badge resolution, order lookup, setpoint calculation, and pump/valve control.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Badge and Access Management</h3>
+                    <p>
+                        CSN-to-ID conversion, customer-level authorization, and offline badge issuance to keep loading bays available.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Tank and Recipe Synchronization</h3>
+                    <p>
+                        Automatic sync of tank assignments, blend percentages, and product recipes from back-office databases into DeltaV.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Technical Solutions Delivered</h2>
+
+            <h3>Industrial Integration</h3>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">*</span>
+                    <div>
+                        <strong>OPC DA Connectivity</strong> - Robust client implementation for reading and writing DeltaV tags in real time
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">*</span>
+                    <div>
+                        <strong>Workflow Engine</strong> - Deterministic steps governing badge validation, order checks, and loading bay sequencing
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">*</span>
+                    <div>
+                        <strong>Offline Continuity</strong> - Local caching and queued badge creation to prevent downtime during back-end outages
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">*</span>
+                    <div>
+                        <strong>Watchdog and Self-Healing</strong> - Automatic detection and recovery of blocked workflows to protect throughput
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">*</span>
+                    <div>
+                        <strong>Tank Monitoring</strong> - Live inventory visibility with connection status checks and reconciliation to orders
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">*</span>
+                    <div>
+                        <strong>Security and Audit</strong> - Full traceability for every scan, authorization, and control action
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Technology and Architecture</h2>
+
+            <h3>Technical Stack</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Industrial Protocols</h3>
+                    <p>
+                        <span class="tag blue">OPC DA</span>
+                        <span class="tag blue">DeltaV</span>
+                        <span class="tag blue">Real-Time</span>
+                        <span class="tag blue">Event-Driven</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Application Platform</h3>
+                    <p>
+                        <span class="tag green">C#/.NET</span>
+                        <span class="tag green">Windows Service</span>
+                        <span class="tag green">Workflow Engine</span>
+                        <span class="tag green">SQL Server</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Operations</h3>
+                    <p>
+                        <span class="tag purple">24/7 Uptime</span>
+                        <span class="tag purple">Redundant Networks</span>
+                        <span class="tag purple">Watchdog Telemetry</span>
+                        <span class="tag purple">Audit Trail</span>
+                    </p>
+                </div>
+            </div>
+
+            <h3>Architecture Principles</h3>
+            <ul>
+                <li><strong>Reliability First</strong> - Defensive coding, self-healing workflows, and health monitoring</li>
+                <li><strong>Safety Gates</strong> - Multi-step validation before enabling valves, pumps, and loading arms</li>
+                <li><strong>Observability</strong> - Detailed logging for every industrial tag interaction and workflow transition</li>
+                <li><strong>Configurability</strong> - Tank, recipe, and bay configurations managed centrally and synced to DeltaV</li>
+                <li><strong>Data Integrity</strong> - Transactional database operations with reconciliation to terminal orders</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Terminal Deployment Scope</h2>
+
+            <h3>Site Operations</h3>
+            <p>
+                Proven in production at the ATPC / VTTI terminal, supporting high-throughput loading operations with strict safety and compliance controls.
+            </p>
+            <ul>
+                <li><strong>8 Loading Bays</strong> - Simultaneous, independent loading cycles with shared workflow engine</li>
+                <li><strong>Multi-Product Support</strong> - Recipes, blend percentages, and tank routing managed per order</li>
+                <li><strong>Back-Office Integration</strong> - Linked server connections for orders, customers, and tank data</li>
+                <li><strong>Industrial Hardened</strong> - Designed for harsh terminal environments and network constraints</li>
+            </ul>
+
+            <h3>Operational Excellence</h3>
+            <ul>
+                <li><strong>Continuous Availability</strong> - 24/7 runtime with automated recovery of blocked workflows</li>
+                <li><strong>Safety and Compliance</strong> - Enforced interlocks, auditability, and traceable authorization chains</li>
+                <li><strong>Performance</strong> - Low-latency tag reads/writes to keep bay cycle times within target SLA</li>
+                <li><strong>Longevity</strong> - More than a decade of uninterrupted production service for VTTI</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Expertise Demonstrated</h2>
+
+            <h3>Technical Leadership Areas</h3>
+            <ul>
+                <li><strong>Industrial Protocol Mastery</strong> - Deep experience with DeltaV and OPC DA in live terminal environments</li>
+                <li><strong>Real-Time Systems</strong> - Deterministic, low-latency workflows coordinating multiple field devices</li>
+                <li><strong>Workflow Automation</strong> - Stepwise orchestration of badge, order, and loading actions with rollback paths</li>
+                <li><strong>High-Reliability Operations</strong> - Watchdog-driven self-healing and offline continuity planning</li>
+                <li><strong>Data and Integration</strong> - Secure SQL Server connectivity via linked servers and stored procedures</li>
+                <li><strong>Lifecycle Ownership</strong> - Long-term support, enhancements, and operational stewardship</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Business Value Delivered</h3>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>* <strong>Throughput</strong> - Faster loading cycles with automated validation and control</li>
+                <li>* <strong>Safety</strong> - Enforced interlocks and traceability for every loading action</li>
+                <li>* <strong>Accuracy</strong> - Reliable recipe, tank, and order synchronization to prevent misloads</li>
+                <li>* <strong>Uptime</strong> - Self-healing workflows and offline modes to avoid bay downtime</li>
+                <li>* <strong>Cost Efficiency</strong> - Extends life of existing DeltaV and terminal infrastructure</li>
+                <li>* <strong>Compliance</strong> - Complete audit trail for industrial and customer reporting</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Project Status</h2>
+            <p>
+                The ATPC / VTTI terminal automation platform is a <strong>production-deployed system</strong> with a proven multi-year record of stability.
+                It continues to run 24/7 in a mission-critical petroleum terminal environment with ongoing improvements and support.
+            </p>
+            <ul>
+                <li>* Active production deployment across 8 loading bays</li>
+                <li>* Continuous uptime with automated watchdog recovery</li>
+                <li>* Tank, recipe, and order synchronization in daily use</li>
+                <li>* Ongoing optimization and operational support</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>c 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Client:</strong> ATPC / VTTI - Terminal Automation and DeltaV Integration
+            </p>
+        </footer>
+    </div>
+
+          </div>
+        </div>
+      </main>
+
+      <nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+          <div class="flex justify-around items-center h-20">
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#home">
+              <span class="material-icons-outlined text-2xl leading-none">home</span>
+              <span class="text-xs">Home</span>
+            </a>
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#services">
+              <span class="material-icons-outlined text-2xl leading-none">list_alt</span>
+              <span class="text-xs">Services</span>
+            </a>
+            <a class="flex flex-col items-center text-primary space-y-1 w-20" href="/portfolio/index.html">
+              <span class="material-icons-outlined text-2xl leading-none">work_outline</span>
+              <span class="text-xs font-semibold">Portfolio</span>
+              <span class="block w-8 h-1 bg-primary rounded-full mt-1 mx-auto"></span>
+            </a>
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#about">
+              <span class="material-icons-outlined text-2xl leading-none">info</span>
+              <span class="text-xs">About</span>
+            </a>
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#contact">
+              <span class="material-icons-outlined text-2xl leading-none">mail_outline</span>
+              <span class="text-xs">Contact</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <aside class="hidden md:block fixed right-6 top-24 w-72">
+        <div class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg space-y-6">
+          <div class="text-center">
+            <h4 class="font-bold text-gray-900 dark:text-gray-50">Your Digital Future.</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Custom software solutions for forward-thinking businesses.</p>
+            <a class="mt-3 inline-block bg-primary text-white py-2 px-4 rounded-lg font-semibold transition-opacity hover:opacity-90" href="/#contact">Discuss an AI Engagement</a>
+          </div>
+          <div>
+            <h5 class="font-semibold text-gray-800 dark:text-gray-200">Core Technical Expertise</h5>
+            <div class="grid grid-cols-1 gap-2 mt-2">
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">.NET &amp; Cloud</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">AI &amp; LLM Stack</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">Enterprise Architecture</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">DevOps &amp; Infrastructure</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </body>
+</html>
