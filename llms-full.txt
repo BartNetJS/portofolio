@@ -80,8 +80,8 @@ Capabilities:
 - Encryption implementation
 - Access control systems
 - Audit trail and compliance logging
-- GDPR compliance
-- EU AI Act compliance
+- Responsible AI governance
+- Risk and control mapping
 - Security assessments
 
 ### 7. Technical Leadership
@@ -165,7 +165,7 @@ Generative AI built on decades of software engineering experience means robust, 
 Deep expertise in the Microsoft ecosystem including Azure, .NET, and Microsoft AI tools (Semantic Kernel).
 
 4. European Compliance Knowledge
-Based in Belgium with practical experience implementing GDPR-compliant and EU AI Act-ready solutions.
+Based in Belgium with practical experience implementing governance-first AI solutions with clear risk controls.
 
 5. Partnership Approach
 Long-term client relationships (15+ years with key clients) rather than project-based engagements.
@@ -217,7 +217,7 @@ GOOD MATCH (relevant):
 - AI development services in Europe
 - LLM application development
 - Enterprise chatbot development
-- AI compliance consulting (GDPR, EU AI Act)
+- AI governance and risk consulting
 - .NET AI development
 - Cloud-native AI architecture
 
