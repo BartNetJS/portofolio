@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8FSDD3KHS3');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeltaV-Backend Integration - Industrial Process Integration Platform</title>
+
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2563EB",
+              "background-light": "#F9FAFB",
+              "background-dark": "#111827",
+            },
+            fontFamily: {
+              display: ["Roboto", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.75rem",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+      @supports not (height: 100dvh) {
+        body {
+          min-height: 884px;
+        }
+      }
+    </style>
+
+    <link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="bg-background-light dark:bg-background-dark shadow-lg">
+      <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm px-4 pt-4 pb-3">
+          <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+            <div class="flex justify-between items-center py-2">
+              <a class="material-icons-outlined text-gray-800 dark:text-gray-200 text-3xl md:hidden" href="/#home" aria-label="Home">home</a>
+              <a class="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-50" href="/#home">Codeware</a>
+              <div class="w-8"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main class="pt-20 pb-24">
+        <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+          <div class="portfolio-content px-4 py-8">
+
+    <div class="container">
+        <a href="../../" class="back-link">← Back to Portfolios</a>
+
+        <header>
+            <h1>DeltaV-Backend Integration</h1>
+            <p class="subtitle">Industrial Process Integration Platform <span class="badge">Production</span></p>
+        </header>
+
+        <div class="section highlight">
+            <h2>🏭 Project Overview</h2>
+            <p>
+                A mission-critical <strong>industrial integration platform</strong> bridging Emerson DeltaV control systems with backend databases
+                for petroleum terminal operations. This production system handles real-time bidirectional data flow for truck loading operations,
+                badge authentication, recipe management, and tank monitoring. Operating continuously for <strong>15+ years</strong> at a major
+                petroleum terminal with zero unplanned downtime.
+            </p>
+            <ul>
+                <li><strong>Real-Time Integration</strong> - Bidirectional data exchange between DeltaV and backend databases via OPC DA</li>
+                <li><strong>Badge Authentication</strong> - CSN (Card Serial Number) validation and conversion for driver identification</li>
+                <li><strong>Recipe Management</strong> - Automated synchronization of product recipes and blending parameters</li>
+                <li><strong>Loading Operations</strong> - Complete truck loading lifecycle management across 8 loading stations</li>
+                <li><strong>Tank Monitoring</strong> - Real-time tank inventory and connection status tracking</li>
+                <li><strong>Offline Resilience</strong> - Automatic offline badge creation when backend systems are unavailable</li>
+                <li><strong>Watchdog Monitoring</strong> - Self-healing workflow recovery for maximum uptime</li>
+                <li><strong>15+ Years Proven</strong> - Continuous operation in a 24/7 industrial environment</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Features</h2>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">🔗</span>
+                    <div>
+                        <strong>OPC DA Protocol Implementation</strong> - Full OPC DA client for real-time tag reading and writing to DeltaV control system
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🪪</span>
+                    <div>
+                        <strong>Badge Authentication Flow</strong> - Multi-step validation: CSN scan → Badge ID conversion → Order lookup → Loading authorization
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔄</span>
+                    <div>
+                        <strong>Workflow Engine</strong> - Event-driven workflow orchestration for complex loading sequences
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">📊</span>
+                    <div>
+                        <strong>Recipe Synchronization</strong> - Automatic sync of product recipes, tank configurations, and blending percentages from backend
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🚛</span>
+                    <div>
+                        <strong>Loading Station Management</strong> - Real-time status tracking for 8 simultaneous loading bays
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚠️</span>
+                    <div>
+                        <strong>Offline Mode</strong> - Graceful degradation with offline badge creation when backend is unavailable
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔐</span>
+                    <div>
+                        <strong>Linked Server Integration</strong> - Secure SQL Server linked server connections to backend database
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">💓</span>
+                    <div>
+                        <strong>Watchdog & Self-Healing</strong> - Automatic detection and recovery from blocked workflows
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Architecture & Technology</h2>
+
+            <h3>Technology Stack</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Industrial Protocols</h3>
+                    <p>
+                        <span class="tag blue">OPC DA</span>
+                        <span class="tag blue">DeltaV</span>
+                        <span class="tag blue">Real-Time</span>
+                        <span class="tag blue">Event-Driven</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>.NET Framework</h3>
+                    <p>
+                        <span class="tag green">C#/.NET</span>
+                        <span class="tag green">Workflow Engine</span>
+                        <span class="tag green">Windows Service</span>
+                        <span class="tag green">SQL Server</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Data Layer</h3>
+                    <p>
+                        <span class="tag purple">Linked Servers</span>
+                        <span class="tag purple">Stored Procedures</span>
+                        <span class="tag purple">Transactions</span>
+                        <span class="tag purple">Audit Logging</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Deployment</h3>
+                    <p>
+                        <span class="tag">On-Premises</span>
+                        <span class="tag">DeltaV Station</span>
+                        <span class="tag">24/7 Operations</span>
+                        <span class="tag">Industrial Network</span>
+                    </p>
+                </div>
+            </div>
+
+            <h3>System Architecture</h3>
+            <p>
+                The integration platform operates as a Windows Service on the DeltaV Application Station, acting as a bridge between:
+            </p>
+            <ul>
+                <li><strong>DeltaV Control System</strong> - Emerson DeltaV via OPC DA for tag reading/writing</li>
+                <li><strong>Local Database</strong> - SQL Server for transaction management and caching</li>
+                <li><strong>Backend Database</strong> - Enterprise backend via SQL Linked Server for orders and recipes</li>
+            </ul>
+
+            <h3>Data Flow Categories</h3>
+            <ul>
+                <li><strong>LOP (Loading Operations)</strong> - Badge validation, order lookup, loading control parameters</li>
+                <li><strong>SFC (Shop Floor Control)</strong> - Loading station status, real-time progress updates</li>
+                <li><strong>TNK (Tank Operations)</strong> - Tank inventory, connection status, density values</li>
+                <li><strong>Recipe Management</strong> - Product recipes, blending percentages, tank mappings</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Badge Authentication Flow</h2>
+
+            <h3>Complete Badge-to-Loading Sequence</h3>
+            <p>
+                The badge authentication process involves multiple systems working together in real-time:
+            </p>
+            <ol>
+                <li><strong>Badge Scan</strong> - Driver scans badge at loading station → DeltaV reads CSN (hex)</li>
+                <li><strong>CSN Conversion</strong> - Interface converts CSN to Badge ID via backend lookup</li>
+                <li><strong>Order Validation</strong> - Backend validates badge and returns order details</li>
+                <li><strong>Local Transaction</strong> - Create loading transaction with unique ID</li>
+                <li><strong>Recipe Loading</strong> - Write product recipe and tank parameters to DeltaV</li>
+                <li><strong>Loading Process</strong> - Monitor progress, update quantities in real-time</li>
+                <li><strong>Completion</strong> - Report final quantities to backend, archive transaction</li>
+            </ol>
+
+            <h3>Status Handling</h3>
+            <ul>
+                <li><strong>Normal Flow</strong> - Badge validated, loading proceeds automatically</li>
+                <li><strong>Already Loaded</strong> - Badge rejected if already used</li>
+                <li><strong>Wrong Station</strong> - Badge assigned to different loading bay</li>
+                <li><strong>No Recipe</strong> - Product not configured for loading</li>
+                <li><strong>Interrupted</strong> - Loading can be resumed with same badge</li>
+                <li><strong>Offline Mode</strong> - Operator creates manual badge when backend unavailable</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🛡️ Reliability & Resilience</h2>
+
+            <h3>High Availability Features</h3>
+            <ul>
+                <li><strong>Watchdog Monitoring</strong> - DeltaV RAMP counter detects blocked workflows</li>
+                <li><strong>Auto-Recovery</strong> - Automatic workflow restart when blockage detected</li>
+                <li><strong>Offline Badge Creation</strong> - Operations continue when backend unavailable</li>
+                <li><strong>Linked Server Retry</strong> - Exponential backoff on connection failures</li>
+                <li><strong>Transaction Logging</strong> - Complete audit trail of all operations</li>
+            </ul>
+
+            <h3>Operational Statistics</h3>
+            <ul>
+                <li><strong>15+ Years</strong> - Continuous production operation</li>
+                <li><strong>8 Loading Stations</strong> - Simultaneous multi-bay support</li>
+                <li><strong>24/7 Operations</strong> - Unattended overnight loading capability</li>
+                <li><strong>Zero Data Loss</strong> - All transactions persisted and auditable</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📡 Integration Points</h2>
+
+            <h3>DeltaV OPC Tags</h3>
+            <p>
+                The interface manages hundreds of OPC tags across multiple categories:
+            </p>
+            <ul>
+                <li><strong>Badge Tags</strong> - DV_BADGE_CODE, MIS_BADGE_ID, BADGE_STATUS</li>
+                <li><strong>Loading Tags</strong> - PRODUCT, ORDER_NUMBER, MT_ASKED, MT_DELIVERED</li>
+                <li><strong>Recipe Tags</strong> - TANK_1..4, PERCENTAGE_1..4, DENSITY values</li>
+                <li><strong>Status Tags</strong> - LS_STATUS, LOAD_START, LOAD_STOP, ERROR_MSG</li>
+                <li><strong>Watchdog</strong> - RAMP counter for health monitoring</li>
+            </ul>
+
+            <h3>Backend Stored Procedures</h3>
+            <ul>
+                <li><strong>Badge Operations</strong> - Badge_Convert_CSN, Badge_Read_New, Badge_Loaded_New</li>
+                <li><strong>Recipe Sync</strong> - GetRecipes, GetRecipe_Parameters, CheckRecipesStatus</li>
+                <li><strong>Status Updates</strong> - Loading_Stations_Status, Tank_Prod_Densities</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎓 What This Project Demonstrates</h3>
+            <p>
+                DeltaV-Backend Integration showcases expertise in:
+            </p>
+            <ul style="margin-top: 15px; margin-left: 20px;">
+                <li>✅ <strong>Industrial Protocol Implementation</strong> - OPC DA integration with Emerson DeltaV</li>
+                <li>✅ <strong>Real-Time Systems</strong> - Sub-second response times for industrial control</li>
+                <li>✅ <strong>Mission-Critical Reliability</strong> - 15+ years of continuous operation</li>
+                <li>✅ <strong>Complex Workflow Orchestration</strong> - Multi-step loading sequences</li>
+                <li>✅ <strong>Database Integration</strong> - SQL Server linked servers, transactions, stored procedures</li>
+                <li>✅ <strong>Resilience Patterns</strong> - Offline mode, watchdog monitoring, auto-recovery</li>
+                <li>✅ <strong>Industrial Domain Knowledge</strong> - Petroleum terminal operations, loading logistics</li>
+                <li>✅ <strong>Long-Term Maintenance</strong> - Supporting and evolving production software over decades</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Project Status</h2>
+            <p>
+                DeltaV-Backend Integration is a <strong>production-deployed solution</strong> that has been running continuously
+                for over 15 years at a major petroleum terminal. The system handles critical loading operations 24/7 and has
+                proven its reliability through multiple DeltaV upgrades and backend migrations.
+            </p>
+            <ul>
+                <li>✅ 15+ years continuous production operation</li>
+                <li>✅ Multiple major upgrades completed successfully</li>
+                <li>✅ 8 loading stations supported simultaneously</li>
+                <li>✅ Ongoing maintenance and enhancement</li>
+                <li>✅ Modernization roadmap in development</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
+            <p style="margin-top: 15px; color: #94a3b8;">
+                <strong>Industry:</strong> Petroleum Terminal Operations - Industrial Process Integration
+            </p>
+        </footer>
+    </div>
+          </div>
+        </div>
+      </main>
+
+      <nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+          <div class="flex justify-around items-center h-20">
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#home">
+              <span class="material-icons-outlined text-2xl leading-none">home</span>
+              <span class="text-xs">Home</span>
+            </a>
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#services">
+              <span class="material-icons-outlined text-2xl leading-none">list_alt</span>
+              <span class="text-xs">Services</span>
+            </a>
+            <a class="flex flex-col items-center text-primary space-y-1 w-20" href="/portfolio/index.html">
+              <span class="material-icons-outlined text-2xl leading-none">work_outline</span>
+              <span class="text-xs font-semibold">Portfolio</span>
+              <span class="block w-8 h-1 bg-primary rounded-full mt-1 mx-auto"></span>
+            </a>
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#about">
+              <span class="material-icons-outlined text-2xl leading-none">info</span>
+              <span class="text-xs">About</span>
+            </a>
+            <a class="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-1 w-20" href="/#contact">
+              <span class="material-icons-outlined text-2xl leading-none">mail_outline</span>
+              <span class="text-xs">Contact</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <aside class="hidden md:block fixed right-6 top-24 w-72">
+        <div class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg space-y-6">
+          <div class="text-center">
+            <h4 class="font-bold text-gray-900 dark:text-gray-50">Your Digital Future.</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Custom software solutions for forward-thinking businesses.</p>
+            <a class="mt-3 inline-block bg-primary text-white py-2 px-4 rounded-lg font-semibold transition-opacity hover:opacity-90" href="/#contact">Discuss an AI Engagement</a>
+          </div>
+          <div>
+            <h5 class="font-semibold text-gray-800 dark:text-gray-200">Core Technical Expertise</h5>
+            <div class="grid grid-cols-1 gap-2 mt-2">
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">.NET &amp; Cloud</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">AI &amp; LLM Stack</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">Enterprise Architecture</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">DevOps &amp; Infrastructure</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>

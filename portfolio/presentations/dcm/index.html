@@ -13,7 +13,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCM - Specialized Data Logging Solutions</title>
+    <title>DCM - DataLogger &amp; OPC Integration</title>
 
     <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
@@ -66,23 +66,22 @@
 
         <header>
             <h1>DCM</h1>
-            <p class="subtitle">Enterprise Data Logging & Security Solutions <span class="badge">Production</span></p>
+            <p class="subtitle">Enterprise Data Logging & OPC Integration <span class="badge">Production</span></p>
         </header>
 
         <div class="section highlight">
             <h2>🔐 Engagement Overview</h2>
             <p>
-                Led the development of <strong>DataLogger</strong>, a sophisticated enterprise-grade data logging solution for DCM.
-                This engagement involved designing and implementing a production-ready system combining <strong>Windows Service architecture</strong>,
-                <strong>AES-256 encryption</strong>, <strong>hardware-locked licensing</strong>, and comprehensive <strong>key recovery mechanisms</strong>.
+                Delivered two production systems for DCM:
+                <strong>DataLogger</strong> (secure, high-performance serial data logging) and an <strong>OPC DA integration service</strong>
+                bridging an industrial OPC server (<strong>Kepware KEPServerEX</strong>) with backend database-driven workflows.
             </p>
             <ul>
-                <li><strong>Full-Stack Development</strong> - Windows Service, WPF UI, and core encryption logic</li>
-                <li><strong>Enterprise Security</strong> - AES-256-GCM encryption with hardware-bound key management</li>
-                <li><strong>Licensing System</strong> - Hardware-locked RSA-4096 license validation and activation</li>
-                <li><strong>Disaster Recovery</strong> - Comprehensive encryption key recovery system for data protection</li>
-                <li><strong>High-Performance Architecture</strong> - Optimized for 1000+ chars/sec throughput with minimal overhead</li>
-                <li><strong>Production Support</strong> - Ongoing development including Phase 2 UI integration</li>
+                <li><strong>DataLogger</strong> - Windows Service + WPF app for serial data capture, encryption, licensing, and monitoring</li>
+                <li><strong>Enterprise Security</strong> - AES-256-GCM encryption, hardware-locked licensing, and key recovery workflows</li>
+                <li><strong>OPC DA Integration</strong> - Event-driven subscriptions and bidirectional tag read/write against Kepware KEPServerEX</li>
+                <li><strong>Database-Driven Workflows</strong> - Operational logic triggered by tag changes and configured via backend tables</li>
+                <li><strong>Production Operations</strong> - Deployed Windows services with resilient reconnect and operational logging</li>
             </ul>
         </div>
 
@@ -144,24 +143,56 @@
                 </li>
             </ul>
 
-            <h3 style="margin-top: 40px;">2. DeltaV Proxy Integration</h3>
+            <h3 style="margin-top: 40px;">2. OPC DA Integration Service (Kepware KEPServerEX)</h3>
             <p>
-                Advanced integration framework enabling DataLogger to interface with industrial process control systems, specifically DeltaV environments.
-                Provides secure data capture from industrial automation and SCADA systems with enterprise-grade encryption and compliance support.
+                A dedicated Windows service that connects to an <strong>OPC DA</strong> server (Kepware KEPServerEX) and executes
+                <strong>database-driven workflows</strong> based on tag changes. Designed for industrial environments where reliability,
+                observability, and safe bidirectional interaction with the control layer are essential.
             </p>
-            <ul>
-                <li><strong>SCADA/ICS Integration</strong> - Secure connection to industrial control systems and DeltaV platforms</li>
-                <li><strong>Process Data Logging</strong> - Capture critical process parameters with timestamp accuracy</li>
-                <li><strong>Industrial Security</strong> - Compliance with industrial security standards and requirements</li>
-                <li><strong>Real-Time Processing</strong> - Low-latency data capture without impacting process operations</li>
-                <li><strong>Data Integrity</strong> - Encrypted storage with audit trail for regulatory compliance</li>
+            <ul class="feature-list">
+                <li>
+                    <span class="icon">🔌</span>
+                    <div>
+                        <strong>OPC DA Connectivity</strong> - Connects to Kepware KEPServerEX and subscribes to tag changes in real time
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">⚡</span>
+                    <div>
+                        <strong>Event-Driven Processing</strong> - Triggers backend actions when configured tags change (subscription-based)
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🔄</span>
+                    <div>
+                        <strong>Bidirectional Tag Flow</strong> - Reads process values and writes acknowledgements/outputs back to the control layer
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🗄️</span>
+                    <div>
+                        <strong>Database-Configured Interface</strong> - Tag subscriptions and behavior configured via backend tables (MySQL/EF)
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🫀</span>
+                    <div>
+                        <strong>Watchdog & Health Signals</strong> - Heartbeat and status signaling to detect connectivity issues early
+                    </div>
+                </li>
+                <li>
+                    <span class="icon">🧯</span>
+                    <div>
+                        <strong>Operational Resilience</strong> - Robust reconnect and error handling for DCOM/OPC connectivity challenges
+                    </div>
+                </li>
             </ul>
         </div>
 
         <div class="section">
             <h2>🏗️ Technical Architecture</h2>
 
-            <h3>System Components</h3>
+            <h3>DataLogger Components</h3>
             <div class="grid">
                 <div class="card">
                     <h3>DataLoggerCore</h3>
@@ -189,7 +220,7 @@
                 </div>
             </div>
 
-            <h3>Technology Stack</h3>
+            <h3>DataLogger Technology Stack</h3>
             <ul>
                 <li><strong>Framework</strong>: .NET 10.0 with C# 12.0</li>
                 <li><strong>Platform</strong>: Windows 10/11 (Service + WPF)</li>
@@ -198,12 +229,50 @@
                 <li><strong>Performance Target</strong>: 1000+ characters/second per channel</li>
                 <li><strong>Licensing</strong>: Hardware-bound RSA signatures with validation</li>
             </ul>
+
+            <h3 style="margin-top: 30px;">OPC DA Integration Service Components</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>DCM OPC Service (Windows Service)</h3>
+                    <p>
+                        Background service that subscribes to OPC DA tag changes and runs operational workflows without user interaction.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>OPC DA Client Wrapper</h3>
+                    <p>
+                        Custom wrapper built on OPC DA components (OpcNetApi/OpcNetApi.Com) for stable connect, read, write, and subscription handling.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Database Layer</h3>
+                    <p>
+                        Entity Framework based access to backend data (MySQL), including configuration-driven tag subscriptions and workflow state.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Operational Logging</h3>
+                    <p>
+                        log4net-based logging and diagnostics for on-site troubleshooting and production support.
+                    </p>
+                </div>
+            </div>
+
+            <h3>OPC DA Integration Service Technology Stack</h3>
+            <ul>
+                <li><strong>Framework</strong>: .NET Framework 4.7.2</li>
+                <li><strong>Platform</strong>: Windows Service (x86)</li>
+                <li><strong>OPC</strong>: OPC DA (COM/DCOM) via OpcNetApi + custom wrappers</li>
+                <li><strong>OPC Server</strong>: Kepware KEPServerEX</li>
+                <li><strong>Database</strong>: MySQL with Entity Framework</li>
+                <li><strong>Logging</strong>: log4net</li>
+            </ul>
         </div>
 
         <div class="section">
             <h2>🔐 Security Implementation</h2>
 
-            <h3>Multi-Layer Security</h3>
+            <h3>DataLogger Multi-Layer Security</h3>
             <ul>
                 <li><strong>Data Encryption</strong> - AES-256-GCM provides confidentiality and integrity</li>
                 <li><strong>Key Management</strong> - Hardware-bound keys stored in Credential Manager with NTFS ACL protection</li>
@@ -212,7 +281,7 @@
                 <li><strong>Access Control</strong> - Windows service runs with minimal required privileges</li>
             </ul>
 
-            <h3>Disaster Recovery Features</h3>
+            <h3>DataLogger Disaster Recovery Features</h3>
             <ul>
                 <li><strong>Key Recovery Workflow</strong> - Secure process for recovering data when keys become inaccessible</li>
                 <li><strong>Hardware Migration Support</strong> - Tools for supporting customers during hardware replacement</li>
@@ -220,40 +289,13 @@
                 <li><strong>DCM Support Integration</strong> - Management tools for data re-encryption and recovery</li>
                 <li><strong>Complete Audit Trail</strong> - All recovery operations tracked for compliance and forensics</li>
             </ul>
-        </div>
 
-        <div class="section">
-            <h2>📋 Development Phases</h2>
-
-            <h3>Phase 1: Core Implementation ✅ COMPLETE (October 2025)</h3>
-            <p><strong>Status</strong>: 100% complete with all integration tests passing</p>
+            <h3>OPC DA Integration Service Security & Operations</h3>
             <ul>
-                <li>✅ Machine ID Generator - Hardware fingerprinting for license binding</li>
-                <li>✅ RSA License Validator - RSA-4096 signature verification</li>
-                <li>✅ Secure Key Storage - Windows Credential Manager integration</li>
-                <li>✅ Tamper Audit Logger - AES-256-GCM encrypted security events</li>
-                <li>✅ Integration Tests - 4/4 tests passing (100% success rate)</li>
-                <li>✅ DataLogger Core - Serial port, encryption, and logging services</li>
-                <li>✅ Windows Service - Background service for continuous operations</li>
-                <li>✅ Performance Validation - 1000+ chars/sec verified</li>
-            </ul>
-
-            <h3>Phase 2: UI & Service Integration 🔄 IN PROGRESS</h3>
-            <p><strong>Focus</strong>: User-facing features and operational enhancements</p>
-            <ul>
-                <li>License Activation Dialog (WPF) - Secure license management UI</li>
-                <li>Settings Page - License information display and key recovery options</li>
-                <li>Service Graceful Degradation - Reduced functionality without license</li>
-                <li>Application Hard Exit - DataLoggerViewer requires valid license</li>
-                <li>User-Friendly Error Handling - Clear error messages and recovery guidance</li>
-            </ul>
-
-            <h3>Phase 3: License Generation Tool 📋 PLANNED</h3>
-            <p><strong>Focus</strong>: DCM internal tooling</p>
-            <ul>
-                <li>License Generator Console - Tool for creating hardware-locked licenses</li>
-                <li>RSA Key Management - Key pair generation and storage</li>
-                <li>License Tracking Database - Customer license management system</li>
+                <li><strong>DCOM Credentials</strong> - Supports authenticated OPC connectivity with dedicated service accounts</li>
+                <li><strong>Least Privilege</strong> - Service runs with constrained permissions aligned to operational needs</li>
+                <li><strong>Defensive Error Handling</strong> - Robust handling for intermittent OPC/DCOM connectivity conditions</li>
+                <li><strong>Traceable Actions</strong> - Central logging for tag-triggered workflows and write-backs</li>
             </ul>
         </div>
 
@@ -313,7 +355,7 @@
         <div class="highlight-box">
             <h3>🎓 What This Engagement Demonstrates</h3>
             <p>
-                The DCM DataLogger project showcases expertise in:
+                The DCM engagement showcases expertise in:
             </p>
             <ul style="margin-top: 15px; margin-left: 20px;">
                 <li>✅ <strong>Enterprise Security Architecture</strong> - AES-256-GCM, RSA-4096, key management</li>
@@ -322,6 +364,9 @@
                 <li>✅ <strong>Performance Engineering</strong> - 1000+ chars/sec with minimal overhead</li>
                 <li>✅ <strong>Licensing & DRM Systems</strong> - Hardware-locked, tamper-evident activation</li>
                 <li>✅ <strong>Disaster Recovery Planning</strong> - Comprehensive key recovery workflows</li>
+                <li>✅ <strong>Industrial OPC Integration</strong> - OPC DA (DCOM) connectivity and event-driven processing</li>
+                <li>✅ <strong>Kepware Integration</strong> - Working with KEPServerEX in production environments</li>
+                <li>✅ <strong>Database-Driven Workflows</strong> - Backend configuration and operational orchestration</li>
                 <li>✅ <strong>.NET Architecture</strong> - Service-oriented, SOLID principles, testable design</li>
                 <li>✅ <strong>Comprehensive Testing</strong> - Contract, integration, performance, unit tests</li>
                 <li>✅ <strong>Production Operations</strong> - Ongoing support and feature development</li>
@@ -329,25 +374,10 @@
             </ul>
         </div>
 
-        <div class="section">
-            <h2>📋 Project Status</h2>
-            <p>
-                DataLogger is a <strong>production-quality engagement</strong> with core functionality complete and active development on Phase 2 features.
-                The application is deployed in customer environments and continues to evolve with ongoing support.
-            </p>
-            <ul>
-                <li>✅ Phase 1 complete (100% - Core security and licensing)</li>
-                <li>🔄 Phase 2 in progress (UI and service integration)</li>
-                <li>📋 Phase 3 planned (License generation tool)</li>
-                <li>✅ All integration tests passing</li>
-                <li>✅ Performance validated and optimized</li>
-            </ul>
-        </div>
-
         <footer>
             <p>© 2024 Bart Van der Auweraert - All rights reserved</p>
             <p style="margin-top: 15px; color: #94a3b8;">
-                <strong>Project:</strong> DataLogger - Enterprise Data Logging with AES-256 Encryption & Hardware-Locked Licensing
+                <strong>Projects:</strong> DataLogger (secure serial logging) + OPC DA integration service (Kepware KEPServerEX)
             </p>
         </footer>
     </div>
