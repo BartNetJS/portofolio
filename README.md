@@ -137,6 +137,8 @@ After enabling GitHub Pages, your sites will be live at:
 - **Initum-AZ Portofolio**: `https://YOUR-USERNAME.github.io/portefolio/projects/initum-az/`
 - **Client Presentations**: `https://YOUR-USERNAME.github.io/portefolio/presentations/client-xyz/`
 
+- **Production site (custom domain)**: https://www.codeware.be (this repository includes a `CNAME` file with `www.codeware.be`)
+
 ### Custom Domain (Optional)
 
 If you own a domain:
