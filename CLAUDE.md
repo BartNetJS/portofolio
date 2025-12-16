@@ -10,6 +10,7 @@ This repository is a static website (GitHub Pages + custom domain). There is no 
 - Use root-relative links for internal assets and pages (`/Blogs/...`, `/portfolio/...`, `/shared/...`).
 
 ## Blogs (preferred pattern)
+- Canonical guide + template reference: `Blogs/README.md`
 - One folder per post: `Blogs/<slug>/`
   - `Blogs/<slug>/index.html` renders Markdown.
   - `Blogs/<slug>/post.md` is the Markdown source.

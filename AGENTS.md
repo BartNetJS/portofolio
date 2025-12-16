@@ -43,6 +43,7 @@ Open:
 - Blog layout: `Blogs/index.html`
 
 ## Blogs: Markdown + Mermaid (new pattern)
+- Full workflow + template reference: `Blogs/README.md`
 - Preferred structure: one folder per post: `Blogs/<slug>/`
   - `Blogs/<slug>/index.html` renders Markdown (see `data-md-include`) and includes bottom nav.
   - `Blogs/<slug>/post.md` is the Markdown source.

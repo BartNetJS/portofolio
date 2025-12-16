@@ -37,6 +37,7 @@ This repo is a static site (GitHub Pages/custom domain). There is no build syste
   - When editing existing pages that use folder-relative links (e.g. `projects/<name>/` or `../../`), prefer converting them to the equivalent root-relative paths.
 
 ## Blogs: Markdown posts (with Mermaid)
+- Canonical guide + template reference: `Blogs/README.md`
 - Preferred structure is one folder per post: `Blogs/<slug>/`
   - `Blogs/<slug>/index.html` renders `post.md`.
   - `Blogs/<slug>/post.md` contains the Markdown.
