@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Memristor training naar doel (x·y=z)</title>
+  <style>
+    :root{
+      --bg:#070A12; --text:#EAF2FF; --muted:#9EB1D6;
+      --a:#18E2B8; --b:#6D4BFF; --mag:#FF4FB8; --ion:#FFB020;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --r:18px;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    body{ margin:0; color:var(--text);
+      background:radial-gradient(1200px 650px at 20% 0%, #1c0f3a 0%, var(--bg) 55%);
+      padding:18px;
+    }
+    .wrap{ max-width:860px; margin:0 auto; display:grid; gap:14px; }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      padding:14px 14px 12px;
+      overflow:hidden;
+    }
+    h1{ margin:0 0 6px; font-size:18px; }
+    h2{ margin:0 0 6px; font-size:16px; }
+    .sub{ color:var(--muted); font-size:12.5px; line-height:1.45; }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; }
+    .pill{ padding:6px 10px; border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      font-size:12px; color:var(--muted);
+    }
+    button{
+      background:transparent; color:var(--text);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      padding:8px 12px; cursor:pointer; font-weight:800;
+    }
+    button.primary{ border-color: rgba(24,226,184,.75); box-shadow:0 0 0 2px rgba(24,226,184,.08) inset; }
+    button.mag{ border-color: rgba(255,79,184,.75); box-shadow:0 0 0 2px rgba(255,79,184,.08) inset; }
+    button:active{ transform: translateY(1px); }
+
+    .grid2{ display:grid; grid-template-columns: 1.3fr 1fr; gap:12px; }
+    @media (max-width: 860px){ .grid2{ grid-template-columns:1fr; } }
+
+    .barWrap{
+      margin-top:10px;
+      border-radius:14px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(4,8,20,.45);
+      position:relative;
+    }
+    .bar{ height:40px; display:grid; grid-template-columns:1fr 1fr; position:relative; }
+    .doped{ background:linear-gradient(90deg, rgba(24,226,184,.38), rgba(24,226,184,.18)); }
+    .undoped{ background:linear-gradient(90deg, rgba(109,75,255,.18), rgba(109,75,255,.10)); }
+    .boundary{
+      position:absolute; top:0; bottom:0; width:2px;
+      background:rgba(255,255,255,.75);
+      box-shadow:0 0 0 3px rgba(255,255,255,.08);
+      left:50%;
+      z-index: 3;
+    }
+    .ionLayer{ position:absolute; inset:0; pointer-events:none; z-index:2; }
+    .ion{
+      position:absolute;
+      width:8px; height:8px; border-radius:50%;
+      background:rgba(255,176,32,.92);
+      box-shadow:0 0 14px rgba(255,176,32,.22);
+      will-change: transform, left, top;
+    }
+    .readPulse{
+      position:absolute; inset:0;
+      background:linear-gradient(90deg, rgba(24,226,184,.0), rgba(24,226,184,.14), rgba(24,226,184,.0));
+      opacity:0; pointer-events:none; z-index:1;
+    }
+    .kv{ display:grid; grid-template-columns: 1fr auto; gap:8px 10px; margin-top:10px; }
+    .kv div{ font-size:12.5px; color:var(--muted); }
+    .kv strong{ color:var(--text); font-weight:900; font-size:12.5px; }
+    .mono{ font-variant-numeric: tabular-nums; font-feature-settings:"tnum" 1; }
+    .hr{ height:1px; background:rgba(255,255,255,.08); margin:10px 0; }
+    canvas{ width:100%; height:140px; background:rgba(4,8,20,.45); border:1px solid rgba(255,255,255,.08); border-radius:14px; }
+    .in{
+      display:grid; grid-template-columns: 90px 1fr 70px; gap:10px; align-items:center;
+      margin-top:8px;
+    }
+    input[type="range"]{ width:100%; }
+    input[type="number"]{
+      width:100%; padding:8px 10px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(4,8,20,.35); color:var(--text);
+      font-weight:800;
+    }
+    .tiny{ font-size:12px; color:var(--muted); line-height:1.45; margin-top:8px; }
+    .bits{ display:grid; gap:10px; margin-top:10px; }
+    .bitRow{
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:10px;
+      background:rgba(4,8,20,.25);
+    }
+    .bitTop{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .tag{ padding:4px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.05); color:var(--muted); font-size:12px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="card">
+    <h1>Memristor training naar een doel (calculator): x · y = z</h1>
+    <div class="sub">
+      <b>Training</b> verschuift ionen → de memristor bewaart een “multiplier” als weerstandstoestand.<br/>
+      <b>Lezen/inference</b> meet enkel de stroom (dus het gewicht), zonder te verschuiven.
+    </div>
+  </section>
+
+  <!-- DEMO 1: 1 memristor leert w zodat x*w ≈ z -->
+  <section class="card" id="d1">
+    <h2>Demo 1 — 1 memristor: train tot x·w = z</h2>
+    <div class="sub">
+      Hier is <b>w</b> de opgeslagen multiplier in de memristor. Jij kiest <b>x</b> en <b>z</b>. Training duwt ionen tot <b>x·w</b> bijna gelijk is aan <b>z</b>.
+    </div>
+
+    <div class="grid2">
+      <div>
+        <div class="in">
+          <div class="pill mono">x</div>
+          <input id="d1_x" type="range" min="0" max="1" step="0.01" value="0.70"/>
+          <div class="pill mono" id="d1_xv">0.70</div>
+        </div>
+
+        <div class="in">
+          <div class="pill mono">z</div>
+          <input id="d1_z" type="range" min="0" max="3" step="0.01" value="1.40"/>
+          <div class="pill mono" id="d1_zv">1.40</div>
+        </div>
+
+        <div class="row">
+          <button class="primary" id="d1_train">Train naar doel</button>
+          <button id="d1_step">1 step</button>
+          <button id="d1_read">Read (klein V)</button>
+          <button class="mag" id="d1_reset">Reset</button>
+          <span class="pill mono" id="d1_msg">—</span>
+        </div>
+
+        <div class="kv mono">
+          <div>huidige w (in memristor)</div><strong id="d1_w">—</strong>
+          <div>berekend: x·w</div><strong id="d1_y">—</strong>
+          <div>error: z - (x·w)</div><strong id="d1_e">—</strong>
+          <div>aantal pulses (training)</div><strong id="d1_p">0</strong>
+        </div>
+
+        <div class="hr"></div>
+        <canvas id="d1_plot" width="800" height="260"></canvas>
+        <div class="tiny">
+          <b>Belangrijk:</b> dit laat zien waarom inference “werkt”: na training is w een vaste weerstandstoestand.
+          Inference hoeft alleen te meten.
+        </div>
+      </div>
+
+      <div>
+        <div class="sub"><b>Memristor (w)</b> — ionen blijven zichtbaar</div>
+        <div class="barWrap">
+          <div class="bar">
+            <div class="doped"></div><div class="undoped"></div>
+            <div class="ionLayer" id="d1_ions"></div>
+            <div class="boundary" id="d1_boundary"></div>
+            <div class="readPulse" id="d1_readPulse"></div>
+          </div>
+        </div>
+        <div class="kv mono">
+          <div>schuifstand x (fysiek)</div><strong id="d1_phys">0.50</strong>
+          <div>weerstand R</div><strong id="d1_R">—</strong>
+          <div>read-stroom</div><strong id="d1_I">—</strong>
+        </div>
+        <div class="tiny">
+          Training beweegt de grens & ionen. Read toont enkel een groene meet-puls.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO 2: meerdere memristors (bit-sliced y) -->
+  <section class="card" id="d2">
+    <h2>Demo 2 — meerdere memristors: y als 4-bit (dus 4 memristors)</h2>
+    <div class="sub">
+      Als je y met meer “stapjes” wil opslaan (precisie), kan je y opbreken in bits. Hier: <b>4 bits</b> ⇒ <b>4 memristors</b>.
+      Training zet elk bit naar 0 of 1 zodat de som <b>y</b> vormt, en dan is <b>z = x·y</b>.
+    </div>
+
+    <div class="grid2">
+      <div>
+        <div class="in">
+          <div class="pill mono">x</div>
+          <input id="d2_x" type="range" min="0" max="1" step="0.01" value="0.60"/>
+          <div class="pill mono" id="d2_xv">0.60</div>
+        </div>
+
+        <div class="in">
+          <div class="pill mono">y (0..15)</div>
+          <input id="d2_y" type="number" min="0" max="15" step="1" value="11"/>
+          <div class="pill mono" id="d2_yv">11</div>
+        </div>
+
+        <div class="row">
+          <button class="primary" id="d2_train">Train bits tot y</button>
+          <button id="d2_step">1 step</button>
+          <button id="d2_read">Read</button>
+          <button class="mag" id="d2_reset">Reset</button>
+          <span class="pill mono" id="d2_msg">memristors: 4</span>
+        </div>
+
+        <div class="kv mono">
+          <div>huidige y (uit bits)</div><strong id="d2_ycur">—</strong>
+          <div>z = x·y</div><strong id="d2_z">—</strong>
+          <div>pulses</div><strong id="d2_p">0</strong>
+        </div>
+
+        <div class="hr"></div>
+        <canvas id="d2_plot" width="800" height="260"></canvas>
+        <div class="tiny">
+          Dit is een intuïtieve manier om “hoeveel memristors heb je nodig?” te tonen: <b>meer bits = meer memristors</b>.
+        </div>
+      </div>
+
+      <div>
+        <div class="bits" id="d2_bits"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  // helpers
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  const fmt = (v,d=2) => Number(v).toFixed(d);
+  function drawLine(canvas, series, label){
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0,0,W,H);
+
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    for(let i=1;i<6;i++){
+      const y=i*H/6; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    }
+    ctx.fillStyle = "rgba(234,242,255,0.75)";
+    ctx.font = "12px ui-sans-serif, system-ui";
+    ctx.fillText(label, 10, 18);
+
+    if(series.length<2) return;
+    const yMin = Math.min(...series), yMax = Math.max(...series);
+    const pad = (yMax-yMin)*0.12 || 1;
+    const a = yMin-pad, b = yMax+pad;
+
+    ctx.strokeStyle = "rgba(24,226,184,0.9)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    series.forEach((v,i)=>{
+      const x = i*(W-20)/(series.length-1)+10;
+      const y = H - ((v-a)/(b-a))*(H-30) - 10;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+  }
+
+  // ====== visuele memristor (ions persistent) ======
+  function makeVisualMemristor({ionLayer, boundaryEl, readPulseEl, x0=0.5, ionCount=22}){
+    const m = { x:x0, ions:[], ionLayer, boundaryEl, readPulseEl };
+
+    function seed(){
+      ionLayer.innerHTML = "";
+      m.ions = [];
+      for(let i=0;i<ionCount;i++){
+        const el = document.createElement("div");
+        el.className = "ion";
+        const center = clamp01(m.x + (Math.random()*0.30 - 0.15));
+        const y = 10 + Math.random()*18;
+        el.style.top = y + "px";
+        ionLayer.appendChild(el);
+        m.ions.push({el, center, y});
+      }
+      layout(false);
+    }
+
+    function layout(animate=true){
+      m.ions.forEach(p=>{
+        const spread = 0.06;
+        const leftPct = clamp01(p.center + (Math.random()*spread - spread/2))*100;
+        if(animate){
+          p.el.animate([{left:p.el.style.left||leftPct+"%"},{left:leftPct+"%"}],{duration:380,easing:"ease-out"});
+        }
+        p.el.style.left = leftPct+"%";
+        const jitter=(Math.random()*2-1)*6;
+        p.el.animate([{transform:"translate(0,0)"},{transform:`translate(${jitter}px,0)`},{transform:"translate(0,0)"}],
+                     {duration:380,easing:"ease-out"});
+      });
+    }
+
+    function driftToward(targetX){
+      m.ions.forEach(p=>{ p.center = clamp01(p.center + (targetX - p.center)*0.22); });
+      layout(true);
+    }
+
+    function setX(x, animate=true){
+      m.x = clamp01(x);
+      boundaryEl.style.left = (m.x*100).toFixed(1)+"%";
+      if(animate) driftToward(m.x);
+    }
+
+    function readPulse(){
+      readPulseEl.animate([{opacity:0},{opacity:1},{opacity:0}], {duration:320, easing:"ease-out"});
+    }
+
+    seed();
+    setX(m.x, false);
+    return { setX, readPulse, seed, get x(){return m.x;} };
+  }
+
+  // ==========================================
+  // DEMO 1: 1 memristor traint w zodat x*w=z
+  // ==========================================
+  (function(){
+    const xS = document.getElementById("d1_x");
+    const zS = document.getElementById("d1_z");
+    const xV = document.getElementById("d1_xv");
+    const zV = document.getElementById("d1_zv");
+
+    const msg = document.getElementById("d1_msg");
+    const wEl = document.getElementById("d1_w");
+    const yEl = document.getElementById("d1_y");
+    const eEl = document.getElementById("d1_e");
+    const pEl = document.getElementById("d1_p");
+
+    const phys = document.getElementById("d1_phys");
+    const REl = document.getElementById("d1_R");
+    const IEl = document.getElementById("d1_I");
+    const plot = document.getElementById("d1_plot");
+
+    // mapping: memristor fysieke x -> w (multiplier)
+    const wMin = 0.0, wMax = 3.0;
+    const eta = 0.45; // learning rate (didactisch)
+    let pulses = 0;
+    const errSeries = [];
+
+    // visuele memristor
+    const vis = makeVisualMemristor({
+      ionLayer: document.getElementById("d1_ions"),
+      boundaryEl: document.getElementById("d1_boundary"),
+      readPulseEl: document.getElementById("d1_readPulse"),
+      x0: 0.50,
+      ionCount: 26
+    });
+
+    function calcW(){
+      return wMin + vis.x*(wMax - wMin);
+    }
+
+    function calcRfromX(x){
+      const Ron = 800, Roff = 20000;
+      return Roff + (1-x)*(Ron - Roff);
+    }
+
+    function refresh(){
+      xV.textContent = fmt(xS.value,2);
+      zV.textContent = fmt(zS.value,2);
+
+      const x = Number(xS.value);
+      const z = Number(zS.value);
+      const w = calcW();
+      const y = x*w;
+      const e = z - y;
+
+      wEl.textContent = fmt(w,3);
+      yEl.textContent = fmt(y,3);
+      eEl.textContent = fmt(e,3);
+      pEl.textContent = pulses;
+
+      phys.textContent = fmt(vis.x,2);
+
+      const R = calcRfromX(vis.x);
+      const Vread = 0.10;
+      const I = Vread / R;
+      REl.textContent = (R>=1000 ? fmt(R/1000,2)+" kΩ" : fmt(R,0)+" Ω");
+      IEl.textContent = fmt(I*1e6,1) + " µA @ 0.10V";
+
+      drawLine(plot, errSeries, "error (z - x·w) over training steps");
+    }
+
+    function oneTrainStep(){
+      const x = Number(xS.value);
+      const z = Number(zS.value);
+      const w = calcW();
+      const y = x*w;
+      const e = z - y;
+
+      // doel: w <- w + eta * e * x
+      const wNew = w + eta * e * x;
+      const xTarget = clamp01((wNew - wMin)/(wMax - wMin));
+
+      // beweeg visueel 1 keer richting target (puls)
+      const dir = Math.sign(xTarget - vis.x);
+      const step = 0.040 * (0.35 + 0.65*(1 - Math.abs(vis.x-0.5)*2)); // trager bij randen
+      if(dir !== 0){
+        vis.setX(vis.x + dir*step, true);
+        pulses++;
+      }
+
+      // log error na step
+      const w2 = calcW();
+      const y2 = Number(xS.value)*w2;
+      const e2 = Number(zS.value) - y2;
+      errSeries.push(e2);
+      if(errSeries.length>140) errSeries.shift();
+
+      msg.textContent = "train step → ions schuiven richting doel";
+      refresh();
+    }
+
+    function trainToGoal(){
+      // train in korte bursts tot error klein genoeg
+      let guard = 0;
+      const goal = 0.01; // tolerantie (didactisch)
+      function loop(){
+        const x = Number(xS.value);
+        const z = Number(zS.value);
+        const w = calcW();
+        const e = z - x*w;
+        if(Math.abs(e) <= goal || guard > 120){
+          msg.textContent = Math.abs(e) <= goal ? "doel bereikt (binnen tolerantie)" : "stop (max steps)";
+          refresh();
+          return;
+        }
+        oneTrainStep();
+        guard++;
+        requestAnimationFrame(loop);
+      }
+      msg.textContent = "training loopt…";
+      requestAnimationFrame(loop);
+    }
+
+    document.getElementById("d1_step").onclick = oneTrainStep;
+    document.getElementById("d1_train").onclick = trainToGoal;
+    document.getElementById("d1_read").onclick = () => { vis.readPulse(); msg.textContent="read: alleen meten"; refresh(); };
+    document.getElementById("d1_reset").onclick = () => {
+      pulses = 0; errSeries.length=0;
+      vis.setX(0.50, true);
+      msg.textContent="reset";
+      refresh();
+    };
+
+    xS.oninput = refresh;
+    zS.oninput = refresh;
+
+    // init
+    errSeries.push(0);
+    refresh();
+  })();
+
+  // ====================================================
+  // DEMO 2: 4 memristors als 4-bit y, train bits tot y
+  // ====================================================
+  (function(){
+    const xS = document.getElementById("d2_x");
+    const yN = document.getElementById("d2_y");
+    const xV = document.getElementById("d2_xv");
+    const yV = document.getElementById("d2_yv");
+
+    const yCurEl = document.getElementById("d2_ycur");
+    const zEl = document.getElementById("d2_z");
+    const pEl = document.getElementById("d2_p");
+    const msg = document.getElementById("d2_msg");
+    const plot = document.getElementById("d2_plot");
+
+    const bitHost = document.getElementById("d2_bits");
+    const bitWeights = [1,2,4,8];
+    let pulses = 0;
+    const ySeries = [];
+
+    // maak 4 visuele memristors, elk stelt 1 bit voor
+    const bits = bitWeights.map((w, i) => {
+      const row = document.createElement("div");
+      row.className = "bitRow";
+      row.innerHTML = `
+        <div class="bitTop">
+          <div class="tag mono">bit ${i} (waarde ${w})</div>
+          <div class="tag mono" id="b${i}_state">state: —</div>
+        </div>
+        <div class="barWrap" style="margin-top:8px;">
+          <div class="bar">
+            <div class="doped"></div><div class="undoped"></div>
+            <div class="ionLayer" id="b${i}_ions"></div>
+            <div class="boundary" id="b${i}_boundary"></div>
+            <div class="readPulse" id="b${i}_readPulse"></div>
+          </div>
+        </div>
+      `;
+      bitHost.appendChild(row);
+
+      const vis = makeVisualMemristor({
+        ionLayer: row.querySelector(`#b${i}_ions`),
+        boundaryEl: row.querySelector(`#b${i}_boundary`),
+        readPulseEl: row.querySelector(`#b${i}_readPulse`),
+        x0: 0.2 + 0.2*i, // verschillende starts
+        ionCount: 18
+      });
+      const stateEl = row.querySelector(`#b${i}_state`);
+      return { weight:w, vis, stateEl };
+    });
+
+    function bitValueFromX(x){
+      // hard threshold (didactisch): links=0, rechts=1
+      return x >= 0.5 ? 1 : 0;
+    }
+
+    function currentY(){
+      return bits.reduce((sum,b)=> sum + bitValueFromX(b.vis.x)*b.weight, 0);
+    }
+
+    function refresh(){
+      xV.textContent = fmt(xS.value,2);
+      const yTarget = Math.max(0, Math.min(15, parseInt(yN.value||"0",10)));
+      yN.value = yTarget;
+      yV.textContent = String(yTarget);
+
+      const yNow = currentY();
+      yCurEl.textContent = String(yNow);
+
+      const x = Number(xS.value);
+      const z = x * yNow;
+      zEl.textContent = fmt(z,3);
+
+      pEl.textContent = pulses;
+
+      bits.forEach(b=>{
+        const v = bitValueFromX(b.vis.x);
+        b.stateEl.textContent = `state: ${v}`;
+      });
+
+      drawLine(plot, ySeries, "y (uit bits) over training steps");
+    }
+
+    function oneStep(){
+      const yTarget = parseInt(yN.value||"0",10) & 15;
+
+      // gewenste bits
+      bits.forEach((b, i) => {
+        const desired = (yTarget >> i) & 1;
+        const current = bitValueFromX(b.vis.x);
+
+        if(current !== desired){
+          // duw richting links (0) of rechts (1)
+          const dir = desired === 1 ? +1 : -1;
+          const step = 0.09; // sneller (bit is binair)
+          b.vis.setX(b.vis.x + dir*step, true);
+          pulses++;
+        }
+      });
+
+      ySeries.push(currentY());
+      if(ySeries.length>140) ySeries.shift();
+      msg.textContent = "memristors: 4 (bits trainen)";
+      refresh();
+    }
+
+    function trainToY(){
+      let guard = 0;
+      function loop(){
+        if(currentY() === (parseInt(yN.value||"0",10)&15) || guard>60){
+          msg.textContent = (currentY() === (parseInt(yN.value||"0",10)&15)) ? "bits matchen y" : "stop (max steps)";
+          refresh();
+          return;
+        }
+        oneStep();
+        guard++;
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    }
+
+    document.getElementById("d2_step").onclick = oneStep;
+    document.getElementById("d2_train").onclick = trainToY;
+    document.getElementById("d2_read").onclick = () => { bits.forEach(b=>b.vis.readPulse()); msg.textContent="read: alleen meten"; refresh(); };
+    document.getElementById("d2_reset").onclick = () => {
+      pulses = 0; ySeries.length=0;
+      bits.forEach((b,i)=> b.vis.setX(0.2 + 0.2*i, true));
+      msg.textContent="memristors: 4 (reset)";
+      refresh();
+    };
+
+    xS.oninput = refresh;
+    yN.oninput = refresh;
+
+    ySeries.push(currentY());
+    refresh();
+  })();
+</script>
+</body>
+</html>

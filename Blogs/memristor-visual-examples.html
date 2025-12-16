@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memristor Training Visual Samples</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --panel: #121a2e;
+      --cyan: #00f5ff;
+      --purple: #2a1a4a;
+      --ion: #ffaa00;
+      --electron: #00ff88;
+      --magenta: #ff00aa;
+      --text: #d8e4ff;
+      --muted: #8ea0c2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(0,255,136,0.06), transparent 35%), radial-gradient(circle at 80% 0%, rgba(255,0,170,0.08), transparent 40%), var(--bg);
+      color: var(--text);
+      padding: 32px;
+      line-height: 1.5;
+    }
+    h1 { margin: 0 0 12px; letter-spacing: 0.5px; }
+    p { margin: 0 0 16px; color: var(--muted); max-width: 920px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent 40%), var(--panel);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+      position: relative;
+      overflow: hidden;
+    }
+    .card h2 { margin: 0 0 8px; font-size: 18px; }
+    .card small { color: var(--muted); }
+    button {
+      background: linear-gradient(90deg, #00ff88, #00c2ff);
+      color: #001423;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,255,136,0.18);
+      transition: transform 120ms ease;
+    }
+    button.secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      box-shadow: none;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    button:active { transform: translateY(1px); }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 6px; }
+    .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .mini {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .mini svg {
+      width: 100%;
+      height: 90px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 10px;
+    }
+    .legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend b {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+    }
+    .note { color: var(--muted); font-size: 13px; margin-top: 8px; }
+    .chart {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .chart svg { width: 100%; height: 130px; }
+    .crossbar {
+      display: grid;
+      grid-template-columns: repeat(3, 24px);
+      gap: 4px;
+    }
+    .crossbar div {
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .crossbar div.active { background: rgba(0,255,136,0.25); border-color: #00ff88; }
+    .stacked {
+      display: grid;
+      gap: 12px;
+    }
+    body { padding-bottom: 82px; }
+  </style>
+</head>
+<body>
+  <h1>Memristor Training Visual Examples</h1>
+  <p>Use these ready-to-drop micro-visuals to show how the device learns (ions move) versus computes (current flows). Each card is an isolated D3 mini-scene you can embed or adapt.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Training vs Inference</h2>
+      <small>Side-by-side: electrodes flash and ions drift during training; electrons flow through a frozen weight during inference.</small>
+      <div class="controls">
+        <button id="train-step">Run Training Step</button>
+        <button class="secondary" id="inference-pulse">Pulse Inference</button>
+      </div>
+      <div id="scene-train"></div>
+      <div id="scene-infer" style="margin-top:10px;"></div>
+      <div class="legend" style="margin-top:10px;">
+        <span><b style="background:var(--cyan)"></b>doped</span>
+        <span><b style="background:var(--purple)"></b>undoped</span>
+        <span><b style="background:var(--ion)"></b>ions (move in training)</span>
+        <span><b style="background:var(--electron)"></b>electrons (flow in inference)</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Ion Drift Timeline</h2>
+      <small>Scrub epochs to replay boundary movement and ion drift.</small>
+      <div class="controls">
+        <button class="secondary" data-epoch="0">Epoch 0</button>
+        <button class="secondary" data-epoch="1">Mid</button>
+        <button class="secondary" data-epoch="2">Converged</button>
+      </div>
+      <div id="timeline-main"></div>
+      <div class="mini" id="timeline-thumbs"></div>
+      <div class="note">Idea: show a thin strip under your main canvas; clicking a keyframe snaps the device to that training state.</div>
+    </div>
+
+    <div class="card">
+      <h2>Weight Gauge + Error Trace</h2>
+      <small>Link the abstract weight to the physical boundary position.</small>
+      <div class="chart">
+        <div id="gauge"></div>
+        <div id="traces"></div>
+      </div>
+      <div class="controls">
+        <button class="secondary" id="advance-epoch">Advance Epoch</button>
+        <span class="badge" id="gauge-label">W=1.0, error=0.8</span>
+      </div>
+      <div class="note">Map: boundary ratio ↔ conductance ↔ learned weight.</div>
+    </div>
+
+    <div class="card">
+      <h2>Current Path & Operation Badges</h2>
+      <small>Show computation flow and how different ops reinterpret the weight.</small>
+      <div class="stacked">
+        <div id="flow"></div>
+        <div class="badge-row" id="op-badges"></div>
+        <div class="badge-row">
+          <div class="crossbar">
+            <div></div><div></div><div></div>
+            <div></div><div class="active"></div><div></div>
+            <div></div><div></div><div></div>
+          </div>
+          <span class="note">Crossbar context: one lit cell = this memristor.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WIDTH = 340, HEIGHT = 200;
+
+    let sceneCounter = 0;
+
+    function createMemristorScene(target, opts) {
+      const sceneId = `scene-${sceneCounter++}`;
+      const dopedId = `${sceneId}-doped`;
+      const undopedId = `${sceneId}-undoped`;
+      const svg = d3.select(target).append("svg")
+        .attr("width", WIDTH)
+        .attr("height", HEIGHT)
+        .style("border-radius", "12px")
+        .style("background", "rgba(255,255,255,0.02)");
+
+      const device = svg.append("g").attr("transform", "translate(40,30)");
+      const w = WIDTH - 80, h = HEIGHT - 60;
+
+      device.append("rect")
+        .attr("x", 0).attr("y", 0)
+        .attr("width", w).attr("height", h)
+        .attr("fill", "none")
+        .attr("stroke", "rgba(255,255,255,0.1)")
+        .attr("stroke-width", 2)
+        .attr("rx", 10);
+
+      const doped = device.append("rect").attr("y", 0).attr("height", h).attr("fill", `url(#${dopedId})`);
+      const undoped = device.append("rect").attr("y", 0).attr("height", h).attr("fill", `url(#${undopedId})`);
+      const boundary = device.append("line")
+        .attr("y1", 0).attr("y2", h)
+        .attr("stroke", "#ffffff").attr("stroke-dasharray", "6 4")
+        .attr("stroke-width", 1.5).attr("opacity", 0.8);
+
+      // Electrodes
+      svg.append("text").attr("x", WIDTH/2).attr("y", 18).attr("text-anchor", "middle")
+        .attr("fill", "#00ff88").attr("font-size", 12).text(opts.mode === "train" ? "+V (training)" : "+V (inference)");
+      svg.append("text").attr("x", WIDTH/2).attr("y", HEIGHT-8).attr("text-anchor", "middle")
+        .attr("fill", "#ff00aa").attr("font-size", 12).text("GND");
+
+      const defs = svg.append("defs");
+      defs.append("linearGradient").attr("id", dopedId).attr("x1", "0%").attr("x2", "100%")
+        .selectAll("stop").data([
+          {o: 0, c: "#00f5ff44"},
+          {o: 1, c: "#00f5ff99"}
+        ]).enter().append("stop").attr("offset", d => d.o).attr("stop-color", d => d.c);
+      defs.append("linearGradient").attr("id", undopedId).attr("x1", "0%").attr("x2", "100%")
+        .selectAll("stop").data([
+          {o: 0, c: "#2a1a4acc"},
+          {o: 1, c: "#2a1a4a88"}
+        ]).enter().append("stop").attr("offset", d => d.o).attr("stop-color", d => d.c);
+
+      const ions = device.append("g");
+      const electrons = svg.append("g");
+
+      const state = {
+        boundaryRatio: 0.45,
+        ions: d3.range(20).map(() => ({
+          x: Math.random() * w * 0.6 + w * 0.1,
+          y: Math.random() * (h - 20) + 10
+        }))
+      };
+
+      function renderBoundary(ratio) {
+        const bx = w * ratio;
+        doped.attr("x", 0).attr("width", bx);
+        undoped.attr("x", bx).attr("width", w - bx);
+        boundary.attr("x1", bx).attr("x2", bx);
+      }
+
+      function renderIons() {
+        const sel = ions.selectAll("circle").data(state.ions);
+        sel.enter().append("circle")
+          .attr("r", 5)
+          .attr("fill", "var(--ion)")
+          .attr("opacity", 0.9)
+          .merge(sel)
+          .transition().duration(600)
+          .attr("cx", d => d.x)
+          .attr("cy", d => d.y);
+        sel.exit().remove();
+      }
+
+      function flashElectrodes(polarity) {
+        svg.selectAll(".flash").remove();
+        const color = polarity > 0 ? "#00ff88" : "#ff00aa";
+        svg.append("rect")
+          .attr("class", "flash")
+          .attr("x", 10).attr("y", 10)
+          .attr("width", WIDTH - 20).attr("height", 16)
+          .attr("fill", color).attr("opacity", 0.15)
+          .transition().duration(500).attr("opacity", 0).remove();
+      }
+
+      function trainStep(delta) {
+        flashElectrodes(delta);
+        state.boundaryRatio = Math.max(0.15, Math.min(0.85, state.boundaryRatio + delta * 0.08));
+        state.ions.forEach(d => d.x += delta * (Math.random() * 18 + 6));
+        renderBoundary(state.boundaryRatio);
+        renderIons();
+      }
+
+      function pulseInference(weight) {
+        const pathY = HEIGHT / 2;
+        const count = 18;
+        electrons.selectAll("*").remove();
+        for (let i = 0; i < count; i++) {
+          electrons.append("circle")
+            .attr("r", 4)
+            .attr("fill", "var(--electron)")
+            .attr("cx", 24).attr("cy", pathY + (Math.random() - 0.5) * 26)
+            .attr("opacity", 0.95)
+            .transition().duration(800 - weight * 80 + Math.random() * 120)
+            .ease(d3.easeQuadInOut)
+            .attr("cx", WIDTH - 24)
+            .attr("opacity", 0)
+            .remove();
+        }
+        electrons.append("line")
+          .attr("x1", 24).attr("x2", WIDTH - 24)
+          .attr("y1", pathY).attr("y2", pathY)
+          .attr("stroke", "var(--electron)")
+          .attr("stroke-width", 3)
+          .attr("stroke-linecap", "round")
+          .attr("opacity", 0.2)
+          .transition().duration(600).attr("opacity", 0).remove();
+      }
+
+      renderBoundary(state.boundaryRatio);
+      renderIons();
+      return { trainStep, pulseInference, state };
+    }
+
+    // Scene 1: Training vs Inference
+    const trainScene = createMemristorScene("#scene-train", { mode: "train" });
+    const inferScene = createMemristorScene("#scene-infer", { mode: "inference" });
+    let trainDirection = 1;
+
+    d3.select("#train-step").on("click", () => {
+      trainScene.trainStep(trainDirection);
+      trainDirection *= -1;
+    });
+    d3.select("#inference-pulse").on("click", () => {
+      const weight = 1 + (trainScene.state.boundaryRatio - 0.45) * 2.5; // simple mapping
+      inferScene.pulseInference(weight);
+    });
+
+    // Scene 2: Ion Drift Timeline
+    const timelineStates = [
+      { label: "Epoch 0", ratio: 0.22 },
+      { label: "Mid", ratio: 0.45 },
+      { label: "Converged", ratio: 0.68 }
+    ];
+
+    function drawTimeline(target, ratio, frozen) {
+      const svg = d3.select(target).append("svg").attr("width", WIDTH).attr("height", 160);
+      const w = WIDTH - 80, h = 100, x0 = 40, y0 = 24;
+      svg.append("rect").attr("x", x0).attr("y", y0).attr("width", w).attr("height", h)
+        .attr("rx", 10).attr("fill", "rgba(255,255,255,0.02)").attr("stroke", "rgba(255,255,255,0.08)");
+      svg.append("rect").attr("x", x0).attr("y", y0).attr("width", w * ratio).attr("height", h)
+        .attr("fill", "var(--cyan)").attr("opacity", 0.28);
+      svg.append("rect").attr("x", x0 + w * ratio).attr("y", y0).attr("width", w * (1 - ratio)).attr("height", h)
+        .attr("fill", "var(--purple)").attr("opacity", 0.45);
+      svg.append("line").attr("x1", x0 + w * ratio).attr("x2", x0 + w * ratio)
+        .attr("y1", y0).attr("y2", y0 + h)
+        .attr("stroke", "#fff").attr("stroke-dasharray", "5 4").attr("opacity", 0.8);
+      const ions = d3.range(14).map(() => ({
+        x: x0 + Math.random() * w * 0.9 * ratio + w * 0.03,
+        y: y0 + Math.random() * (h - 12) + 6
+      }));
+      svg.selectAll("circle").data(ions).enter().append("circle")
+        .attr("r", 4).attr("fill", "var(--ion)").attr("opacity", 0.9)
+        .attr("cx", d => d.x).attr("cy", d => d.y);
+      svg.append("text").attr("x", WIDTH/2).attr("y", 12)
+        .attr("fill", frozen ? "#00ff88" : "#ffaa00").attr("text-anchor", "middle")
+        .text(frozen ? "Weight frozen" : "Ions drift → boundary moves");
+      return svg;
+    }
+
+    const timelineMain = drawTimeline("#timeline-main", timelineStates[0].ratio, false);
+    const thumbWrap = d3.select("#timeline-thumbs");
+    timelineStates.forEach((s, i) => {
+      const thumb = thumbWrap.append("div");
+      const svg = d3.select(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
+      svg.attr("width", 100).attr("height", 90);
+      const w = 76, h = 52, x0 = 10, y0 = 16;
+      svg.append("rect").attr("x", x0).attr("y", y0).attr("width", w).attr("height", h)
+        .attr("rx", 8).attr("fill", "rgba(255,255,255,0.02)").attr("stroke", "rgba(255,255,255,0.08)");
+      svg.append("rect").attr("x", x0).attr("y", y0).attr("width", w * s.ratio).attr("height", h)
+        .attr("fill", "var(--cyan)").attr("opacity", 0.3);
+      svg.append("rect").attr("x", x0 + w * s.ratio).attr("y", y0)
+        .attr("width", w * (1 - s.ratio)).attr("height", h)
+        .attr("fill", "var(--purple)").attr("opacity", 0.5);
+      svg.append("line").attr("x1", x0 + w * s.ratio).attr("x2", x0 + w * s.ratio)
+        .attr("y1", y0).attr("y2", y0 + h)
+        .attr("stroke", "#fff").attr("stroke-dasharray", "4 3").attr("opacity", 0.7);
+      thumb.node().appendChild(svg.node());
+      thumb.on("click", () => {
+        d3.select("#timeline-main").selectAll("*").remove();
+        drawTimeline("#timeline-main", s.ratio, i === 2);
+      });
+    });
+
+    d3.selectAll('[data-epoch]').on("click", function() {
+      const idx = +this.getAttribute("data-epoch");
+      d3.select("#timeline-main").selectAll("*").remove();
+      drawTimeline("#timeline-main", timelineStates[idx].ratio, idx === 2);
+    });
+
+    // Scene 3: Gauge + Traces
+    const gaugeSvg = d3.select("#gauge").append("svg").attr("width", 200).attr("height", 160);
+    const arc = d3.arc().innerRadius(50).outerRadius(70).startAngle(-Math.PI/2);
+    const arcBg = gaugeSvg.append("path")
+      .attr("d", arc.endAngle(Math.PI/2)())
+      .attr("fill", "rgba(255,255,255,0.06)")
+      .attr("transform", "translate(100,90)");
+    const arcVal = gaugeSvg.append("path")
+      .attr("fill", "url(#gaugeGrad)")
+      .attr("transform", "translate(100,90)");
+    const arcLabel = gaugeSvg.append("text").attr("x", 100).attr("y", 94)
+      .attr("text-anchor", "middle").attr("fill", "#fff").attr("font-size", 18).text("W=1.0");
+    gaugeSvg.append("defs").append("linearGradient").attr("id", "gaugeGrad")
+      .attr("x1", "0%").attr("x2", "100%")
+      .selectAll("stop").data([
+        {o: 0, c: "#ff00aa"},
+        {o: 1, c: "#00ff88"}
+      ]).enter().append("stop").attr("offset", d => d.o).attr("stop-color", d => d.c);
+
+    const traceSvg = d3.select("#traces").append("svg").attr("width", 280).attr("height", 160);
+    const traceData = [];
+    const errorData = [];
+
+    function updateGauge(weight) {
+      const end = -Math.PI/2 + (Math.PI) * Math.min(1, weight / 2.5);
+      arcVal.attr("d", arc.endAngle(end)());
+      arcLabel.text(`W=${weight.toFixed(2)}`);
+    }
+
+    function updateTraces(epoch, weight, error) {
+      traceData.push({ epoch, value: weight });
+      errorData.push({ epoch, value: error });
+      const x = d3.scaleLinear().domain([0, Math.max(6, epoch)]).range([30, 260]);
+      const yW = d3.scaleLinear().domain([0, 2.5]).range([130, 20]);
+      const yE = d3.scaleLinear().domain([0, 1.0]).range([130, 20]);
+
+      traceSvg.selectAll("*").remove();
+      const lineW = d3.line().x(d => x(d.epoch)).y(d => yW(d.value)).curve(d3.curveMonotoneX);
+      const lineE = d3.line().x(d => x(d.epoch)).y(d => yE(d.value)).curve(d3.curveMonotoneX);
+
+      traceSvg.append("path").attr("d", lineW(traceData))
+        .attr("fill", "none").attr("stroke", "var(--electron)").attr("stroke-width", 2.5);
+      traceSvg.append("path").attr("d", lineE(errorData))
+        .attr("fill", "none").attr("stroke", "var(--magenta)").attr("stroke-width", 2);
+      traceSvg.append("text").attr("x", 32).attr("y", 18).attr("fill", "var(--electron)").text("weight");
+      traceSvg.append("text").attr("x", 32).attr("y", 34).attr("fill", "var(--magenta)").text("error");
+    }
+
+    let epoch = 0, weight = 1.0, err = 0.8;
+    updateGauge(weight);
+    updateTraces(epoch, weight, err);
+    d3.select("#gauge-label").text(`W=${weight.toFixed(1)}, error=${err.toFixed(2)}`);
+
+    d3.select("#advance-epoch").on("click", () => {
+      epoch += 1;
+      const target = 2.0;
+      const delta = (target - weight) * 0.4;
+      weight += delta;
+      err *= 0.7;
+      updateGauge(weight);
+      updateTraces(epoch, weight, err);
+      d3.select("#gauge-label").text(`W=${weight.toFixed(2)}, error=${err.toFixed(2)}`);
+    });
+
+    // Scene 4: Current Path + Operation Badges
+    const flowSvg = d3.select("#flow").append("svg").attr("width", WIDTH).attr("height", 160);
+    const flowW = WIDTH - 60, flowH = 80, fx = 30, fy = 40;
+    flowSvg.append("rect").attr("x", fx).attr("y", fy).attr("width", flowW).attr("height", flowH)
+      .attr("rx", 12).attr("fill", "rgba(255,255,255,0.03)").attr("stroke", "rgba(255,255,255,0.08)");
+    const flowBoundary = flowSvg.append("line")
+      .attr("x1", fx + flowW * 0.55).attr("x2", fx + flowW * 0.55)
+      .attr("y1", fy).attr("y2", fy + flowH).attr("stroke", "#fff").attr("stroke-dasharray", "5 4").attr("opacity", 0.8);
+    flowSvg.append("rect").attr("x", fx).attr("y", fy).attr("width", flowW * 0.55).attr("height", flowH)
+      .attr("fill", "var(--cyan)").attr("opacity", 0.25);
+    flowSvg.append("rect").attr("x", fx + flowW * 0.55).attr("y", fy)
+      .attr("width", flowW * 0.45).attr("height", flowH).attr("fill", "var(--purple)").attr("opacity", 0.45);
+
+    function pulseFlow(weight) {
+      const count = 14;
+      for (let i = 0; i < count; i++) {
+        flowSvg.append("circle")
+          .attr("r", 4)
+          .attr("cx", fx - 10)
+          .attr("cy", fy + 12 + Math.random() * (flowH - 24))
+          .attr("fill", "var(--electron)")
+          .attr("opacity", 0.95)
+          .transition().duration(700 - weight * 80 + Math.random() * 120)
+          .ease(d3.easeQuadInOut)
+          .attr("cx", fx + flowW + 10)
+          .attr("opacity", 0)
+          .remove();
+      }
+    }
+    pulseFlow(1.4);
+    flowSvg.on("click", () => pulseFlow(1.4));
+
+    const ops = [
+      { name: "Multiply", text: "W = multiplier; drift until V×W matches examples.", color: "#00ff88" },
+      { name: "Divide", text: "W = 1/divisor; push boundary left to reduce G.", color: "#00c2ff" },
+      { name: "Add/Sub", text: "Two paths: W=+1, W=-1; magenta shows subtraction.", color: "#ff00aa" },
+      { name: "Power", text: "Chain multiplications; hold W while pulsing inputs.", color: "#ffaa00" }
+    ];
+    const badgeRow = d3.select("#op-badges");
+    ops.forEach(op => {
+      const b = badgeRow.append("div").attr("class", "badge")
+        .style("border-color", op.color).style("color", op.color).style("background", "rgba(255,255,255,0.03)");
+      b.text(`${op.name} — ${op.text}`);
+    });
+  </script>
+
+  <script src="../shared/bottom-nav.js" data-nav-active="blogs"></script>
+</body>
+</html>
