@@ -1,62 +1,45 @@
-# Copilot Instructions — Repository Context
+# Copilot Instructions (Codeware website + portfolio)
 
-Purpose: make AI coding agents immediately productive in this repository (static portfolio + project pages).
+This repo is a static site (GitHub Pages/custom domain). There is no build system: edits are plain HTML/CSS/JS.
 
-Quick summary
-- This is a static HTML/CSS portfolio site served from the repository root and intended for GitHub Pages. Key runtime is a plain HTTP server (no build step).
-- Primary folders: `portfolio/` (hub, projects, presentations). Each project or presentation is an independent folder with its own `index.html` and optional `assets/`.
+## Big picture (where things live)
+- Marketing site entrypoint: `index.html` (Codeware landing page).
+- Portfolio hub and content: `portfolio/`
+  - Hub: `portfolio/index.html`
+  - Projects: `portfolio/projects/<project>/index.html`
+  - Presentations: `portfolio/presentations/<client-or-topic>/index.html`
+- Blogs: `Blogs/` (mostly standalone HTML with inline CSS).
+- Shared runtime JS: `shared/bottom-nav.js` (injects the bottom nav across pages).
+- Shared cross-site CSS: `shared/site.css` (small set of styles reused across pages; avoid duplicating these inline).
+- Shared portfolio styling: `portfolio/shared/portfolio.css` (CSS variables + reusable classes used by portfolio pages).
 
-Big-picture architecture (what matters)
-- Static content only: no backend code lives here. Expect plain HTML, CSS (Tailwind via CDN), and assets (images, PDFs).
-- Each sub-folder is a standalone site entry point. Example: `portfolio/projects/ai-knowledge-app/index.html` and `portfolio/index.html`.
-- The repository exposes lightweight AI metadata for assistants: top-level `index.html` includes `meta` tags like `ai-summary`, `ai-keywords` and links to `llms.txt` / `llms-full.txt` via `rel="ai-info"` and `alternate`.
+## Local dev / preview
+- Recommended: run a simple HTTP server from the repo root (file:// URLs break navigation).
+  - Windows: run `start-server.bat` (starts `python -m http.server 8000 --directory "%CD%"`).
+  - macOS/Linux: `./start-server.sh` (runs `python3 -m http.server 8000`).
+  - Then open `http://localhost:8000/` (marketing) and `http://localhost:8000/portfolio/` (portfolio).
 
-Developer workflows (explicit commands)
-- Local preview (preferred): run an HTTP server from the repository root. Recommended commands:
-  - Windows (batch): double-click `start-server.bat` in the repo root.
-  - Python: `python -m http.server 8000` then open `http://localhost:8000`.
-  - VS Code: use Live Server extension and open `index.html`.
-- GitHub Pages: deploy from the repo root (Settings → Pages) with the branch set to `main` (or your branch) and folder `/`.
-- Keep `branch-info.json` updated when previewing non-default branches — the site reads it to display a branch banner.
+## Conventions to follow in edits
+- Page structure: each page is a self-contained `index.html` (folders without `index.html` 404 on Pages).
+- Styling:
+  - Many pages load Tailwind via CDN (`https://cdn.tailwindcss.com`) and configure shared colors (`primary`, `background-light`, `background-dark`) inline.
+  - Put truly cross-page custom CSS in `shared/site.css` (e.g., the `100dvh` fallback and shared icon fills) instead of repeating `<style>` blocks.
+  - Portfolio pages additionally load `portfolio/shared/portfolio.css`; prefer its CSS variables (`--pc-*`) and existing classes (`.portfolio-content`, `.portofolio-card`, `.back-link`) instead of inventing new styling.
+- Navigation:
+  - Required on every HTML page: include `shared/bottom-nav.js` so the global bottom navigation is consistent site-wide.
+    - Root pages: `<script src="/shared/bottom-nav.js" data-nav-active="home"></script>`
+    - Under `portfolio/` and `Blogs/`: `<script src="/shared/bottom-nav.js" data-nav-active="portfolio"></script>` or `data-nav-active="blogs"`.
+  - Set the active item via `data-nav-active` on the script tag.
+  - The script also infers active section from URL paths (`/portfolio`, `/Blogs`) and hash anchors (`/#services`, etc.).
+- Links:
+  - Use root-relative URLs for ALL internal navigation and shared assets (always start with `/`).
+    - Examples: `/portfolio/projects/investment-agent/`, `/portfolio/`, `/Blogs/index.html`, `/shared/bottom-nav.js`.
+  - When editing existing pages that use folder-relative links (e.g. `projects/<name>/` or `../../`), prefer converting them to the equivalent root-relative paths.
 
-Project-specific conventions and patterns
-- Root-relative paths: links and image `src` should start with `/` when referencing top-level paths (examples in `index.html`). This repository intentionally uses root-relative links for GitHub Pages compatibility.
-- Every folder intended as a site page must include an `index.html` (404s happen otherwise).
-- Shared CSS is loaded from CDN (Tailwind) directly in pages; do not expect a local CSS build step.
-- Backlinks use relative sibling navigation like `../../` from a project page to the portofolio root — preserve this pattern when adding pages.
+## External dependencies / integrations
+- Google Analytics (gtag) is embedded in multiple pages; keep IDs consistent if touched.
+- Google Fonts + Material Icons are loaded from `fonts.googleapis.com`.
+- AI metadata: `index.html` exposes `meta name="ai-summary"`/`ai-keywords` and links to `llms.txt` + `llms-full.txt`; preserve these patterns when editing the landing page.
 
-Integration points and external dependencies
-- Google Analytics / gtag is referenced in `index.html` (remove or replace if privacy rules require it).
-- Fonts and Tailwind are loaded from Google Fonts and the Tailwind CDN respectively.
-- Some project pages describe integrations (e.g., `AI Knowledge App` documents MCP, .NET workers, vector DBs) but those implementations are external — code for those systems is not in this repo; links point to other GitHub repos.
-
-- Custom domain: the repo contains a `CNAME` file with `www.codeware.be`. GitHub Pages will configure that domain when deployed; update or remove the `CNAME` when previewing forks if you need the default `github.io` URL.
-
-What to change and how to test changes
-- Adding a new project: create `portfolio/projects/<name>/index.html` and optional `assets/`. Update the hub (`portfolio/index.html`) with a new card link using the same markup pattern.
-- When editing links, test with `python -m http.server 8000` and open `http://localhost:8000` to validate navigation and back buttons.
-- For quick previews of branches, use GitHub Pages deploy-from-branch; keep `branch-info.json` in-sync when automating deployments.
-
-Files to inspect when working on features
-- Hub and root: `index.html`, `portfolio/index.html`
-- Local testing guidance: `LOCAL_TESTING.md`, `start-server.bat`, `start-server.sh`
-- AI/assistant hints: `llms.txt`, `llms-full.txt`, and top-level `index.html` meta tags
-- Per-project examples: `portfolio/projects/ai-knowledge-app/index.html` and `portfolio/presentations/TEMPLATE.md` (presentation template)
-
-Agent behaviour expectations
-- Keep changes minimal and isolated: this repository intentionally has many small, independent pages. Avoid global refactors unless instructed.
-- Preserve root-relative link style and per-folder `index.html` conventions.
-- Do not add build tooling unless requested; prefer simple, copy-paste HTML edits and asset additions.
-- When updating content that mentions external systems (MCP, .NET workers), add references or links only — don't attempt to implement external services in this repo.
-
-Example tasks the agent can do safely
-- Add a new project page and a matching card in the hub (`portfolio/index.html`).
-- Fix broken image paths by converting relative references to root-relative when appropriate.
-- Add or update `ai-summary` metadata and `llms.txt` links to improve assistant context.
-
-When to ask for human help
-- Adding backend code, CI/CD pipelines, or deploying external services (MCP servers, vector DBs) — these are out-of-scope for this static repo.
-- If a change requires modifying a large number of files across folders or altering navigation patterns, ask before proceeding.
-
-Feedback
-If any instructions are unclear or you want the agent to follow stricter conventions (naming, metadata, or accessibility rules), describe the desired policy and the agent will adapt.
+## Be careful about
+- Docs/templates may lag the current structure (e.g., some instructions mention `projects/` or `presentations/` at repo root). Prefer the existing on-disk structure under `portfolio/` when adding new pages.

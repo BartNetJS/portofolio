@@ -59,14 +59,7 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <style>
-      .icon-fill {
-        fill: #4b5563;
-      }
-      .dark .icon-fill {
-        fill: #d1d5db;
-      }
-    </style>
+		<link rel="stylesheet" href="/shared/site.css" />
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -87,15 +80,6 @@
         },
       };
     </script>
-    <style>
-      body {
-        min-height: max(884px, 100dvh);
-      }
-      /* Fallback for browsers that don't support 100dvh */
-      @supports not (height: 100dvh) {
-        body { min-height: 884px; }
-      }
-    </style>
   </head>
   <body class="bg-background-light dark:bg-background-dark font-display">
     <div class="bg-background-light dark:bg-background-dark shadow-lg">
@@ -120,7 +104,7 @@
 				              <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-50 leading-tight">Innovating Your Digital Future.</h2>
 				              <img
 					              class="w-16 sm:w-20 h-auto flex-shrink-0 pointer-events-none opacity-90 md:absolute md:w-64 md:right-4 md:top-4"
-					              src="portfolio/images/logo-atoms.png"
+					              src="/portfolio/images/logo-atoms.png"
 					              alt="Codeware atoms logo"
 				              />
 			              </div>
@@ -252,21 +236,21 @@
 	        <section id="portfolio" class="scroll-mt-20 px-4 py-8">
 	          <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">Our AI Projects &amp; Case Studies</h3>
 	          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-	            <a class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-purple-200 dark:border-purple-900/40 hover:shadow-md transition-shadow" href="portfolio/projects/investment-agent/">
+	            <a class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-purple-200 dark:border-purple-900/40 hover:shadow-md transition-shadow" href="/portfolio/projects/investment-agent/">
 	              <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
 	                <span class="material-icons-outlined text-purple-600 dark:text-purple-400">smart_toy</span>
 	              </div>
 	              <h4 class="font-bold text-gray-900 dark:text-gray-50 mt-3">Autonomous Investment Agent (POC)</h4>
 	              <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Proof of Concept for an agentic workflow capable of analyzing market data and executing trades autonomously.</p>
 	            </a>
-	            <a class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-emerald-200 dark:border-emerald-900/40 hover:shadow-md transition-shadow" href="portfolio/projects/invoicing-app/">
+	            <a class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-emerald-200 dark:border-emerald-900/40 hover:shadow-md transition-shadow" href="/portfolio/projects/invoicing-app/">
 	              <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/50 rounded-lg flex items-center justify-center">
 	                <span class="material-icons-outlined text-emerald-700 dark:text-emerald-300">receipt_long</span>
 	              </div>
 	              <h4 class="font-bold text-gray-900 dark:text-gray-50 mt-3">Smart Invoicing &amp; Chatbot</h4>
 	              <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Intelligent invoicing platform featuring an integrated AI chatbot for automated customer support and query resolution.</p>
 	            </a>
-	            <a class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-rose-200 dark:border-rose-900/40 hover:shadow-md transition-shadow" href="portfolio/projects/ai-knowledge-app/">
+	            <a class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-rose-200 dark:border-rose-900/40 hover:shadow-md transition-shadow" href="/portfolio/projects/ai-knowledge-app/">
 	              <div class="w-10 h-10 bg-rose-100 dark:bg-rose-900/50 rounded-lg flex items-center justify-center">
 	                <span class="material-icons-outlined text-rose-700 dark:text-rose-300">psychology</span>
 	              </div>

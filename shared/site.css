@@ -1,0 +1,24 @@
+/* Shared CSS across the site.
+   Keep this file limited to styles that are truly cross-page; most layout uses Tailwind via CDN.
+*/
+
+/* SVG icon fill used on the landing page */
+.icon-fill {
+  fill: #4b5563;
+}
+
+.dark .icon-fill {
+  fill: #d1d5db;
+}
+
+/* Mobile viewport height stability for pages that use a fixed bottom nav */
+body {
+  min-height: max(884px, 100dvh);
+}
+
+/* Fallback for browsers that don't support 100dvh */
+@supports not (height: 100dvh) {
+  body {
+    min-height: 884px;
+  }
+}
