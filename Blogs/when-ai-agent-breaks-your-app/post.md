@@ -1,4 +1,24 @@
-# Security Settings Page Hangs on Load
+# When an AI Agent Breaks Your App
+
+![Illustration: AI assistant causing an app issue](./images/intro-image.webp)
+
+We all love AI assistants — Copilot, Claude, Codex, Warp…
+
+They save time.
+
+They reduce boilerplate.
+
+They occasionally hallucinate entire architectures, but we forgive them.
+
+Most of the time, these tools are helpful.
+
+And then, very rarely, they are a bit too helpful — the kind of helpful where your app stops working and you start reconsidering every career decision that led you to this moment.
+
+This story is one of those moments.
+
+It’s about a page that refused to load, a constructor that did far too much, and a single line of “async over sync” that quietly turned into an infinite spinner.
+
+---
 
 *A troubleshooting guide for the “infinite spinner” that isn’t a crash, isn’t a log, and isn’t obvious.*
 
@@ -6,7 +26,7 @@
 
 ## Problem description
 
-The **Security Settings** page hangs indefinitely while loading (blank page or spinner). The application keeps running, other pages work, and you get **no useful errors**.
+A **Razor** page hangs indefinitely while loading (blank page or spinner). The application keeps running, other pages work, and you get **no useful errors**.
 
 In the cases described here, the hang happens because the DI container tries to build a **singleton** service whose **constructor blocks on async work**.
 
@@ -14,7 +34,7 @@ In the cases described here, the hang happens because the DI container tries to 
 
 ## Symptoms
 
-- The Security Settings page never finishes loading
+- The Razor page never finishes loading
 - Browser shows an infinite spinner / blank page
 - Other pages in the app work fine
 - No meaningful errors in the browser console
@@ -50,7 +70,7 @@ This can happen even with just you on localhost.
 
 ```mermaid
 flowchart TD
-    A[Browser navigates to Security Settings page]
+    A[Browser navigates to Razor page]
     B[DI resolves singleton storage service]
     C[Constructor calls async .Result]
     D[SignalR thread blocks]
