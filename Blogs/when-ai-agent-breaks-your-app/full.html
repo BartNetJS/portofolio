@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Security Settings Page Hangs on Load</title>
+    <link rel="stylesheet" href="/shared/site.css" />
+    <link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style>
+      body { background: white; color: #111827; }
+      .post-container{ max-width: 720px; margin: 3rem auto; padding: 0 1rem; }
+      .mermaid { margin: 1.25rem 0; }
+      .prose pre, .prose pre code, .prose code { color: #111827; }
+    </style>
+  </head>
+  <body>
+    <main class="post-container">
+      <header class="mb-6">
+        <h1 class="text-4xl font-extrabold">Security Settings Page Hangs on Load</h1>
+        <p class="text-sm text-gray-600 mt-2">Troubleshooting guide — customer-neutral</p>
+        <p class="mt-3 text-sm">
+          Prefer the Markdown version? <a href="./" class="underline">Open the rendered post</a>.
+        </p>
+      </header>
+
+      <article class="prose lg:prose-xl">
+        <p><em>A troubleshooting guide for the “infinite spinner” that isn’t a crash, isn’t a log, and isn’t obvious.</em></p>
+
+        <h2>Problem description</h2>
+        <p>The <strong>Security Settings</strong> page hangs indefinitely while loading (blank page or spinner). The application keeps running, other pages work, and you get <strong>no useful errors</strong>.</p>
+        <p>In the cases described here, the hang happens because the DI container tries to build a <strong>singleton</strong> service whose <strong>constructor blocks on async work</strong>.</p>
+
+        <h2>Symptoms</h2>
+        <ul>
+          <li>The Security Settings page never finishes loading</li>
+          <li>Browser shows an infinite spinner / blank page</li>
+          <li>Other pages in the app work fine</li>
+          <li>No meaningful errors in the browser console</li>
+          <li>Server logs may show authentication/token attempts but no exception</li>
+        </ul>
+
+        <h2>Root cause</h2>
+        <p><code>TableStorageService&lt;T&gt;</code> (or a similar service) is registered as a <strong>Singleton</strong>, and its constructor does blocking synchronous work:</p>
+        <ul>
+          <li>Calling async methods using <code>.Result</code> / <code>.Wait()</code></li>
+          <li>Doing I/O work in the constructor (creating clients, probing endpoints, creating tables, etc.)</li>
+        </ul>
+        <p>In <strong>Blazor Server</strong>, this can cause a deadlock because the request is running on a context-bound SignalR thread.</p>
+
+        <h2>Deadlock walkthrough (single user, localhost)</h2>
+        <div class="mermaid">
+    flowchart TD
+      A[Browser navigates to Security Settings page]
+      B[DI resolves singleton storage service]
+      C[Constructor calls async .Result]
+      D[SignalR thread blocks]
+      E[Async continuation needs SignalR context]
+      F[UI waits forever]
+
+      A --> B --> C --> D
+      D --> E --> D
+      D --> F
+        </div>
+
+        <h2>The problematic pattern</h2>
+        <pre><code class="language-csharp">public sealed class TableStorageService&lt;T&gt; where T : class
+{
+    private readonly TableClient _tableClient;
+
+    public TableStorageService(string storageAccountName, string tableName)
+    {
+        // ❌ Blocking async in a constructor.
+        var credential = TokenCredentialFactory.GetAsync().Result;
+
+        var serviceClient = new TableServiceClient(
+            new Uri($"https://{storageAccountName}.table.core.windows.net"),
+            credential);
+
+        _tableClient = serviceClient.GetTableClient(tableName);
+        _tableClient.CreateIfNotExists(); // ❌ Also sync I/O
+    }
+}</code></pre>
+
+        <h2>The fix (lazy async initialization)</h2>
+        <p>Make the constructor cheap (just store configuration). Do the heavy work lazily, using async, <strong>exactly once</strong>, guarded by a lock.</p>
+        <pre><code class="language-csharp">public sealed class TableStorageService&lt;T&gt; where T : class
+{
+    private readonly string _storageAccountName;
+    private readonly string _tableName;
+
+    private TableClient? _tableClient;
+    private bool _isInitialized;
+    private readonly SemaphoreSlim _initLock = new(1, 1);
+
+    public TableStorageService(string storageAccountName, string tableName)
+    {
+        _storageAccountName = storageAccountName;
+        _tableName = tableName;
+    }
+
+    private async Task&lt;TableClient&gt; GetTableClientAsync()
+    {
+        if (_isInitialized && _tableClient is not null)
+        {
+            return _tableClient;
+        }
+
+        await _initLock.WaitAsync();
+        try
+        {
+            if (_isInitialized && _tableClient is not null)
+            {
+                return _tableClient;
+            }
+
+            var credential = await TokenCredentialFactory.GetAsync();
+            var serviceClient = new TableServiceClient(
+                new Uri($"https://{_storageAccountName}.table.core.windows.net"),
+                credential);
+
+            _tableClient = serviceClient.GetTableClient(_tableName);
+            await _tableClient.CreateIfNotExistsAsync();
+
+            _isInitialized = true;
+            return _tableClient;
+        }
+        finally
+        {
+            _initLock.Release();
+        }
+    }
+}</code></pre>
+
+        <h2>Checklist</h2>
+        <ul>
+          <li>Avoid <code>.Result</code> / <code>.Wait()</code> in server code</li>
+          <li>Never do network I/O in constructors used by DI</li>
+          <li>If you need singleton: use lazy async init with a lock and cache the result</li>
+          <li>Log initialization start/finish so hangs become searchable</li>
+        </ul>
+
+        <p><em>Names/identifiers in code are placeholders.</em></p>
+      </article>
+
+      <footer class="mt-10 text-sm text-gray-600">Full HTML variant (kept for cases where Markdown isn't enough).</footer>
+    </main>
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "default", securityLevel: "strict" });
+    </script>
+    <script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
+  </body>
+</html>

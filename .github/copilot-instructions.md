@@ -36,6 +36,18 @@ This repo is a static site (GitHub Pages/custom domain). There is no build syste
     - Examples: `/portfolio/projects/investment-agent/`, `/portfolio/`, `/Blogs/index.html`, `/shared/bottom-nav.js`.
   - When editing existing pages that use folder-relative links (e.g. `projects/<name>/` or `../../`), prefer converting them to the equivalent root-relative paths.
 
+## Blogs: Markdown posts (with Mermaid)
+- Preferred structure is one folder per post: `Blogs/<slug>/`
+  - `Blogs/<slug>/index.html` renders `post.md`.
+  - `Blogs/<slug>/post.md` contains the Markdown.
+  - Optional `Blogs/<slug>/full.html` for posts that need custom HTML beyond Markdown/Mermaid.
+- Markdown rendering is done client-side via `portfolio/shared/markdown-mermaid.js` (note: not under root `shared/`).
+
+### Mermaid reliability tips
+- Prefer `flowchart TD` over `sequenceDiagram` if you hit parse errors.
+- Use spaces (not tabs) in Mermaid code blocks.
+- Avoid unicode arrows/special characters in Mermaid labels.
+
 ## External dependencies / integrations
 - Google Analytics (gtag) is embedded in multiple pages; keep IDs consistent if touched.
 - Google Fonts + Material Icons are loaded from `fonts.googleapis.com`.

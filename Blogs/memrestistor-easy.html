@@ -160,6 +160,12 @@
           <div class="pill mono" id="d1_zv">1.40</div>
         </div>
 
+        <div class="in">
+          <div class="pill mono">tolerantie</div>
+          <input id="d1_tol" type="range" min="0.001" max="0.05" step="0.001" value="0.010"/>
+          <div class="pill mono" id="d1_tolV">0.010</div>
+        </div>
+
         <div class="row">
           <button class="primary" id="d1_train">Train naar doel</button>
           <button id="d1_step">1 step</button>
@@ -382,6 +388,8 @@
     const zS = document.getElementById("d1_z");
     const xV = document.getElementById("d1_xv");
     const zV = document.getElementById("d1_zv");
+    const tolS = document.getElementById("d1_tol");
+    const tolV = document.getElementById("d1_tolV");
 
     const msg = document.getElementById("d1_msg");
     const wEl = document.getElementById("d1_w");
@@ -540,6 +548,7 @@
     function refresh(){
       xV.textContent = fmt(xS.value,2);
       zV.textContent = fmt(zS.value,2);
+      tolV.textContent = fmt(tolS.value,3);
       speedVal.textContent = speedSlider.value + '%';
 
       const x = Number(xS.value);
@@ -615,7 +624,7 @@
       if(!powerOn){ msg.textContent = "Power is off!"; return; }
       trainingAborted = false;
       let guard = 0;
-      const goal = 0.01; // tolerantie (didactisch)
+      const tol = Number(tolS.value); // tolerantie (slider)
 
       function loop(){
         if(trainingAborted){
@@ -628,8 +637,8 @@
         const z = Number(zS.value);
         const w = calcW();
         const e = z - x*w;
-        if(Math.abs(e) <= goal || guard > 120){
-          msg.textContent = Math.abs(e) <= goal ? "doel bereikt (binnen tolerantie)" : "stop (max steps)";
+        if(Math.abs(e) <= tol || guard > 120){
+          msg.textContent = Math.abs(e) <= tol ? "doel bereikt (binnen tolerantie)" : "stop (max steps)";
           setMode('idle');
           showCurrent(false);
           refresh();
@@ -639,7 +648,7 @@
         guard++;
         setTimeout(loop, getDelay());
       }
-      msg.textContent = "training loopt… (pas snelheid aan met slider)";
+      msg.textContent = `training loopt. tolerantie: +/-${fmt(tol,3)} (pas snelheid aan met slider)`;
       setMode('training');
       setTimeout(loop, getDelay());
     }
@@ -705,6 +714,7 @@
     speedSlider.oninput = refresh;
     xS.oninput = refresh;
     zS.oninput = refresh;
+    tolS.oninput = refresh;
 
     // IV cycle button and double-click
     document.getElementById("d1_iv_btn").onclick = runIVCycle;

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Security Settings Page Hangs on Load — Blog</title>
+    <link rel="stylesheet" href="/shared/site.css">
+    <link rel="stylesheet" href="/portfolio/shared/portfolio.css">
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
+    <style>
+      body { background: white; color: #111827; }
+      .post-container{ max-width: 720px; margin: 3rem auto; padding: 0 1rem; }
+      /* Improve readability for code blocks rendered from Markdown (tailwind prose + portfolio md styles can clash). */
+      .md-article pre { color: #111827; }
+      .md-article pre code { color: #111827; }
+      .md-article code { color: #111827; }
+    </style>
+  </head>
+  <body>
+    <main class="post-container">
+      <div class="prose lg:prose-xl">
+        <div data-md-include="./post.md"></div>
+      </div>
+      <p class="mt-8 text-sm text-gray-600">Rendered from Markdown in this folder. Full HTML available at <a href="./full.html">full.html</a>.</p>
+    </main>
+
+    <script type="module" src="/portfolio/shared/markdown-mermaid.js"></script>
+    <script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
+  </body>
+</html>

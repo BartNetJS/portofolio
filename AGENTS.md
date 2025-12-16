@@ -42,6 +42,20 @@ Open:
 - Portfolio project page structure: `portfolio/projects/ai-knowledge-app/index.html`
 - Blog layout: `Blogs/index.html`
 
+## Blogs: Markdown + Mermaid (new pattern)
+- Preferred structure: one folder per post: `Blogs/<slug>/`
+  - `Blogs/<slug>/index.html` renders Markdown (see `data-md-include`) and includes bottom nav.
+  - `Blogs/<slug>/post.md` is the Markdown source.
+  - Optional: `Blogs/<slug>/full.html` for posts that require custom HTML beyond Markdown/Mermaid.
+- Markdown rendering is done client-side using `portfolio/shared/markdown-mermaid.js`.
+  - Note: there is no `shared/markdown-mermaid.js` at repo root; use `/portfolio/shared/markdown-mermaid.js`.
+
+### Mermaid gotchas (important)
+- Prefer simple Mermaid diagrams (`flowchart TD`) for reliability.
+- Avoid tabs in Mermaid blocks; use spaces.
+- Avoid special arrow variants and unicode symbols in Mermaid text (keep ASCII).
+- If a post shows “Unable to load … Parse error …”, the Mermaid code block is usually the culprit.
+
 ## Guidance for agent tools
 - Prefer small, localized edits: this repo intentionally has many independent pages.
 - Do not introduce build tooling/dependencies unless explicitly requested.
