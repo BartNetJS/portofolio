@@ -78,6 +78,13 @@
       background:linear-gradient(90deg, rgba(24,226,184,.0), rgba(24,226,184,.14), rgba(24,226,184,.0));
       opacity:0; pointer-events:none; z-index:1;
     }
+    .voltageLayer{
+      position:absolute; inset:0;
+      opacity:0; pointer-events:none; z-index:1;
+      transition: opacity 0.12s ease-out;
+    }
+    .voltageLayer.vpos{ background:linear-gradient(90deg, rgba(24,226,184,.18), rgba(24,226,184,.04)); opacity:1; }
+    .voltageLayer.vneg{ background:linear-gradient(90deg, rgba(255,79,184,.06), rgba(255,79,184,.18)); opacity:1; }
     .kv{ display:grid; grid-template-columns: 1fr auto; gap:8px 10px; margin-top:10px; }
     .kv div{ font-size:12.5px; color:var(--muted); }
     .kv strong{ color:var(--text); font-weight:900; font-size:12.5px; }
@@ -127,6 +134,11 @@
     }
     .bitTop{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
     .tag{ padding:4px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.05); color:var(--muted); font-size:12px; }
+    details{ border-radius:14px; background:rgba(4,8,20,.20); border:1px solid rgba(255,255,255,.08); padding:10px 12px; }
+    summary{ cursor:pointer; list-style:none; }
+    summary::-webkit-details-marker{ display:none; }
+    summary .summaryTitle{ font-weight:900; font-size:12.5px; }
+    summary .summarySub{ color:var(--muted); font-size:11.5px; margin-top:2px; }
   </style>
 </head>
 <body>
@@ -134,9 +146,20 @@
   <section class="card">
     <h1>Memristor training naar een doel (calculator): x · y = z</h1>
     <div class="sub">
-      <b>Training</b> verschuift ionen → de memristor bewaart een “multiplier” als weerstandstoestand.<br/>
-      <b>Lezen/inference</b> meet enkel de stroom (dus het gewicht), zonder te verschuiven.
+      <b>Wat is het verschil met een gewone resistor?</b> Een resistor heeft <b>vaste</b> R. Een memristor heeft R die afhangt van de <b>geschiedenis</b> (hoeveel en welke richting er stroom liep).<br/>
+      <b>Training (schrijven)</b> = hogere spanning/pulsjes → ionen/grens bewegen → R verandert en blijft zo (non‑volatile).<br/>
+      <b>Lezen / inference</b> = lage spanning → je meet alleen de stroom (dus het gewicht), zonder de toestand merkbaar te wijzigen.
     </div>
+    <details style="margin-top:10px;" open>
+      <summary>
+        <div class="summaryTitle">Start hier (30 seconden)</div>
+        <div class="summarySub">1) Zie R als "gewicht" (G = 1/R). 2) Schrijven verandert het gewicht. 3) Lezen is meten.</div>
+      </summary>
+      <div class="tiny" style="margin-top:8px;">
+        In neurale netwerken werkt men vaak met <b>conductance</b> (G) in plaats van weerstand (R), omdat in een crossbar de stroom natuurlijk een som van <b>G × V</b> wordt.
+        Deze demo toont daarom zowel <b>R</b> als <b>G</b>.
+      </div>
+    </details>
   </section>
 
   <!-- DEMO 1: 1 memristor leert w zodat x*w ≈ z -->
@@ -207,6 +230,7 @@
             <div class="doped"></div><div class="undoped"></div>
             <div class="ionLayer" id="d1_ions"></div>
             <div class="boundary" id="d1_boundary"></div>
+            <div class="voltageLayer" id="d1_voltage"></div>
             <div class="readPulse" id="d1_readPulse"></div>
           </div>
           <div class="current-flow" id="d1_current">
@@ -217,7 +241,9 @@
         <div class="kv mono">
           <div>schuifstand x (fysiek)</div><strong id="d1_phys">0.50</strong>
           <div>weerstand R</div><strong id="d1_R">—</strong>
+          <div>conductance G (= 1/R)</div><strong id="d1_G">—</strong>
           <div>read-stroom</div><strong id="d1_I">—</strong>
+          <div>opgetelde lading Q (schematisch)</div><strong id="d1_Q">—</strong>
         </div>
 
         <div class="hr"></div>
@@ -225,11 +251,17 @@
           <span><b>I-V Hysteresis</b> — de "vingerafdruk" van een memristor</span>
           <button id="d1_iv_btn" style="padding:4px 10px; font-size:11px;">Start I-V cyclus</button>
         </div>
+        <div class="speed-control" style="margin-top:8px;">
+          <span class="speed-label">I-V frequentie:</span>
+          <input type="range" id="d1_iv_freq" min="1" max="10" value="2" style="flex:1;"/>
+          <span class="speed-value" id="d1_iv_freq_val">2×</span>
+        </div>
         <canvas class="iv-canvas" id="d1_iv" width="400" height="360"></canvas>
         <div class="canvas-label">Spanning (V) ↔ Stroom (I) — de lus toont geheugeneffect</div>
 
         <div class="tiny">
-          Training beweegt de grens & ionen. Read toont enkel een groene meet-puls.
+          Tip: verhoog de <b>frequentie</b> → de lus krimpt richting een rechte lijn (gedraagt zich meer als een gewone resistor).
+          Training beweegt de grens & ionen. Read toont enkel een groene meet‑puls.
         </div>
       </div>
     </div>
@@ -402,6 +434,8 @@
     const phys = document.getElementById("d1_phys");
     const REl = document.getElementById("d1_R");
     const IEl = document.getElementById("d1_I");
+    const GEl = document.getElementById("d1_G");
+    const QEl = document.getElementById("d1_Q");
     const plot = document.getElementById("d1_plot");
     const ivCanvas = document.getElementById("d1_iv");
 
@@ -413,6 +447,9 @@
     const currentFlow = document.getElementById("d1_current");
     const currentVal = document.getElementById("d1_current_val");
     const memristorWrap = document.getElementById("d1_memristor_wrap");
+    const voltageLayer = document.getElementById("d1_voltage");
+    const ivFreqSlider = document.getElementById("d1_iv_freq");
+    const ivFreqVal = document.getElementById("d1_iv_freq_val");
 
     // mapping: memristor fysieke x -> w (multiplier)
     const wMin = 0.0, wMax = 3.0;
@@ -423,6 +460,7 @@
     const errSeries = [];
     const ivPoints = []; // For hysteresis curve
     let ivPhase = 0; // For cycling voltage in hysteresis demo
+    let qAccum = 0; // accumulated charge (schematisch)
 
     // visuele memristor
     const vis = makeVisualMemristor({
@@ -469,14 +507,19 @@
       if(!on){
         setMode('idle');
         currentFlow.classList.remove('visible');
+        voltageLayer.className = 'voltageLayer';
       }
       refresh();
     }
 
-    function showCurrent(show, value = 0){
+    function showCurrent(show, value = 0, voltage = 0){
       currentFlow.classList.toggle('visible', show && powerOn);
       if(show && powerOn){
         currentVal.textContent = fmt(Math.abs(value * 1e6), 1) + ' µA';
+        document.querySelector('#d1_current .current-arrow').textContent = value >= 0 ? '→' : '←';
+        voltageLayer.className = 'voltageLayer ' + (voltage >= 0 ? 'vpos' : 'vneg');
+      } else {
+        voltageLayer.className = 'voltageLayer';
       }
     }
 
@@ -541,10 +584,16 @@
       if(ivPoints.length > 200) ivPoints.shift();
 
       // Update memristor state based on voltage (simplified model)
+      const ivFreq = Number(ivFreqSlider.value || 1);
       if(Math.abs(voltage) > 0.3){
-        const drift = voltage * 0.015; // ions drift with voltage
+        // Higher frequency => less time for drift => smaller hysteresis
+        const drift = (voltage * 0.015) / ivFreq; // ions drift with voltage
         vis.setX(clamp01(vis.x + drift), true);
       }
+
+      // Accumulate charge (schematisch) with a small time-step that shrinks at higher frequency
+      const dt = (getDelay() / 1000) / Math.max(1, ivFreq);
+      qAccum += I * dt;
     }
 
     function refresh(){
@@ -552,6 +601,7 @@
       zV.textContent = fmt(zS.value,2);
       tolV.textContent = fmt(tolS.value,3);
       speedVal.textContent = speedSlider.value + '%';
+      ivFreqVal.textContent = String(ivFreqSlider.value) + '×';
 
       const x = Number(xS.value);
       const z = Number(zS.value);
@@ -573,8 +623,11 @@
       const R = calcRfromX(vis.x);
       const Vread = 0.10;
       const I = powerOn ? Vread / R : 0;
+      const G = powerOn ? (1 / R) : 0;
       REl.textContent = powerOn ? (R>=1000 ? fmt(R/1000,2)+" kΩ" : fmt(R,0)+" Ω") : "— (off)";
       IEl.textContent = powerOn ? fmt(I*1e6,1) + " µA @ 0.10V" : "— (off)";
+      GEl.textContent = powerOn ? (G >= 1e-3 ? fmt(G*1e3,3) + ' mS' : fmt(G*1e6,2) + ' µS') : "— (off)";
+      QEl.textContent = powerOn ? fmt(qAccum*1e6,2) + ' µC' : "— (off)";
 
       drawLine(plot, errSeries, "error (z - x·w) over training steps");
       drawIV();
@@ -605,7 +658,9 @@
         const R = calcRfromX(vis.x);
         ivPoints.push({ v: trainV, i: trainV/R });
         if(ivPoints.length > 200) ivPoints.shift();
-        showCurrent(true, trainV/R);
+        // schematisch: schrijf-puls kost energie en verplaatst lading
+        qAccum += (trainV/R) * 0.010;
+        showCurrent(true, trainV/R, trainV);
       }
 
       // log error na step
@@ -619,7 +674,7 @@
       refresh();
 
       setTimeout(() => {
-        showCurrent(false);
+        showCurrent(false, 0, 0);
         setMode('idle');
       }, 200);
     }
@@ -646,7 +701,7 @@
         if(Math.abs(e) <= tol || guard > 120){
           msg.textContent = Math.abs(e) <= tol ? "doel bereikt (binnen tolerantie)" : "stop (max steps)";
           setMode('idle');
-          showCurrent(false);
+          showCurrent(false, 0, 0);
           refresh();
           return;
         }
@@ -665,11 +720,12 @@
       ivPoints.length = 0;
       let step = 0;
       const totalSteps = 80;
+      const ivFreq = Number(ivFreqSlider.value || 1);
 
       function cycle(){
         if(step >= totalSteps || !powerOn){
           setMode('idle');
-          showCurrent(false);
+          showCurrent(false, 0, 0);
           msg.textContent = "I-V cyclus compleet";
           return;
         }
@@ -677,10 +733,10 @@
         // Sinusoidal voltage sweep
         const voltage = Math.sin(step / totalSteps * Math.PI * 2) * 1.0;
         addIVPoint(voltage);
-        showCurrent(true, voltage / calcRfromX(vis.x));
+        showCurrent(true, voltage / calcRfromX(vis.x), voltage);
         refresh();
         step++;
-        setTimeout(cycle, getDelay() / 2);
+        setTimeout(cycle, Math.max(8, (getDelay() / 2) / ivFreq));
       }
       msg.textContent = "I-V cyclus loopt…";
       cycle();
@@ -695,20 +751,21 @@
       const R = calcRfromX(vis.x);
       const Vread = 0.10;
       ivPoints.push({ v: Vread, i: Vread/R });
-      showCurrent(true, Vread/R);
+      qAccum += (Vread/R) * 0.010;
+      showCurrent(true, Vread/R, Vread);
       msg.textContent="read: alleen meten (lage spanning, geen verandering)";
       refresh();
       setTimeout(() => {
         setMode('idle');
-        showCurrent(false);
+        showCurrent(false, 0, 0);
       }, 500);
     };
     document.getElementById("d1_reset").onclick = () => {
       trainingAborted = true;
-      pulses = 0; errSeries.length=0; ivPoints.length=0;
+      pulses = 0; errSeries.length=0; ivPoints.length=0; qAccum = 0;
       vis.setX(0.50, true);
       setMode('idle');
-      showCurrent(false);
+      showCurrent(false, 0, 0);
       msg.textContent="reset";
       refresh();
     };
@@ -718,6 +775,7 @@
     };
 
     speedSlider.oninput = refresh;
+    ivFreqSlider.oninput = refresh;
     xS.oninput = refresh;
     zS.oninput = refresh;
     tolS.oninput = refresh;
