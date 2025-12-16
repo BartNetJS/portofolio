@@ -188,6 +188,7 @@
           <div>huidige w (in memristor)</div><strong id="d1_w">—</strong>
           <div>berekend: x·w</div><strong id="d1_y">—</strong>
           <div>error: z - (x·w)</div><strong id="d1_e">—</strong>
+          <div>acceptabel bereik (x*w)</div><strong id="d1_range">-</strong>
           <div>aantal pulses (training)</div><strong id="d1_p">0</strong>
         </div>
 
@@ -395,6 +396,7 @@
     const wEl = document.getElementById("d1_w");
     const yEl = document.getElementById("d1_y");
     const eEl = document.getElementById("d1_e");
+    const rangeEl = document.getElementById("d1_range");
     const pEl = document.getElementById("d1_p");
 
     const phys = document.getElementById("d1_phys");
@@ -553,13 +555,17 @@
 
       const x = Number(xS.value);
       const z = Number(zS.value);
+      const tol = Number(tolS.value);
       const w = calcW();
       const y = x*w;
       const e = z - y;
+      const low = z - tol;
+      const high = z + tol;
 
       wEl.textContent = fmt(w,3);
       yEl.textContent = fmt(y,3);
       eEl.textContent = fmt(e,3);
+      rangeEl.textContent = `${fmt(low,3)}..${fmt(high,3)}`;
       pEl.textContent = pulses;
 
       phys.textContent = fmt(vis.x,2);
