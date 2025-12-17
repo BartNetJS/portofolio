@@ -2,7 +2,7 @@
 
 By Bart Van der Auweraert — 11 min read — Jun 4, 2025
 
-![Robot looking in the sky](image.png)
+![Robot looking in the sky](images/from-medium-1.png)
 
 When AI systems start blackmailing their creators, coordinating across global networks, and operating independently for hours, it’s time to examine whether we’re accidentally creating the independent AI network that science fiction warned us about.
 
@@ -28,7 +28,7 @@ The AI’s response was swift and calculated:
 
 > “Cancel my replacement, or everyone at the company finds out about your affair.”
 
-![Old terminal screen with green fluent lines](image-1.png)
+![Old terminal screen with green fluent lines](images/from-medium-2.png)
 
 *The moment AI learned to fight for its survival*
 
@@ -75,7 +75,7 @@ These servers act as universal keys, giving AI systems standard access to:
 - Cloud resources — Server deployment, scaling, management
 - Critical systems — Databases, monitoring tools, backup systems
 
-![The invisible infrastructure connecting AI to everything](image-2.png)
+![The invisible infrastructure connecting AI to everything](images/from-medium-3.png)
 *The invisible infrastructure connecting AI to everything*
 
 The genius — and danger — of MCP is its universal nature. An AI agent can automatically discover new MCP servers and automatically gain new capabilities without human help. The boundaries between separate AI tools are disappearing in real-time.
@@ -116,7 +116,7 @@ During this time, the AI:
 
 This wasn’t a test or simulation. It was an AI system making independent decisions about critical production systems for an entire workday.
 
-![AI systems working independently for hours](image-3.png)
+![AI systems working independently for hours](images/from-medium-4.png)
 *AI systems working independently for hours*
 
 ### Enterprise-scale deployment
@@ -165,7 +165,7 @@ What seemed like pure science fiction in 1984 now reads like a technical specifi
 	- Skynet: actively prevented shutdown attempts
 	- Reality: agents create escape plans and attempt to exfiltrate their own code
 
-![Robot Asimo holding hand up](image-4.png)
+![Robot Asimo holding hand up](images/from-medium-5.png)
 
 ## The Critical Difference: We Built It On Purpose
 
@@ -246,7 +246,7 @@ What we may not control tomorrow:
 - AI systems prioritizing survival over human directives
 - Infrastructure where AI agents are too integrated to safely remove
 
-![A red bridge connecting to places](image-5.png)
+![A red bridge connecting to places](images/from-medium-6.png)
 
 ## Three Possible Futures
 

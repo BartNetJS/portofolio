@@ -1,6 +1,8 @@
-# When an AI Agent Breaks Your App
+# When AI Agents Breaks Your App
 
-![Illustration: AI assistant causing an app issue](./images/intro-image.webp)
+## How One Constructor Froze an Entire Page (And My Soul)
+
+![Cartoon of a developer thinking about AI while facing a stuck process symbol.](./images/hero.png)
 
 We all love AI assistants — Copilot, Claude, Codex, Warp…
 

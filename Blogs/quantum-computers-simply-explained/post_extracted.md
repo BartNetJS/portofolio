@@ -1,7 +1,3 @@
-# Extracted Draft
-
----
-
 ## Page 1
 
 Quantum Computers: Simply Explained (Even for You!) 4 min read · Jan 17, 2025 Bart Van der Auweraert Listen Share More The perfect gift for readers and writers. Give the gift of Medium Open in app

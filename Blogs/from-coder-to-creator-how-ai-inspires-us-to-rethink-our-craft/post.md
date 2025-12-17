@@ -1,14 +1,14 @@
-# Extracted Draft
-
----
-
 # From coder to creator: how AI inspires us to rethink our craft
 
 ![Hero image](./images/page-01-img-03.png)
 
 *By Bart Van der Auweraert — Dec 11, 2024 — ~4 min read*
 
-The first time I touched a keyboard connected to my Sinclair ZX80 I learned a few things the hard way: resilience, improvisation, and the small, stubborn joy of building something that works. Nearly forty years later, we're at another inflection point. Artificial intelligence isn't just another tool — it's prompting us to rethink what it means to create.
+*[Click here to read it on Medium](https://medium.com/@bart.codeware/from-coder-to-creator-how-ai-inspires-us-to-rethink-our-craft-a4906496eb82)*
+
+I remember the first time I touched a keyboard connected to my Sinclair ZX80 — my very first computer. It was a marvel of its time, without a hard disk, relying solely on a connection to the TV in my parents living room. If I accidentally unplugged it, all my carefully typed code would vanish, forcing me to start over. Of course, my parents liked to watch TV, which often meant my code was lost anyway — but I always found it funny to start over the next day. Looking back, I see that those early days taught me resilience, creativity, and the joy of discovery — lessons that have carried me through decades of rapid technological change.
+
+Now, nearly forty years later, I stand at another transformative crossroads — one as monumental as those first steps into coding. The rise of artificial intelligence is reshaping not only how we build software but how we think about the very craft of creation itself. At first, I feared being left behind. But today, I see AI not as a replacement for human ingenuity, but as a co-pilot, enhancing our abilities and helping us rediscover the joy of problem-solving.
 
 ---
 

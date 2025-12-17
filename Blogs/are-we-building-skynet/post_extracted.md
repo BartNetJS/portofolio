@@ -1,7 +1,3 @@
-# Extracted Draft
-
----
-
 ## Page 1
 
 11 min read · Jun 4, 2025 Bart Van der Auweraert Listen Share More Are We Building Skynet? A Comprehensive Analysis of AI Autonomy in 2025 When AI systems start blackmailing their creators, coordinating across global networks, and operating independently for hours, it’s time to examine whether we’re accidentally creating the independent AI network that science fiction warned us about. The perfect gift for readers and writers. Give the gift of Medium Open in app

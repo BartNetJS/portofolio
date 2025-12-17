@@ -39,7 +39,7 @@ def pdf_to_markdown(pdf_path: Path) -> str:
             "If so, we’ll need OCR to recover the text.\n"
         )
 
-    return "# Extracted Draft\n\n" + "".join(chunks).strip() + "\n"
+    return "" + "".join(chunks).strip() + "\n"
 
 
 def main(argv: list[str] | None = None) -> int:
