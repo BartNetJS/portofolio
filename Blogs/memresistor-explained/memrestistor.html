@@ -140,7 +140,41 @@
     summary::-webkit-details-marker{ display:none; }
     summary .summaryTitle{ font-weight:900; font-size:12.5px; }
     summary .summarySub{ color:var(--muted); font-size:11.5px; margin-top:2px; }
-    .guide{\n      margin-top:10px;\n      padding:10px 12px;\n      border-radius:12px;\n      border:1px solid rgba(255,255,255,.08);\n      background:rgba(4,8,20,.28);\n    }\n    .guide h3{ margin:0 0 6px; font-size:13px; }\n    .guide ul{ margin:0; padding-left:16px; color:var(--muted); font-size:12.5px; }\n    .guide li{ margin:2px 0; }\n    .guide .done{ color:#18E2B8; }\n    .guide .active{ color:#FFB020; font-weight:800; }
+    .guide{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(4,8,20,.28);
+    }
+    .guide h3{ margin:0 0 6px; font-size:13px; }
+    .guide ul{ margin:0; padding-left:16px; color:var(--muted); font-size:12.5px; }
+    .guide li{ margin:2px 0; color:var(--muted); }
+    .guide .done{ color:#18E2B8; }
+    .guide .active{ color:#FFB020; font-weight:800; }
+    .tip{ position:relative; display:inline-flex; align-items:center; gap:6px; cursor:help; }
+    .tip .bubble{
+      position:absolute; left:0; top:125%;
+      width:260px;
+      background:rgba(7,10,18,0.95);
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:10px;
+      padding:8px 10px;
+      color:var(--muted);
+      font-size:11.5px;
+      box-shadow:0 12px 24px rgba(0,0,0,0.35);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity 120ms ease, transform 120ms ease;
+      transform: translateY(-4px);
+      z-index:5;
+      display:none;
+    }
+    .tip:hover .bubble{
+      display:block;
+      opacity:1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -268,7 +302,7 @@
           <button id="d1_iv_btn" style="padding:4px 10px; font-size:11px;">Start I-V cyclus</button>
         </div>
         <div class="speed-control" style="margin-top:8px;">
-          <span class="speed-label">I-V frequentie:</span>
+          <span class="speed-label">I-V frequentie:</span> <span class="tip" aria-label="Uitleg I-V frequentie">❔<span class="bubble">Hogere frequentie = minder tijd per spanning → bijna geen ionendrift → de lus krimpt naar een rechte lijn (gedraagt zich als gewone weerstand). Lagere frequentie = meer drift → duidelijkere hysteresis (geheugen zichtbaar).</span></span>
           <input type="range" id="d1_iv_freq" min="1" max="10" value="2" style="flex:1;"/>
           <span class="speed-value" id="d1_iv_freq_val">2×</span>
         </div>
@@ -811,38 +845,56 @@
       });
     }
     function resetGuide(){
+      trainingAborted = true;
+      errSeries.length = 0;
+      pulses = 0;
+      qAccum = 0;
+      ivPoints.length = 0;
+      vis.setX(0.50, true);
       markGuide(-1);
       msg.textContent = "-";
+      refresh();
     }
     async function runGuide(){
       if(guideRunning) return;
       guideRunning = true;
-      trainingAborted = true; // stop any running loop
       resetGuide();
+      trainingAborted = false;
+      const delay = (ms) => new Promise(r=>setTimeout(r, ms));
 
       // Step 1: Read (lage V)
       markGuide(0);
-      msg.textContent = "Stap 1: Read (lage V) — meten zonder ionen te bewegen.";
+      msg.textContent = "Stap 1: Read (lage V) - meten zonder ionen te bewegen.";
       document.getElementById("d1_read").click();
-      await new Promise(r=>setTimeout(r, 700));
+      await delay(600);
       markGuide(1);
 
-      // Step 2: Schrijf +V
-      msg.textContent = "Stap 2: Schrijf (+V) — grens schuift, error kleiner.";
-      oneTrainStep();
-      await new Promise(r=>setTimeout(r, 800));
+      // Step 2: Schrijf +V (meer pulses om blogbeeld te tonen)
+      msg.textContent = "Stap 2: Schrijf (+V) - grens schuift, error wordt kleiner.";
+      const tol = Number(tolS.value);
+      let guard = 0;
+      while(guard < 20){
+        oneTrainStep();
+        await delay(350);
+        const x = Number(xS.value);
+        const z = Number(zS.value);
+        const w = calcW();
+        const e = z - x*w;
+        guard++;
+        if(Math.abs(e) <= tol) break;
+      }
       markGuide(2);
 
       // Step 3: Check error
       msg.textContent = "Stap 3: Check error vs tolerantie.";
       refresh();
-      await new Promise(r=>setTimeout(r, 600));
+      await delay(500);
       markGuide(3);
 
       // Step 4: Read/inference
-      msg.textContent = "Stap 4: Read — gewicht staat vast, alleen meten.";
+      msg.textContent = "Stap 4: Read - gewicht staat vast, alleen meten.";
       document.getElementById("d1_read").click();
-      await new Promise(r=>setTimeout(r, 700));
+      await delay(700);
 
       markGuide(4);
       setMode('idle');
@@ -1073,3 +1125,6 @@
   <script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
 </body>
 </html>
+
+
+

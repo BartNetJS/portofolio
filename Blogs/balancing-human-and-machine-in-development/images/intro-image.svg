@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-label="Developer using VS Code with subtle AI assistant suggestion overlays, conveying balance between human intent and machine help.">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#eef2ff" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)" />
+
+  <!-- Laptop -->
+  <g transform="translate(170,160)">
+    <rect x="0" y="260" width="520" height="24" rx="6" fill="#334155" />
+    <rect x="22" y="0" width="476" height="300" rx="14" fill="#0f172a" opacity="0.92" />
+    <rect x="44" y="24" width="432" height="252" rx="10" fill="#111827" opacity="0.9" />
+
+    <!-- VS Code-like side bar -->
+    <rect x="44" y="24" width="72" height="252" fill="#0b1220" opacity="0.85" />
+    <g opacity="0.7" fill="#94a3b8">
+      <rect x="56" y="44" width="48" height="10" rx="4" />
+      <rect x="56" y="66" width="44" height="10" rx="4" />
+      <rect x="56" y="88" width="40" height="10" rx="4" />
+      <rect x="56" y="110" width="46" height="10" rx="4" />
+    </g>
+
+    <!-- Code lines -->
+    <g opacity="0.9" fill="#e2e8f0">
+      <rect x="132" y="54" width="290" height="10" rx="4" opacity="0.55" />
+      <rect x="132" y="76" width="320" height="10" rx="4" opacity="0.45" />
+      <rect x="132" y="98" width="270" height="10" rx="4" opacity="0.5" />
+      <rect x="132" y="120" width="340" height="10" rx="4" opacity="0.4" />
+      <rect x="132" y="142" width="300" height="10" rx="4" opacity="0.45" />
+    </g>
+
+    <!-- AI suggestion overlay -->
+    <g opacity="0.55">
+      <rect x="172" y="176" width="300" height="66" rx="10" fill="#22c55e" opacity="0.12" />
+      <rect x="188" y="196" width="220" height="10" rx="4" fill="#22c55e" opacity="0.35" />
+      <rect x="188" y="214" width="260" height="10" rx="4" fill="#22c55e" opacity="0.28" />
+    </g>
+  </g>
+
+  <!-- Human hand / intent (abstract) -->
+  <g transform="translate(760,250)" opacity="0.95">
+    <circle cx="70" cy="70" r="54" fill="#fde68a" opacity="0.9" />
+    <path d="M40 92c24 18 54 18 88 0" stroke="#92400e" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6" />
+  </g>
+
+  <!-- Balance indicator -->
+  <g transform="translate(740,120)" opacity="0.75">
+    <rect x="0" y="0" width="400" height="120" rx="12" fill="#ffffff" opacity="0.7" />
+    <text x="24" y="44" font-family="sans-serif" font-size="26" fill="#0f172a">Balancing Human + Machine</text>
+    <text x="24" y="78" font-family="sans-serif" font-size="16" fill="#334155">AI-augmented workflow, without losing craft</text>
+  </g>
+</svg>

@@ -47,6 +47,73 @@ How it works (high level):
 - The script fetches the Markdown, renders it to HTML, sanitizes it, and runs Mermaid on ` ```mermaid ` blocks.
 
 
+## PDF workflow (text + images)
+If a blog post is sourced from a PDF (e.g. a Medium export), use the Python helpers in:
+- `Blogs/tools/`
+
+They support:
+- Extracting text into a draft Markdown file
+- Extracting embedded images from the PDF
+- Pruning unused extracted images once you’ve embedded the right ones in `post.md`
+
+### Prerequisites
+- Use the repo `.venv` (recommended)
+- Install dependencies once:
+
+```powershell
+cd C:\Users\BartVanderAuweraert\Sources\portefolio
+./.venv/Scripts/python.exe -m pip install "pypdf[image]"
+```
+
+### Step-by-step
+Assume your post folder is `Blogs/<slug>/` and the PDF sits in that folder.
+
+1) Extract text from the PDF into a draft:
+
+```powershell
+./.venv/Scripts/python.exe ./Blogs/tools/pdf_to_markdown.py \
+  --in  "Blogs/<slug>/<your-pdf>.pdf" \
+  --out "Blogs/<slug>/post_extracted.md"
+```
+
+2) Turn the draft into the real article source:
+- Copy/paste and clean from `post_extracted.md` into `post.md`
+- Remove Medium boilerplate sections (“Recommended from Medium”, profile blocks, etc.)
+
+3) Extract images from the PDF:
+
+```powershell
+./.venv/Scripts/python.exe ./Blogs/tools/pdf_extract_images.py \
+  --in "Blogs/<slug>/<your-pdf>.pdf" \
+  --out-dir "Blogs/<slug>/images/extracted"
+```
+
+4) Use images in `post.md`:
+- Reference them relatively, e.g.:
+
+```md
+![Header image](./images/extracted/page-01-img-01.png)
+```
+
+5) Remove obsolete / unused extracted images:
+First run a dry-run (default):
+
+```powershell
+./.venv/Scripts/python.exe ./Blogs/tools/prune_unused_images.py \
+  --post "Blogs/<slug>/post.md" \
+  --images-dir "Blogs/<slug>/images/extracted"
+```
+
+If the output looks correct, apply deletion:
+
+```powershell
+./.venv/Scripts/python.exe ./Blogs/tools/prune_unused_images.py \
+  --post "Blogs/<slug>/post.md" \
+  --images-dir "Blogs/<slug>/images/extracted" \
+  --apply
+```
+
+
 ## Template: `Blogs/when-ai-agent-breaks-your-app/`
 Use this folder as the reference layout and wiring.
 
@@ -105,6 +172,16 @@ This is the recommended pattern for Markdown-rendered posts:
 </html>
 ```
 
+note: don't create an extra header int the index.
+For example this is forbidden:
+
+```html
+<header>
+    <h1>Balancing Human and Machine in Development</h1>
+    <p class="meta">By Bart Van der Auweraert · 11 min read · Apr 1, 2025</p>
+    <img src="./images/intro-image.svg" alt="Developer working in VS Code with AI assistant suggestions, balancing human intent and machine help" class="hero" />
+</header>
+´´´
 
 ## Authoring `post.md`
 ### Images
