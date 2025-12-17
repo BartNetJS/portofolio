@@ -204,6 +204,14 @@
       white-space: nowrap;
       border: 0;
     }
+    .honeypot {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
     @media (max-width: 640px) {
       header { padding: 18px; }
       .card { grid-template-columns: 1fr; }
@@ -230,10 +238,15 @@
       </div>
       <form id="subscribeForm" class="subscribe-form">
         <label class="sr-only" for="subscribeEmail">Email address</label>
+        <div class="honeypot" aria-hidden="true">
+          <label for="subscribeWebsite">Website</label>
+          <input id="subscribeWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
         <div class="subscribe-row">
           <input id="subscribeEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
           <button id="subscribeButton" type="submit">Subscribe</button>
         </div>
+        <div id="turnstileContainer"></div>
         <div id="subscribeStatus" class="subscribe-status" role="status" aria-live="polite"></div>
       </form>
     </section>
@@ -339,14 +352,26 @@
 
   <script>
     (function () {
-      const scriptURL = "https://script.google.com/macros/s/AKfycbxwQPAMiTNEyA1K2swKab_E4dhIbimTbwB6zvCUqOFSScU99bpIeC6oIKJva7yoDekK/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbxwc_rhTcLkLcgdVpB1TERdeTh6mNa7GOggp0o5PrpKlqtaBnWiAGKm4EbEQYxrBeL2/exec";
+      const turnstileSiteKey = "0x4AAAAAACHRBNYycnjhahIT"; // Optional: Cloudflare Turnstile site key
 
       const form = document.getElementById("subscribeForm");
       const emailInput = document.getElementById("subscribeEmail");
       const button = document.getElementById("subscribeButton");
       const status = document.getElementById("subscribeStatus");
+      const turnstileContainer = document.getElementById("turnstileContainer");
 
       if (!form || !emailInput || !button || !status) return;
+
+      if (turnstileSiteKey && turnstileContainer) {
+        turnstileContainer.innerHTML =
+          '<div class="cf-turnstile" data-sitekey="' + turnstileSiteKey + '"></div>';
+        const script = document.createElement("script");
+        script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
 
       function setStatus(message, kind) {
         status.textContent = message;
@@ -364,15 +389,24 @@
         setStatus("Subscribing…");
 
         try {
+          const formData = new FormData(form);
+          formData.set("email", email);
+
+          if (turnstileSiteKey && !formData.get("cf-turnstile-response")) {
+            setStatus("Please complete the captcha.", "err");
+            return;
+          }
+
           const response = await fetch(scriptURL, {
             method: "POST",
-            body: new URLSearchParams({ email }),
+            body: new URLSearchParams(formData),
           });
 
           const data = await response.json();
           if (data && data.result === "success") {
             setStatus("Thanks — you’re subscribed.", "ok");
             form.reset();
+            if (window.turnstile) window.turnstile.reset();
             return;
           }
 

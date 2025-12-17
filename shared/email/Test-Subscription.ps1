@@ -1,15 +1,21 @@
 # Test-Subscription.ps1
-# Usage: .\Test-Subscription.ps1 -WebAppUrl "https://script.google.com/macros/s/..." -Email "test@example.com"
+# Usage: .\Test-Subscription.ps1 -WebAppUrl "https://script.google.com/macros/s/..." -Email "test@example.com" [-BypassKey "..."]
 
 param(
     [Parameter(Mandatory = $false)]
     [string]$WebAppUrl = "https://script.google.com/macros/s/AKfycbxwQPAMiTNEyA1K2swKab_E4dhIbimTbwB6zvCUqOFSScU99bpIeC6oIKJva7yoDekK/exec",
 
-    [string]$Email = "test@example.com"
+    [string]$Email = "test@example.com",
+
+    [string]$BypassKey = ""
 )
 
 $Body = @{
     email = $Email
+}
+
+if ($BypassKey) {
+    $Body.bypass_key = $BypassKey
 }
 
 try {
