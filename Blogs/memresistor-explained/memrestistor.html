@@ -3,493 +3,1006 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Memristor training → weerstand → inference (mini-demo's)</title>
+  <title>Memristor training naar doel (x·y=z)</title>
   <link rel="stylesheet" href="/shared/site.css" />
   <style>
     :root{
-      --bg:#070A12; --card:#0E1630; --card2:#0B1226;
-      --text:#EAF2FF; --muted:#9EB1D6;
-      --a:#18E2B8; --b:#6D4BFF; --warn:#FF4FB8; --ion:#FFB020;
-      --grid:#1A2A57; --line:#233870;
+      --bg:#070A12; --text:#EAF2FF; --muted:#9EB1D6;
+      --a:#18E2B8; --b:#6D4BFF; --mag:#FF4FB8; --ion:#FFB020;
       --shadow: 0 20px 50px rgba(0,0,0,.35);
       --r:18px;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     }
-    body{ margin:0; background:radial-gradient(1200px 600px at 20% 0%, #1c0f3a 0%, var(--bg) 55%);
-      color:var(--text); padding-bottom:120px; }
-    header{ padding:26px 22px 10px; }
-    h1{ margin:0 0 6px; font-size:28px; letter-spacing:.2px; }
-    p{ margin:0; color:var(--muted); line-height:1.45; }
-    .wrap{ padding:18px 22px 28px; display:grid; gap:16px; grid-template-columns: repeat(3, minmax(260px, 1fr)); }
+    body{ margin:0; color:var(--text);
+      background:radial-gradient(1200px 650px at 20% 0%, #1c0f3a 0%, var(--bg) 55%);
+      padding:18px;
+    }
+    .wrap{ max-width:860px; margin:0 auto; display:grid; gap:14px; }
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
       border:1px solid rgba(255,255,255,.08);
       border-radius:var(--r);
       box-shadow:var(--shadow);
       padding:14px 14px 12px;
-      min-height: 360px;
-      position:relative;
       overflow:hidden;
     }
-    .card h2{ margin:2px 0 6px; font-size:16px; }
-    .sub{ color:var(--muted); font-size:12.5px; margin-bottom:10px; }
-    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    h1{ margin:0 0 6px; font-size:18px; }
+    h2{ margin:0 0 6px; font-size:16px; }
+    .sub{ color:var(--muted); font-size:12.5px; line-height:1.45; }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; }
+    .pill{ padding:6px 10px; border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      font-size:12px; color:var(--muted);
+    }
     button{
-      background:transparent;
-      color:var(--text);
+      background:transparent; color:var(--text);
       border:1px solid rgba(255,255,255,.18);
       border-radius:999px;
-      padding:8px 12px;
-      cursor:pointer;
-      font-weight:600;
+      padding:8px 12px; cursor:pointer; font-weight:800;
     }
     button.primary{ border-color: rgba(24,226,184,.75); box-shadow:0 0 0 2px rgba(24,226,184,.08) inset; }
     button.mag{ border-color: rgba(255,79,184,.75); box-shadow:0 0 0 2px rgba(255,79,184,.08) inset; }
     button:active{ transform: translateY(1px); }
-    .pill{ padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); font-size:12px; color:var(--muted); }
-    .kv{ display:grid; grid-template-columns: 1fr auto; gap:8px 10px; margin-top:10px; }
-    .kv div{ font-size:12.5px; color:var(--muted); }
-    .kv strong{ color:var(--text); font-weight:700; font-size:12.5px; }
-    canvas{ width:100%; height:150px; background:rgba(4,8,20,.45); border:1px solid rgba(255,255,255,.08); border-radius:14px; }
+
+    .grid2{ display:grid; grid-template-columns: 1.3fr 1fr; gap:12px; }
+    @media (max-width: 860px){ .grid2{ grid-template-columns:1fr; } }
+
     .barWrap{
       margin-top:10px;
       border-radius:14px; overflow:hidden;
       border:1px solid rgba(255,255,255,.08);
       background:rgba(4,8,20,.45);
-    }
-    .bar{
-      height:28px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
       position:relative;
     }
-    .doped{ background:linear-gradient(90deg, rgba(24,226,184,.35), rgba(24,226,184,.18)); }
+    .bar{ height:40px; display:grid; grid-template-columns:1fr 1fr; position:relative; }
+    .doped{ background:linear-gradient(90deg, rgba(24,226,184,.38), rgba(24,226,184,.18)); }
     .undoped{ background:linear-gradient(90deg, rgba(109,75,255,.18), rgba(109,75,255,.10)); }
     .boundary{
-      position:absolute; top:0; bottom:0;
-      width:2px; background:rgba(255,255,255,.75);
+      position:absolute; top:0; bottom:0; width:2px;
+      background:rgba(255,255,255,.75);
       box-shadow:0 0 0 3px rgba(255,255,255,.08);
       left:50%;
+      z-index: 3;
     }
-    .legend{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; font-size:12px; color:var(--muted); }
-    .dot{ width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:6px; vertical-align:-1px; }
+    .ionLayer{ position:absolute; inset:0; pointer-events:none; z-index:2; }
+    .ion{
+      position:absolute;
+      width:8px; height:8px; border-radius:50%;
+      background:rgba(255,176,32,.92);
+      box-shadow:0 0 14px rgba(255,176,32,.22);
+      will-change: transform, left, top;
+    }
+    .readPulse{
+      position:absolute; inset:0;
+      background:linear-gradient(90deg, rgba(24,226,184,.0), rgba(24,226,184,.14), rgba(24,226,184,.0));
+      opacity:0; pointer-events:none; z-index:1;
+    }
+    .voltageLayer{
+      position:absolute; inset:0;
+      opacity:0; pointer-events:none; z-index:1;
+      transition: opacity 0.12s ease-out;
+    }
+    .voltageLayer.vpos{ background:linear-gradient(90deg, rgba(24,226,184,.18), rgba(24,226,184,.04)); opacity:1; }
+    .voltageLayer.vneg{ background:linear-gradient(90deg, rgba(255,79,184,.06), rgba(255,79,184,.18)); opacity:1; }
+    .kv{ display:grid; grid-template-columns: 1fr auto; gap:8px 10px; margin-top:10px; }
+    .kv div{ font-size:12.5px; color:var(--muted); }
+    .kv strong{ color:var(--text); font-weight:900; font-size:12.5px; }
     .mono{ font-variant-numeric: tabular-nums; font-feature-settings:"tnum" 1; }
-    .small{ font-size:12px; color:var(--muted); margin-top:10px; line-height:1.35; }
     .hr{ height:1px; background:rgba(255,255,255,.08); margin:10px 0; }
-    .slider{ width: 100%; }
-    @media (max-width: 980px){ .wrap{ grid-template-columns: 1fr; } }
+    canvas{ width:100%; height:140px; background:rgba(4,8,20,.45); border:1px solid rgba(255,255,255,.08); border-radius:14px; }
+    .in{
+      display:grid; grid-template-columns: 90px 1fr 70px; gap:10px; align-items:center;
+      margin-top:8px;
+    }
+    input[type="range"]{ width:100%; }
+    input[type="number"]{
+      width:100%; padding:8px 10px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(4,8,20,.35); color:var(--text);
+      font-weight:800;
+    }
+    .tiny{ font-size:12px; color:var(--muted); line-height:1.45; margin-top:8px; }
+    .speed-control{ display:flex; align-items:center; gap:8px; margin-top:10px; padding:8px 12px; background:rgba(4,8,20,.35); border-radius:12px; border:1px solid rgba(255,255,255,.08); }
+    .speed-label{ font-size:11px; color:var(--muted); min-width:70px; }
+    .speed-value{ font-size:11px; color:var(--text); font-weight:800; min-width:50px; text-align:right; }
+    .mode-indicator{ display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:800; transition: all 0.3s ease; }
+    .mode-train{ background:rgba(255,176,32,.15); border:1px solid rgba(255,176,32,.5); color:#FFB020; }
+    .mode-read{ background:rgba(24,226,184,.15); border:1px solid rgba(24,226,184,.5); color:#18E2B8; }
+    .mode-off{ background:rgba(109,75,255,.15); border:1px solid rgba(109,75,255,.5); color:#6D4BFF; }
+    .mode-dot{ width:8px; height:8px; border-radius:50%; animation: pulse 1.5s infinite; }
+    .mode-train .mode-dot{ background:#FFB020; }
+    .mode-read .mode-dot{ background:#18E2B8; }
+    .mode-off .mode-dot{ background:#6D4BFF; animation:none; }
+    @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+    .iv-canvas{ width:100%; height:180px; background:rgba(4,8,20,.45); border:1px solid rgba(255,255,255,.08); border-radius:14px; }
+    .canvas-label{ font-size:11px; color:var(--muted); margin-top:6px; text-align:center; }
+    .power-btn{ background:rgba(109,75,255,.15); border-color:rgba(109,75,255,.5); }
+    .power-btn.off{ background:rgba(255,79,184,.15); border-color:rgba(255,79,184,.5); }
+    .memristor-off .doped{ opacity:0.4; }
+    .memristor-off .undoped{ opacity:0.4; }
+    .memristor-off .ion{ opacity:0.6; filter:grayscale(0.5); }
+    .current-flow{ position:absolute; bottom:8px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:4px; font-size:10px; color:var(--a); opacity:0; transition: opacity 0.3s; }
+    .current-flow.visible{ opacity:1; }
+    .current-arrow{ font-size:14px; }
+    .bits{ display:grid; gap:10px; margin-top:10px; }
+    .bitRow{
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:10px;
+      background:rgba(4,8,20,.25);
+    }
+    .bitTop{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .tag{ padding:4px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.05); color:var(--muted); font-size:12px; }
+    details{ border-radius:14px; background:rgba(4,8,20,.20); border:1px solid rgba(255,255,255,.08); padding:10px 12px; }
+    summary{ cursor:pointer; list-style:none; }
+    summary::-webkit-details-marker{ display:none; }
+    summary .summaryTitle{ font-weight:900; font-size:12.5px; }
+    summary .summarySub{ color:var(--muted); font-size:11.5px; margin-top:2px; }
   </style>
 </head>
 <body>
-<header>
-  <h1>Memristor: training (ion drift) → weerstandstoestand → inference (read)</h1>
-  <p>Didactische simulaties: interne toestand <span class="mono">x ∈ [0..1]</span> verschuift tijdens training (ionen bewegen), en bepaalt conductantie <span class="mono">G(x)</span>. Inference gebruikt kleine spanning en “leest” zonder de toestand te veranderen (idealiserend model).</p>
-</header>
-
 <div class="wrap">
-  <!-- DEMO 1 -->
-  <section class="card" id="demo1">
-    <h2>1) Potentiation vs Depression + veilige read</h2>
-    <div class="sub">Trainpulsen veranderen <span class="mono">x</span> stapje-voor-stapje. Read gebruikt kleine spanning en verandert <span class="mono">x</span> niet.</div>
-
-    <div class="row">
-      <button class="primary" id="d1_plus">Train +V (meer G, minder R)</button>
-      <button class="mag" id="d1_minus">Train −V (minder G, meer R)</button>
-      <button id="d1_read">Read (klein V)</button>
-      <span class="pill mono" id="d1_last">laatste: —</span>
+  <section class="card">
+    <h1>Memristor training naar een doel (calculator): x · y = z</h1>
+    <div class="sub">
+      <b>Wat is het verschil met een gewone resistor?</b> Een resistor heeft <b>vaste</b> R. Een memristor heeft R die afhangt van de <b>geschiedenis</b> (hoeveel en welke richting er stroom liep).<br/>
+      <b>Training (schrijven)</b> = hogere spanning/pulsjes → ionen/grens bewegen → R verandert en blijft zo (non‑volatile).<br/>
+      <b>Lezen / inference</b> = lage spanning → je meet alleen de stroom (dus het gewicht), zonder de toestand merkbaar te wijzigen.
     </div>
-
-    <div class="barWrap">
-      <div class="bar">
-        <div class="doped"></div>
-        <div class="undoped"></div>
-        <div class="boundary" id="d1_boundary"></div>
+    <details style="margin-top:10px;" open>
+      <summary>
+        <div class="summaryTitle">Start hier (30 seconden)</div>
+        <div class="summarySub">1) Zie R als "gewicht" (G = 1/R). 2) Schrijven verandert het gewicht. 3) Lezen is meten.</div>
+      </summary>
+      <div class="tiny" style="margin-top:8px;">
+        In neurale netwerken werkt men vaak met <b>conductance</b> (G) in plaats van weerstand (R), omdat in een crossbar de stroom natuurlijk een som van <b>G × V</b> wordt.
+        Deze demo toont daarom zowel <b>R</b> als <b>G</b>.
       </div>
-    </div>
-    <div class="legend">
-      <span><span class="dot" style="background:rgba(24,226,184,.55)"></span>gedopeerd (lage R / hoge G)</span>
-      <span><span class="dot" style="background:rgba(109,75,255,.55)"></span>ongedopeerd (hoge R / lage G)</span>
-      <span><span class="dot" style="background:rgba(255,255,255,.75)"></span>grenspositie = toestand <span class="mono">x</span></span>
+    </details>
+  </section>
+
+  <!-- DEMO 1: 1 memristor leert w zodat x*w ≈ z -->
+  <section class="card" id="d1">
+    <h2>Demo 1 — 1 memristor: train tot x·w = z</h2>
+    <div class="sub">
+      Hier is <b>w</b> de opgeslagen multiplier in de memristor. Jij kiest <b>x</b> en <b>z</b>. Training duwt ionen tot <b>x·w</b> bijna gelijk is aan <b>z</b>.
     </div>
 
-    <div class="kv mono">
-      <div>toestand x</div><strong id="d1_x">0.50</strong>
-      <div>conductantie G</div><strong id="d1_g">—</strong>
-      <div>weerstand R = 1/G</div><strong id="d1_r">—</strong>
-      <div>read-stroom I = Vread·G</div><strong id="d1_i">—</strong>
-    </div>
+    <div class="grid2">
+      <div>
+        <div class="in">
+          <div class="pill mono">x</div>
+          <input id="d1_x" type="range" min="0" max="1" step="0.01" value="0.70"/>
+          <div class="pill mono" id="d1_xv">0.70</div>
+        </div>
 
-    <div class="hr"></div>
-    <canvas id="d1_plot" width="800" height="260"></canvas>
-    <div class="small">
-      <b>Wat je hier “voelt”:</b> tijdens training verschuift de grens → <span class="mono">G</span> verandert analoog (dus niet enkel 0/1). Inference meet een stroom die direct afhangt van die opgeslagen <span class="mono">G</span>.
+        <div class="in">
+          <div class="pill mono">z</div>
+          <input id="d1_z" type="range" min="0" max="3" step="0.01" value="1.40"/>
+          <div class="pill mono" id="d1_zv">1.40</div>
+        </div>
+
+        <div class="in">
+          <div class="pill mono">tolerantie</div>
+          <input id="d1_tol" type="range" min="0.001" max="0.05" step="0.001" value="0.010"/>
+          <div class="pill mono" id="d1_tolV">0.010</div>
+        </div>
+
+        <div class="row">
+          <button class="primary" id="d1_train">Train naar doel</button>
+          <button id="d1_step">1 step</button>
+          <button id="d1_read">Read (klein V)</button>
+          <button class="mag" id="d1_reset">Reset</button>
+          <button class="power-btn" id="d1_power">⏻ Power</button>
+        </div>
+        <div class="row">
+          <span class="mode-indicator mode-off" id="d1_mode"><span class="mode-dot"></span><span id="d1_mode_text">Idle</span></span>
+          <span class="pill mono" id="d1_msg">—</span>
+        </div>
+
+        <div class="speed-control">
+          <span class="speed-label">Training snelheid:</span>
+          <input type="range" id="d1_speed" min="1" max="100" value="50" style="flex:1;"/>
+          <span class="speed-value" id="d1_speed_val">50%</span>
+        </div>
+
+        <div class="kv mono">
+          <div>huidige w (in memristor)</div><strong id="d1_w">—</strong>
+          <div>berekend: x·w</div><strong id="d1_y">—</strong>
+          <div>error: z - (x·w)</div><strong id="d1_e">—</strong>
+          <div>acceptabel bereik (x*w)</div><strong id="d1_range">-</strong>
+          <div>aantal pulses (training)</div><strong id="d1_p">0</strong>
+        </div>
+
+        <div class="hr"></div>
+        <canvas id="d1_plot" width="800" height="260"></canvas>
+        <div class="tiny">
+          <b>Belangrijk:</b> dit laat zien waarom inference “werkt”: na training is w een vaste weerstandstoestand.
+          Inference hoeft alleen te meten.
+        </div>
+      </div>
+
+      <div>
+        <div class="sub"><b>Memristor (w)</b> — ionen blijven zichtbaar</div>
+        <div class="barWrap" id="d1_memristor_wrap">
+          <div class="bar">
+            <div class="doped"></div><div class="undoped"></div>
+            <div class="ionLayer" id="d1_ions"></div>
+            <div class="boundary" id="d1_boundary"></div>
+            <div class="voltageLayer" id="d1_voltage"></div>
+            <div class="readPulse" id="d1_readPulse"></div>
+          </div>
+          <div class="current-flow" id="d1_current">
+            <span class="current-arrow">→</span>
+            <span id="d1_current_val">0 µA</span>
+          </div>
+        </div>
+        <div class="kv mono">
+          <div>schuifstand x (fysiek)</div><strong id="d1_phys">0.50</strong>
+          <div>weerstand R</div><strong id="d1_R">—</strong>
+          <div>conductance G (= 1/R)</div><strong id="d1_G">—</strong>
+          <div>read-stroom</div><strong id="d1_I">—</strong>
+          <div>opgetelde lading Q (schematisch)</div><strong id="d1_Q">—</strong>
+        </div>
+
+        <div class="hr"></div>
+        <div class="sub" style="display:flex; justify-content:space-between; align-items:center;">
+          <span><b>I-V Hysteresis</b> — de "vingerafdruk" van een memristor</span>
+          <button id="d1_iv_btn" style="padding:4px 10px; font-size:11px;">Start I-V cyclus</button>
+        </div>
+        <div class="speed-control" style="margin-top:8px;">
+          <span class="speed-label">I-V frequentie:</span>
+          <input type="range" id="d1_iv_freq" min="1" max="10" value="2" style="flex:1;"/>
+          <span class="speed-value" id="d1_iv_freq_val">2×</span>
+        </div>
+        <canvas class="iv-canvas" id="d1_iv" width="400" height="360"></canvas>
+        <div class="canvas-label">Spanning (V) ↔ Stroom (I) — de lus toont geheugeneffect</div>
+
+        <div class="tiny">
+          Tip: verhoog de <b>frequentie</b> → de lus krimpt richting een rechte lijn (gedraagt zich meer als een gewone resistor).
+          Training beweegt de grens & ionen. Read toont enkel een groene meet‑puls.
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- DEMO 2 -->
-  <section class="card" id="demo2">
-    <h2>2) Pulstrein + saturatie (analoge ladder)</h2>
-    <div class="sub">Laat zien dat veel kleine pulses een “trap” vormen en uiteindelijk satureren tegen 0 of 1.</div>
-
-    <div class="row">
-      <button class="primary" id="d2_run_pos">+ pulses (20x)</button>
-      <button class="mag" id="d2_run_neg">− pulses (20x)</button>
-      <button id="d2_reset">Reset</button>
-      <span class="pill mono" id="d2_mode">mode: —</span>
+  <!-- DEMO 2: meerdere memristors (bit-sliced y) -->
+  <section class="card" id="d2">
+    <h2>Demo 2 — meerdere memristors: y als 4-bit (dus 4 memristors)</h2>
+    <div class="sub">
+      Als je y met meer “stapjes” wil opslaan (precisie), kan je y opbreken in bits. Hier: <b>4 bits</b> ⇒ <b>4 memristors</b>.
+      Training zet elk bit naar 0 of 1 zodat de som <b>y</b> vormt, en dan is <b>z = x·y</b>.
     </div>
 
-    <div class="barWrap" style="margin-top:12px;">
-      <div class="bar">
-        <div class="doped"></div>
-        <div class="undoped"></div>
-        <div class="boundary" id="d2_boundary"></div>
+    <div class="grid2">
+      <div>
+        <div class="in">
+          <div class="pill mono">x</div>
+          <input id="d2_x" type="range" min="0" max="1" step="0.01" value="0.60"/>
+          <div class="pill mono" id="d2_xv">0.60</div>
+        </div>
+
+        <div class="in">
+          <div class="pill mono">y (0..15)</div>
+          <input id="d2_y" type="number" min="0" max="15" step="1" value="11"/>
+          <div class="pill mono" id="d2_yv">11</div>
+        </div>
+
+        <div class="row">
+          <button class="primary" id="d2_train">Train bits tot y</button>
+          <button id="d2_step">1 step</button>
+          <button id="d2_read">Read</button>
+          <button class="mag" id="d2_reset">Reset</button>
+          <button class="power-btn" id="d2_power">⏻ Power</button>
+        </div>
+        <div class="row">
+          <span class="mode-indicator mode-off" id="d2_mode"><span class="mode-dot"></span><span id="d2_mode_text">Idle</span></span>
+          <span class="pill mono" id="d2_msg">memristors: 4</span>
+        </div>
+
+        <div class="speed-control">
+          <span class="speed-label">Training snelheid:</span>
+          <input type="range" id="d2_speed" min="1" max="100" value="50" style="flex:1;"/>
+          <span class="speed-value" id="d2_speed_val">50%</span>
+        </div>
+
+        <div class="kv mono">
+          <div>huidige y (uit bits)</div><strong id="d2_ycur">—</strong>
+          <div>z = x·y</div><strong id="d2_z">—</strong>
+          <div>pulses</div><strong id="d2_p">0</strong>
+        </div>
+
+        <div class="hr"></div>
+        <canvas id="d2_plot" width="800" height="260"></canvas>
+        <div class="tiny">
+          Dit is een intuïtieve manier om “hoeveel memristors heb je nodig?” te tonen: <b>meer bits = meer memristors</b>.
+        </div>
       </div>
-    </div>
 
-    <div class="row" style="margin-top:10px;">
-      <span class="pill mono">x: <span id="d2_x">0.50</span></span>
-      <span class="pill mono">R: <span id="d2_r">—</span></span>
-      <span class="pill mono">levels gezien: <span id="d2_levels">—</span></span>
-    </div>
-
-    <div class="hr"></div>
-    <canvas id="d2_plot" width="800" height="260"></canvas>
-    <div class="small">
-      <b>Blog-zin die hierbij past:</b> “Training is het herhaald aanleggen van pulsen die de fysieke toestand verschuiven; de opgeslagen analog state vertaalt zich naar een continu bereik aan weerstanden.”
-    </div>
-  </section>
-
-  <!-- DEMO 3 -->
-  <section class="card" id="demo3">
-    <h2>3) Eén memristor als “gewicht” in een mini-learner</h2>
-    <div class="sub">We koppelen <span class="mono">w</span> aan de fysieke toestand: <span class="mono">w = wmin + x·(wmax-wmin)</span>. Training doet: <span class="mono">w ← w + η·(target - y)·input</span> (vereenvoudigd).</div>
-
-    <div class="row">
-      <span class="pill mono">input</span>
-      <input class="slider" id="d3_in" type="range" min="0" max="1" step="0.01" value="0.70"/>
-      <span class="pill mono" id="d3_inv">0.70</span>
-    </div>
-
-    <div class="row" style="margin-top:8px;">
-      <span class="pill mono">target</span>
-      <input class="slider" id="d3_t" type="range" min="0" max="1" step="0.01" value="0.80"/>
-      <span class="pill mono" id="d3_tv">0.80</span>
-    </div>
-
-    <div class="row" style="margin-top:10px;">
-      <button class="primary" id="d3_step">Train step</button>
-      <button id="d3_read">Inference read</button>
-      <button id="d3_reset">Reset</button>
-      <span class="pill mono" id="d3_msg">—</span>
-    </div>
-
-    <div class="barWrap" style="margin-top:12px;">
-      <div class="bar">
-        <div class="doped"></div>
-        <div class="undoped"></div>
-        <div class="boundary" id="d3_boundary"></div>
+      <div>
+        <div class="bits" id="d2_bits"></div>
       </div>
-    </div>
-
-    <div class="kv mono">
-      <div>gewicht w (uit x)</div><strong id="d3_w">—</strong>
-      <div>output y = w·input</div><strong id="d3_y">—</strong>
-      <div>error = target - y</div><strong id="d3_e">—</strong>
-      <div>toestand x</div><strong id="d3_x">0.50</strong>
-    </div>
-
-    <div class="hr"></div>
-    <canvas id="d3_plot" width="800" height="260"></canvas>
-    <div class="small">
-      <b>Waarom dit inference verklaart:</b> inference hoeft niet “ionen te begrijpen”. Het ziet enkel een conductantie/weerstand die als gewicht werkt in een berekening (stroom-som, multiply-accumulate).
     </div>
   </section>
 </div>
 
 <script>
-/* =========================
-   Simpele memristor-model
-   =========================
-   x in [0..1] ~ grens/gedopeerde fractie
-   G(x) = Goff + x*(Gon-Goff)  (lineair, didactisch)
-   R = 1/G
-   Training pulse: x += k * sign(V) * f(|V|)  (met saturatie)
-   Read: kleine spanning; x verandert niet (idealiserend)
-*/
-function clamp01(v){ return Math.max(0, Math.min(1, v)); }
+  // helpers
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  const fmt = (v,d=2) => Number(v).toFixed(d);
+  function drawLine(canvas, series, label){
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0,0,W,H);
 
-function makeMemristor(opts){
-  const m = {
-    x: opts?.x ?? 0.5,
-    Gon: opts?.Gon ?? 1/800,   // Siemens (≈ 800Ω)
-    Goff: opts?.Goff ?? 1/20000, // Siemens (≈ 20kΩ)
-    k: opts?.k ?? 0.03,       // stapgrootte per pulse (didactisch)
-    vth: opts?.vth ?? 0.35,   // drempel: onder dit "gebeurt niets"
-    history: [],
-    push(){
-      const G = this.Goff + this.x * (this.Gon - this.Goff);
-      const R = 1 / G;
-      this.history.push({x:this.x, G, R});
-      if(this.history.length > 200) this.history.shift();
-      return {x:this.x, G, R};
-    },
-    state(){
-      const G = this.Goff + this.x * (this.Gon - this.Goff);
-      const R = 1 / G;
-      return {x:this.x, G, R};
-    },
-    trainPulse(V){
-      const a = Math.abs(V);
-      if(a <= this.vth){
-        return {moved:false, reason:"|V| onder drempel"};
-      }
-      // f(|V|): iets sterker boven drempel, maar gedempt naar randen toe
-      const strength = Math.min(1, (a - this.vth) / (1 - this.vth));
-      const edgeDamp = 0.3 + 0.7 * (1 - Math.abs(this.x - 0.5)*2); // trager bij randen
-      const dx = this.k * Math.sign(V) * strength * edgeDamp;
-      this.x = clamp01(this.x + dx);
-      return {moved:true, dx};
-    },
-    read(Vread){
-      const {G,R} = this.state();
-      const I = Vread * G;
-      return {G,R,I, Vread};
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    for(let i=1;i<6;i++){
+      const y=i*H/6; ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
     }
-  };
-  m.push();
-  return m;
-}
+    ctx.fillStyle = "rgba(234,242,255,0.75)";
+    ctx.font = "12px ui-sans-serif, system-ui";
+    ctx.fillText(label, 10, 18);
 
-function setBoundary(el, x){
-  el.style.left = (x*100).toFixed(2) + "%";
-}
+    if(series.length<2) return;
+    const yMin = Math.min(...series), yMax = Math.max(...series);
+    const pad = (yMax-yMin)*0.12 || 1;
+    const a = yMin-pad, b = yMax+pad;
 
-function fmt(v, d=2){ return Number(v).toFixed(d); }
-function fmtOhm(R){
-  if(R >= 1000) return fmt(R/1000,2)+" kΩ";
-  return fmt(R,1)+" Ω";
-}
-function fmtS(G){
-  // toon als mS of µS
-  const mS = G*1000;
-  if(mS >= 1) return fmt(mS,3)+" mS";
-  return fmt(G*1e6,1)+" µS";
-}
-function drawPlot(canvas, series, yKey, yLabel){
-  const ctx = canvas.getContext("2d");
-  const W = canvas.width, H = canvas.height;
-  ctx.clearRect(0,0,W,H);
-
-  // grid
-  ctx.strokeStyle = "rgba(255,255,255,0.08)";
-  ctx.lineWidth = 1;
-  for(let i=1;i<6;i++){
-    const y = i*H/6;
-    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    ctx.strokeStyle = "rgba(24,226,184,0.9)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    series.forEach((v,i)=>{
+      const x = i*(W-20)/(series.length-1)+10;
+      const y = H - ((v-a)/(b-a))*(H-30) - 10;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
   }
 
-  if(series.length < 2) return;
+  // ====== visuele memristor (ions persistent) ======
+  function makeVisualMemristor({ionLayer, boundaryEl, readPulseEl, x0=0.5, ionCount=22}){
+    const m = { x:x0, ions:[], ionLayer, boundaryEl, readPulseEl };
 
-  const ys = series.map(p=>p[yKey]);
-  const yMin = Math.min(...ys), yMax = Math.max(...ys);
-  const pad = (yMax - yMin) * 0.12 || 1;
-  const a = yMin - pad, b = yMax + pad;
+    function seed(){
+      ionLayer.innerHTML = "";
+      m.ions = [];
+      for(let i=0;i<ionCount;i++){
+        const el = document.createElement("div");
+        el.className = "ion";
+        const center = clamp01(m.x + (Math.random()*0.30 - 0.15));
+        const y = 10 + Math.random()*18;
+        el.style.top = y + "px";
+        ionLayer.appendChild(el);
+        m.ions.push({el, center, y});
+      }
+      layout(false);
+    }
 
-  // axis label
-  ctx.fillStyle = "rgba(234,242,255,0.75)";
-  ctx.font = "12px ui-sans-serif, system-ui";
-  ctx.fillText(yLabel, 10, 18);
+    function layout(animate=true){
+      m.ions.forEach(p=>{
+        const spread = 0.06;
+        const leftPct = clamp01(p.center + (Math.random()*spread - spread/2))*100;
+        if(animate){
+          p.el.animate([{left:p.el.style.left||leftPct+"%"},{left:leftPct+"%"}],{duration:380,easing:"ease-out"});
+        }
+        p.el.style.left = leftPct+"%";
+        const jitter=(Math.random()*2-1)*6;
+        p.el.animate([{transform:"translate(0,0)"},{transform:`translate(${jitter}px,0)`},{transform:"translate(0,0)"}],
+                     {duration:380,easing:"ease-out"});
+      });
+    }
 
-  // line
-  ctx.strokeStyle = "rgba(24,226,184,0.9)";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  for(let i=0;i<series.length;i++){
-    const x = i*(W-20)/(series.length-1) + 10;
-    const y = H - ((series[i][yKey]-a)/(b-a))*(H-30) - 10;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    function driftToward(targetX){
+      m.ions.forEach(p=>{ p.center = clamp01(p.center + (targetX - p.center)*0.22); });
+      layout(true);
+    }
+
+    function setX(x, animate=true){
+      m.x = clamp01(x);
+      boundaryEl.style.left = (m.x*100).toFixed(1)+"%";
+      if(animate) driftToward(m.x);
+    }
+
+    function readPulse(){
+      readPulseEl.animate([{opacity:0},{opacity:1},{opacity:0}], {duration:320, easing:"ease-out"});
+    }
+
+    seed();
+    setX(m.x, false);
+    return { setX, readPulse, seed, get x(){return m.x;} };
   }
-  ctx.stroke();
 
-  // points (last)
-  const last = series[series.length-1];
-  const lx = (series.length-1)*(W-20)/(series.length-1) + 10;
-  const ly = H - ((last[yKey]-a)/(b-a))*(H-30) - 10;
-  ctx.fillStyle = "rgba(255,79,184,0.9)";
-  ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2); ctx.fill();
-}
+  // ==========================================
+  // DEMO 1: 1 memristor traint w zodat x*w=z
+  // ==========================================
+  (function(){
+    const xS = document.getElementById("d1_x");
+    const zS = document.getElementById("d1_z");
+    const xV = document.getElementById("d1_xv");
+    const zV = document.getElementById("d1_zv");
+    const tolS = document.getElementById("d1_tol");
+    const tolV = document.getElementById("d1_tolV");
 
-// ---------------- DEMO 1 ----------------
-const d1 = makeMemristor({x:0.50});
-const d1b = document.getElementById("d1_boundary");
-const d1x = document.getElementById("d1_x");
-const d1g = document.getElementById("d1_g");
-const d1r = document.getElementById("d1_r");
-const d1i = document.getElementById("d1_i");
-const d1last = document.getElementById("d1_last");
-const d1plot = document.getElementById("d1_plot");
+    const msg = document.getElementById("d1_msg");
+    const wEl = document.getElementById("d1_w");
+    const yEl = document.getElementById("d1_y");
+    const eEl = document.getElementById("d1_e");
+    const rangeEl = document.getElementById("d1_range");
+    const pEl = document.getElementById("d1_p");
 
-function refreshD1(){
-  const {x,G,R} = d1.state();
-  setBoundary(d1b, x);
-  d1x.textContent = fmt(x,2);
-  d1g.textContent = fmtS(G);
-  d1r.textContent = fmtOhm(R);
-  const rd = d1.read(0.10);
-  d1i.textContent = fmt(rd.I*1e6,1) + " µA @ Vread=0.10V";
-  drawPlot(d1plot, d1.history, "R", "R over stappen (train + read events)");
-}
-refreshD1();
+    const phys = document.getElementById("d1_phys");
+    const REl = document.getElementById("d1_R");
+    const IEl = document.getElementById("d1_I");
+    const GEl = document.getElementById("d1_G");
+    const QEl = document.getElementById("d1_Q");
+    const plot = document.getElementById("d1_plot");
+    const ivCanvas = document.getElementById("d1_iv");
 
-document.getElementById("d1_plus").onclick = () => {
-  const r = d1.trainPulse(+1.0);
-  d1.push();
-  d1last.textContent = r.moved ? "train +V, dx="+fmt(r.dx,3) : "train +V (geen drift)";
-  refreshD1();
-};
-document.getElementById("d1_minus").onclick = () => {
-  const r = d1.trainPulse(-1.0);
-  d1.push();
-  d1last.textContent = r.moved ? "train −V, dx="+fmt(r.dx,3) : "train −V (geen drift)";
-  refreshD1();
-};
-document.getElementById("d1_read").onclick = () => {
-  // read verandert x niet; we loggen wel voor de plot
-  d1.push();
-  d1last.textContent = "read @ klein V (x blijft gelijk)";
-  refreshD1();
-};
+    // Mode & power elements
+    const modeEl = document.getElementById("d1_mode");
+    const modeText = document.getElementById("d1_mode_text");
+    const speedSlider = document.getElementById("d1_speed");
+    const speedVal = document.getElementById("d1_speed_val");
+    const currentFlow = document.getElementById("d1_current");
+    const currentVal = document.getElementById("d1_current_val");
+    const memristorWrap = document.getElementById("d1_memristor_wrap");
+    const voltageLayer = document.getElementById("d1_voltage");
+    const ivFreqSlider = document.getElementById("d1_iv_freq");
+    const ivFreqVal = document.getElementById("d1_iv_freq_val");
 
-// ---------------- DEMO 2 ----------------
-const d2 = makeMemristor({x:0.50, k:0.025});
-const d2b = document.getElementById("d2_boundary");
-const d2x = document.getElementById("d2_x");
-const d2r = document.getElementById("d2_r");
-const d2levels = document.getElementById("d2_levels");
-const d2mode = document.getElementById("d2_mode");
-const d2plot = document.getElementById("d2_plot");
+    // mapping: memristor fysieke x -> w (multiplier)
+    const wMin = 0.0, wMax = 3.0;
+    const eta = 0.45; // learning rate (didactisch)
+    let pulses = 0;
+    let powerOn = true;
+    let currentMode = 'idle'; // 'idle', 'training', 'reading'
+    const errSeries = [];
+    const ivPoints = []; // For hysteresis curve
+    let ivPhase = 0; // For cycling voltage in hysteresis demo
+    let qAccum = 0; // accumulated charge (schematisch)
 
-function refreshD2(){
-  const {x,R} = d2.state();
-  setBoundary(d2b, x);
-  d2x.textContent = fmt(x,2);
-  d2r.textContent = fmtOhm(R);
-  // hoeveel unieke x-levels (afgerond) hebben we geraakt
-  const uniq = new Set(d2.history.map(p=>fmt(p.x,2)));
-  d2levels.textContent = uniq.size;
-  drawPlot(d2plot, d2.history, "x", "x (analoge toestand) over pulsen");
-}
-refreshD2();
+    // visuele memristor
+    const vis = makeVisualMemristor({
+      ionLayer: document.getElementById("d1_ions"),
+      boundaryEl: document.getElementById("d1_boundary"),
+      readPulseEl: document.getElementById("d1_readPulse"),
+      x0: 0.50,
+      ionCount: 26
+    });
 
-function runPulses(sign){
-  d2mode.textContent = sign>0 ? "mode: + pulstrein" : "mode: − pulstrein";
-  for(let i=0;i<20;i++){
-    d2.trainPulse(sign*1.0);
-    d2.push();
-  }
-  refreshD2();
-}
-document.getElementById("d2_run_pos").onclick = ()=>runPulses(+1);
-document.getElementById("d2_run_neg").onclick = ()=>runPulses(-1);
-document.getElementById("d2_reset").onclick = ()=>{
-  d2.x = 0.50;
-  d2.history = [];
-  d2.push();
-  d2mode.textContent = "mode: —";
-  refreshD2();
-};
+    function calcW(){
+      return wMin + vis.x*(wMax - wMin);
+    }
 
-// ---------------- DEMO 3 ----------------
-const d3 = makeMemristor({x:0.50, k:0.018});
-const d3b = document.getElementById("d3_boundary");
-const d3_in = document.getElementById("d3_in");
-const d3_t = document.getElementById("d3_t");
-const d3_inv = document.getElementById("d3_inv");
-const d3_tv = document.getElementById("d3_tv");
-const d3_w = document.getElementById("d3_w");
-const d3_y = document.getElementById("d3_y");
-const d3_e = document.getElementById("d3_e");
-const d3_x = document.getElementById("d3_x");
-const d3_msg = document.getElementById("d3_msg");
-const d3plot = document.getElementById("d3_plot");
+    function calcRfromX(x){
+      const Ron = 800, Roff = 20000;
+      return Roff + (1-x)*(Ron - Roff);
+    }
 
-// gewicht mapping
-const wMin = -1.0, wMax = 3.0;
-const eta = 0.35; // learning rate (didactisch)
+    // Get delay in ms based on speed slider (1=slowest, 100=fastest)
+    function getDelay(){
+      const speed = Number(speedSlider.value);
+      // Map 1-100 to 500ms-10ms delay
+      return Math.round(510 - speed * 5);
+    }
 
-function calcW(){
-  return wMin + d3.x*(wMax - wMin);
-}
-function refreshD3(){
-  const x = d3.x;
-  const w = calcW();
-  const inp = Number(d3_in.value);
-  const tgt = Number(d3_t.value);
-  const y = w * inp;
-  const e = tgt - y;
+    function setMode(mode){
+      currentMode = mode;
+      modeEl.className = 'mode-indicator ' + (
+        mode === 'training' ? 'mode-train' :
+        mode === 'reading' ? 'mode-read' : 'mode-off'
+      );
+      modeText.textContent = 
+        mode === 'training' ? 'Training (schrijven)' :
+        mode === 'reading' ? 'Reading (lezen)' : 
+        !powerOn ? 'Power Off' : 'Idle';
+    }
 
-  setBoundary(d3b, x);
-  d3_x.textContent = fmt(x,2);
-  d3_w.textContent = fmt(w,3);
-  d3_y.textContent = fmt(y,3);
-  d3_e.textContent = fmt(e,3);
+    function setPower(on){
+      powerOn = on;
+      document.getElementById("d1_power").classList.toggle('off', !on);
+      document.getElementById("d1_power").textContent = on ? '⏻ Power' : '⏻ Power Off';
+      memristorWrap.classList.toggle('memristor-off', !on);
+      if(!on){
+        setMode('idle');
+        currentFlow.classList.remove('visible');
+        voltageLayer.className = 'voltageLayer';
+      }
+      refresh();
+    }
 
-  // plot: error over time (we gebruiken R als proxy? nee, we loggen custom)
-  // We tekenen x-history (want dat is fysiek) maar label als "x tijdens learning"
-  drawPlot(d3plot, d3.history, "x", "x (fysieke toestand) tijdens learning steps");
-}
-function syncSliders(){
-  d3_inv.textContent = fmt(d3_in.value,2);
-  d3_tv.textContent = fmt(d3_t.value,2);
-  refreshD3();
-}
-d3_in.oninput = syncSliders;
-d3_t.oninput = syncSliders;
+    function showCurrent(show, value = 0, voltage = 0){
+      currentFlow.classList.toggle('visible', show && powerOn);
+      if(show && powerOn){
+        currentVal.textContent = fmt(Math.abs(value * 1e6), 1) + ' µA';
+        document.querySelector('#d1_current .current-arrow').textContent = value >= 0 ? '→' : '←';
+        voltageLayer.className = 'voltageLayer ' + (voltage >= 0 ? 'vpos' : 'vneg');
+      } else {
+        voltageLayer.className = 'voltageLayer';
+      }
+    }
 
-document.getElementById("d3_step").onclick = ()=>{
-  const inp = Number(d3_in.value);
-  const tgt = Number(d3_t.value);
+    // Draw I-V Hysteresis curve
+    function drawIV(){
+      const ctx = ivCanvas.getContext("2d");
+      const W = ivCanvas.width, H = ivCanvas.height;
+      ctx.clearRect(0,0,W,H);
 
-  const w = calcW();
-  const y = w * inp;
-  const e = tgt - y;
+      // Draw axes
+      const cx = W/2, cy = H/2;
+      ctx.strokeStyle = "rgba(255,255,255,0.15)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, cy); ctx.lineTo(W, cy); // X axis (V)
+      ctx.moveTo(cx, 0); ctx.lineTo(cx, H); // Y axis (I)
+      ctx.stroke();
 
-  // gradient step: w <- w + eta*e*inp
-  const wNew = w + eta * e * inp;
+      // Axis labels
+      ctx.fillStyle = "rgba(234,242,255,0.5)";
+      ctx.font = "11px ui-sans-serif, system-ui";
+      ctx.fillText("V+", W-20, cy-8);
+      ctx.fillText("V-", 8, cy-8);
+      ctx.fillText("I+", cx+8, 15);
+      ctx.fillText("I-", cx+8, H-8);
 
-  // map back to x (clamp)
-  const xNew = clamp01((wNew - wMin)/(wMax - wMin));
+      if(ivPoints.length < 2) return;
 
-  // fysieke training pulse richting: sign bepaalt +V of -V
-  const sign = Math.sign(xNew - d3.x) || 1;
-  // doe meerdere kleine pulsen om naar xNew te bewegen
-  let steps = 0;
-  while(Math.abs(d3.x - xNew) > 0.002 && steps < 20){
-    d3.trainPulse(sign * 1.0);
-    d3.push();
-    steps++;
-  }
-  d3_msg.textContent = "train: error→gewicht→ion drift ("+steps+" pulses)";
-  refreshD3();
-};
+      // Find bounds
+      const vMax = Math.max(...ivPoints.map(p=>Math.abs(p.v)), 0.5);
+      const iMax = Math.max(...ivPoints.map(p=>Math.abs(p.i)), 0.00005);
 
-document.getElementById("d3_read").onclick = ()=>{
-  // inference: read (klein V) en toon output y, zonder x te veranderen
-  d3.push();
-  d3_msg.textContent = "inference read: x blijft gelijk, y gebruikt opgeslagen w";
-  refreshD3();
-};
+      // Draw hysteresis curve
+      ctx.strokeStyle = "rgba(24,226,184,0.9)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ivPoints.forEach((p,idx)=>{
+        const px = cx + (p.v/vMax) * (W/2 - 20);
+        const py = cy - (p.i/iMax) * (H/2 - 20);
+        if(idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
 
-document.getElementById("d3_reset").onclick = ()=>{
-  d3.x = 0.50;
-  d3.history = [];
-  d3.push();
-  d3_msg.textContent = "reset";
-  refreshD3();
-};
+      // Draw current point
+      if(ivPoints.length > 0){
+        const last = ivPoints[ivPoints.length-1];
+        const px = cx + (last.v/vMax) * (W/2 - 20);
+        const py = cy - (last.i/iMax) * (H/2 - 20);
+        ctx.fillStyle = "#FFB020";
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI*2);
+        ctx.fill();
+      }
+    }
 
-syncSliders();
+    // Simulate one point on I-V curve based on current state
+    function addIVPoint(voltage){
+      const R = calcRfromX(vis.x);
+      const I = voltage / R;
+      ivPoints.push({ v: voltage, i: I });
+      if(ivPoints.length > 200) ivPoints.shift();
+
+      // Update memristor state based on voltage (simplified model)
+      const ivFreq = Number(ivFreqSlider.value || 1);
+      if(Math.abs(voltage) > 0.3){
+        // Higher frequency => less time for drift => smaller hysteresis
+        const drift = (voltage * 0.015) / ivFreq; // ions drift with voltage
+        vis.setX(clamp01(vis.x + drift), true);
+      }
+
+      // Accumulate charge (schematisch) with a small time-step that shrinks at higher frequency
+      const dt = (getDelay() / 1000) / Math.max(1, ivFreq);
+      qAccum += I * dt;
+    }
+
+    function refresh(){
+      xV.textContent = fmt(xS.value,2);
+      zV.textContent = fmt(zS.value,2);
+      tolV.textContent = fmt(tolS.value,3);
+      speedVal.textContent = speedSlider.value + '%';
+      ivFreqVal.textContent = String(ivFreqSlider.value) + '×';
+
+      const x = Number(xS.value);
+      const z = Number(zS.value);
+      const tol = Number(tolS.value);
+      const w = calcW();
+      const y = x*w;
+      const e = z - y;
+      const low = z - tol;
+      const high = z + tol;
+
+      wEl.textContent = fmt(w,3);
+      yEl.textContent = fmt(y,3);
+      eEl.textContent = fmt(e,3);
+      rangeEl.textContent = `${fmt(low,3)}..${fmt(high,3)}`;
+      pEl.textContent = pulses;
+
+      phys.textContent = fmt(vis.x,2);
+
+      const R = calcRfromX(vis.x);
+      const Vread = 0.10;
+      const I = powerOn ? Vread / R : 0;
+      const G = powerOn ? (1 / R) : 0;
+      REl.textContent = powerOn ? (R>=1000 ? fmt(R/1000,2)+" kΩ" : fmt(R,0)+" Ω") : "— (off)";
+      IEl.textContent = powerOn ? fmt(I*1e6,1) + " µA @ 0.10V" : "— (off)";
+      GEl.textContent = powerOn ? (G >= 1e-3 ? fmt(G*1e3,3) + ' mS' : fmt(G*1e6,2) + ' µS') : "— (off)";
+      QEl.textContent = powerOn ? fmt(qAccum*1e6,2) + ' µC' : "— (off)";
+
+      drawLine(plot, errSeries, "error (z - x·w) over training steps");
+      drawIV();
+    }
+
+    function oneTrainStep(){
+      if(!powerOn){ msg.textContent = "Power is off!"; return; }
+      setMode('training');
+
+      const x = Number(xS.value);
+      const z = Number(zS.value);
+      const w = calcW();
+      const y = x*w;
+      const e = z - y;
+
+      // doel: w <- w + eta * e * x
+      const wNew = w + eta * e * x;
+      const xTarget = clamp01((wNew - wMin)/(wMax - wMin));
+
+      // beweeg visueel 1 keer richting target (puls)
+      const dir = Math.sign(xTarget - vis.x);
+      const step = 0.040 * (0.35 + 0.65*(1 - Math.abs(vis.x-0.5)*2)); // trager bij randen
+      if(dir !== 0){
+        vis.setX(vis.x + dir*step, true);
+        pulses++;
+        // Add point to I-V curve (training uses higher voltage)
+        const trainV = dir * 0.8;
+        const R = calcRfromX(vis.x);
+        ivPoints.push({ v: trainV, i: trainV/R });
+        if(ivPoints.length > 200) ivPoints.shift();
+        // schematisch: schrijf-puls kost energie en verplaatst lading
+        qAccum += (trainV/R) * 0.010;
+        showCurrent(true, trainV/R, trainV);
+      }
+
+      // log error na step
+      const w2 = calcW();
+      const y2 = Number(xS.value)*w2;
+      const e2 = Number(zS.value) - y2;
+      errSeries.push(e2);
+      if(errSeries.length>140) errSeries.shift();
+
+      msg.textContent = "train step → ions schuiven richting doel";
+      refresh();
+
+      setTimeout(() => {
+        showCurrent(false, 0, 0);
+        setMode('idle');
+      }, 200);
+    }
+
+    let trainingAborted = false;
+
+    function trainToGoal(){
+      if(!powerOn){ msg.textContent = "Power is off!"; return; }
+      trainingAborted = false;
+      let guard = 0;
+      const tol = Number(tolS.value); // tolerantie (slider)
+
+      function loop(){
+        if(trainingAborted){
+          msg.textContent = "training gestopt";
+          setMode('idle');
+          showCurrent(false);
+          return;
+        }
+        const x = Number(xS.value);
+        const z = Number(zS.value);
+        const w = calcW();
+        const e = z - x*w;
+        if(Math.abs(e) <= tol || guard > 120){
+          msg.textContent = Math.abs(e) <= tol ? "doel bereikt (binnen tolerantie)" : "stop (max steps)";
+          setMode('idle');
+          showCurrent(false, 0, 0);
+          refresh();
+          return;
+        }
+        oneTrainStep();
+        guard++;
+        setTimeout(loop, getDelay());
+      }
+      msg.textContent = `training loopt. tolerantie: +/-${fmt(tol,3)} (pas snelheid aan met slider)`;
+      setMode('training');
+      setTimeout(loop, getDelay());
+    }
+
+    // Cycle voltage for I-V demo
+    function runIVCycle(){
+      if(!powerOn){ msg.textContent = "Power is off!"; return; }
+      ivPoints.length = 0;
+      let step = 0;
+      const totalSteps = 80;
+      const ivFreq = Number(ivFreqSlider.value || 1);
+
+      function cycle(){
+        if(step >= totalSteps || !powerOn){
+          setMode('idle');
+          showCurrent(false, 0, 0);
+          msg.textContent = "I-V cyclus compleet";
+          return;
+        }
+        setMode('training');
+        // Sinusoidal voltage sweep
+        const voltage = Math.sin(step / totalSteps * Math.PI * 2) * 1.0;
+        addIVPoint(voltage);
+        showCurrent(true, voltage / calcRfromX(vis.x), voltage);
+        refresh();
+        step++;
+        setTimeout(cycle, Math.max(8, (getDelay() / 2) / ivFreq));
+      }
+      msg.textContent = "I-V cyclus loopt…";
+      cycle();
+    }
+
+    document.getElementById("d1_step").onclick = oneTrainStep;
+    document.getElementById("d1_train").onclick = trainToGoal;
+    document.getElementById("d1_read").onclick = () => {
+      if(!powerOn){ msg.textContent = "Power is off!"; return; }
+      setMode('reading');
+      vis.readPulse();
+      const R = calcRfromX(vis.x);
+      const Vread = 0.10;
+      ivPoints.push({ v: Vread, i: Vread/R });
+      qAccum += (Vread/R) * 0.010;
+      showCurrent(true, Vread/R, Vread);
+      msg.textContent="read: alleen meten (lage spanning, geen verandering)";
+      refresh();
+      setTimeout(() => {
+        setMode('idle');
+        showCurrent(false, 0, 0);
+      }, 500);
+    };
+    document.getElementById("d1_reset").onclick = () => {
+      trainingAborted = true;
+      pulses = 0; errSeries.length=0; ivPoints.length=0; qAccum = 0;
+      vis.setX(0.50, true);
+      setMode('idle');
+      showCurrent(false, 0, 0);
+      msg.textContent="reset";
+      refresh();
+    };
+    document.getElementById("d1_power").onclick = () => {
+      setPower(!powerOn);
+      msg.textContent = powerOn ? "Power on - geheugen blijft behouden!" : "Power off - let op: geheugen blijft!";
+    };
+
+    speedSlider.oninput = refresh;
+    ivFreqSlider.oninput = refresh;
+    xS.oninput = refresh;
+    zS.oninput = refresh;
+    tolS.oninput = refresh;
+
+    // IV cycle button and double-click
+    document.getElementById("d1_iv_btn").onclick = runIVCycle;
+    ivCanvas.ondblclick = runIVCycle;
+
+    // init
+    errSeries.push(0);
+    setMode('idle');
+    refresh();
+  })();
+
+  // ====================================================
+  // DEMO 2: 4 memristors als 4-bit y, train bits tot y
+  // ====================================================
+  (function(){
+    const xS = document.getElementById("d2_x");
+    const yN = document.getElementById("d2_y");
+    const xV = document.getElementById("d2_xv");
+    const yV = document.getElementById("d2_yv");
+
+    const yCurEl = document.getElementById("d2_ycur");
+    const zEl = document.getElementById("d2_z");
+    const pEl = document.getElementById("d2_p");
+    const msg = document.getElementById("d2_msg");
+    const plot = document.getElementById("d2_plot");
+
+    // Mode & power elements
+    const modeEl = document.getElementById("d2_mode");
+    const modeText = document.getElementById("d2_mode_text");
+    const speedSlider = document.getElementById("d2_speed");
+    const speedVal = document.getElementById("d2_speed_val");
+
+    const bitHost = document.getElementById("d2_bits");
+    const bitWeights = [1,2,4,8];
+    let pulses = 0;
+    let powerOn = true;
+    let currentMode = 'idle';
+    let trainingAborted = false;
+    const ySeries = [];
+
+    // Get delay in ms based on speed slider
+    function getDelay(){
+      const speed = Number(speedSlider.value);
+      return Math.round(510 - speed * 5);
+    }
+
+    function setMode(mode){
+      currentMode = mode;
+      modeEl.className = 'mode-indicator ' + (
+        mode === 'training' ? 'mode-train' :
+        mode === 'reading' ? 'mode-read' : 'mode-off'
+      );
+      modeText.textContent = 
+        mode === 'training' ? 'Training (schrijven)' :
+        mode === 'reading' ? 'Reading (lezen)' : 
+        !powerOn ? 'Power Off' : 'Idle';
+    }
+
+    function setPower(on){
+      powerOn = on;
+      document.getElementById("d2_power").classList.toggle('off', !on);
+      document.getElementById("d2_power").textContent = on ? '⏻ Power' : '⏻ Power Off';
+      // Toggle visual state on all bit memristors
+      document.querySelectorAll('#d2_bits .barWrap').forEach(el => {
+        el.classList.toggle('memristor-off', !on);
+      });
+      if(!on){
+        setMode('idle');
+      }
+      refresh();
+    }
+
+    // maak 4 visuele memristors, elk stelt 1 bit voor
+    const bits = bitWeights.map((w, i) => {
+      const row = document.createElement("div");
+      row.className = "bitRow";
+      row.innerHTML = `
+        <div class="bitTop">
+          <div class="tag mono">bit ${i} (waarde ${w})</div>
+          <div class="tag mono" id="b${i}_state">state: —</div>
+        </div>
+        <div class="barWrap" style="margin-top:8px;">
+          <div class="bar">
+            <div class="doped"></div><div class="undoped"></div>
+            <div class="ionLayer" id="b${i}_ions"></div>
+            <div class="boundary" id="b${i}_boundary"></div>
+            <div class="readPulse" id="b${i}_readPulse"></div>
+          </div>
+        </div>
+      `;
+      bitHost.appendChild(row);
+
+      const vis = makeVisualMemristor({
+        ionLayer: row.querySelector(`#b${i}_ions`),
+        boundaryEl: row.querySelector(`#b${i}_boundary`),
+        readPulseEl: row.querySelector(`#b${i}_readPulse`),
+        x0: 0.2 + 0.2*i, // verschillende starts
+        ionCount: 18
+      });
+      const stateEl = row.querySelector(`#b${i}_state`);
+      const wrapEl = row.querySelector('.barWrap');
+      return { weight:w, vis, stateEl, wrapEl };
+    });
+
+    function bitValueFromX(x){
+      // hard threshold (didactisch): links=0, rechts=1
+      return x >= 0.5 ? 1 : 0;
+    }
+
+    function currentY(){
+      return bits.reduce((sum,b)=> sum + bitValueFromX(b.vis.x)*b.weight, 0);
+    }
+
+    function refresh(){
+      xV.textContent = fmt(xS.value,2);
+      speedVal.textContent = speedSlider.value + '%';
+      const yTarget = Math.max(0, Math.min(15, parseInt(yN.value||"0",10)));
+      yN.value = yTarget;
+      yV.textContent = String(yTarget);
+
+      const yNow = currentY();
+      yCurEl.textContent = powerOn ? String(yNow) : '— (off)';
+
+      const x = Number(xS.value);
+      const z = x * yNow;
+      zEl.textContent = powerOn ? fmt(z,3) : '— (off)';
+
+      pEl.textContent = pulses;
+
+      bits.forEach(b=>{
+        const v = bitValueFromX(b.vis.x);
+        b.stateEl.textContent = powerOn ? `state: ${v}` : 'state: —';
+      });
+
+      drawLine(plot, ySeries, "y (uit bits) over training steps");
+    }
+
+    function oneStep(){
+      if(!powerOn){ msg.textContent = "Power is off!"; return; }
+      setMode('training');
+
+      const yTarget = parseInt(yN.value||"0",10) & 15;
+
+      // gewenste bits
+      bits.forEach((b, i) => {
+        const desired = (yTarget >> i) & 1;
+        const current = bitValueFromX(b.vis.x);
+
+        if(current !== desired){
+          // duw richting links (0) of rechts (1)
+          const dir = desired === 1 ? +1 : -1;
+          const step = 0.09; // sneller (bit is binair)
+          b.vis.setX(b.vis.x + dir*step, true);
+          pulses++;
+        }
+      });
+
+      ySeries.push(currentY());
+      if(ySeries.length>140) ySeries.shift();
+      msg.textContent = "memristors: 4 (bits trainen)";
+      refresh();
+
+      setTimeout(() => setMode('idle'), 200);
+    }
+
+    function trainToY(){
+      if(!powerOn){ msg.textContent = "Power is off!"; return; }
+      trainingAborted = false;
+      let guard = 0;
+
+      function loop(){
+        if(trainingAborted){
+          msg.textContent = "training gestopt";
+          setMode('idle');
+          return;
+        }
+        if(currentY() === (parseInt(yN.value||"0",10)&15) || guard>60){
+          msg.textContent = (currentY() === (parseInt(yN.value||"0",10)&15)) ? "bits matchen y" : "stop (max steps)";
+          setMode('idle');
+          refresh();
+          return;
+        }
+        oneStep();
+        guard++;
+        setTimeout(loop, getDelay());
+      }
+      msg.textContent = "training loopt… (pas snelheid aan met slider)";
+      setMode('training');
+      setTimeout(loop, getDelay());
+    }
+
+    document.getElementById("d2_step").onclick = oneStep;
+    document.getElementById("d2_train").onclick = trainToY;
+    document.getElementById("d2_read").onclick = () => {
+      if(!powerOn){ msg.textContent = "Power is off!"; return; }
+      setMode('reading');
+      bits.forEach(b=>b.vis.readPulse());
+      msg.textContent="read: alleen meten (lage spanning)";
+      refresh();
+      setTimeout(() => setMode('idle'), 500);
+    };
+    document.getElementById("d2_reset").onclick = () => {
+      trainingAborted = true;
+      pulses = 0; ySeries.length=0;
+      bits.forEach((b,i)=> b.vis.setX(0.2 + 0.2*i, true));
+      setMode('idle');
+      msg.textContent="memristors: 4 (reset)";
+      refresh();
+    };
+    document.getElementById("d2_power").onclick = () => {
+      setPower(!powerOn);
+      msg.textContent = powerOn ? "Power on - alle bits blijven behouden!" : "Power off - let op: geheugen blijft!";
+    };
+
+    speedSlider.oninput = refresh;
+    xS.oninput = refresh;
+    yN.oninput = refresh;
+
+    ySeries.push(currentY());
+    setMode('idle');
+    refresh();
+  })();
 </script>
-<script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
+
+  <script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
 </body>
 </html>

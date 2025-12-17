@@ -161,7 +161,7 @@ Copy the HTML below and save as `presentations/client-name/index.html`
         </div>
 
         <footer>
-            <p>© 2024 Bart Van der Auweraert</p>
+            <p>© 2024 Codeware</p>
             <p style="margin-top: 15px; color: #94a3b8;">Confidential - For Client Use Only</p>
         </footer>
     </div>
