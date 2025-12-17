@@ -137,10 +137,80 @@
       color: var(--muted);
       font-weight: 700;
     }
+    .subscribe {
+      background: linear-gradient(135deg, rgba(37,99,235,0.10), rgba(255,255,255,0.85));
+      border: 1px solid rgba(37,99,235,0.18);
+      box-shadow: var(--shadow);
+      border-radius: 18px;
+      padding: 18px 18px;
+      margin-bottom: 18px;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+    .subscribe h2 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+    }
+    .subscribe p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 13px;
+      max-width: 680px;
+    }
+    .subscribe-form { display: grid; gap: 8px; }
+    .subscribe-row { display: flex; gap: 10px; align-items: center; }
+    .subscribe-row input {
+      width: 320px;
+      max-width: 52vw;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(229,231,235,0.9);
+      background: rgba(255,255,255,0.9);
+      font-size: 13px;
+      outline: none;
+    }
+    .subscribe-row input:focus {
+      border-color: rgba(37,99,235,0.55);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+    }
+    .subscribe-row button {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(37,99,235,0.28);
+      background: rgba(37,99,235,0.12);
+      color: var(--primary);
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .subscribe-row button:hover { background: rgba(37,99,235,0.16); }
+    .subscribe-row button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .subscribe-status { font-size: 12.5px; min-height: 16px; }
+    .subscribe-status.ok { color: #059669; }
+    .subscribe-status.err { color: #b91c1c; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
     @media (max-width: 640px) {
       header { padding: 18px; }
       .card { grid-template-columns: 1fr; }
       .arrow { justify-self: flex-end; }
+      .subscribe { grid-template-columns: 1fr; padding: 16px; }
+      .subscribe-row { flex-direction: column; align-items: stretch; }
+      .subscribe-row input { width: 100%; max-width: none; }
     }
   </style>
 </head>
@@ -152,6 +222,21 @@
         Code, craft, and curiosity.
       </p>
     </header>
+
+    <section class="subscribe" aria-label="Blog post subscription">
+      <div>
+        <h2>Subscribe for new posts</h2>
+        <p>One short email when a new post is published. No spam.</p>
+      </div>
+      <form id="subscribeForm" class="subscribe-form">
+        <label class="sr-only" for="subscribeEmail">Email address</label>
+        <div class="subscribe-row">
+          <input id="subscribeEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          <button id="subscribeButton" type="submit">Subscribe</button>
+        </div>
+        <div id="subscribeStatus" class="subscribe-status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
 
     <div class="posts">
       <a class="card" href="/Blogs/memresistor-explained/">
@@ -252,6 +337,55 @@
     </div>
   </div>
 
+  <script>
+    (function () {
+      const scriptURL = "https://script.google.com/macros/s/AKfycbxwQPAMiTNEyA1K2swKab_E4dhIbimTbwB6zvCUqOFSScU99bpIeC6oIKJva7yoDekK/exec";
+
+      const form = document.getElementById("subscribeForm");
+      const emailInput = document.getElementById("subscribeEmail");
+      const button = document.getElementById("subscribeButton");
+      const status = document.getElementById("subscribeStatus");
+
+      if (!form || !emailInput || !button || !status) return;
+
+      function setStatus(message, kind) {
+        status.textContent = message;
+        status.classList.remove("ok", "err");
+        if (kind) status.classList.add(kind);
+      }
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const email = (emailInput.value || "").trim();
+        if (!email) return;
+
+        button.disabled = true;
+        setStatus("Subscribing…");
+
+        try {
+          const response = await fetch(scriptURL, {
+            method: "POST",
+            body: new URLSearchParams({ email }),
+          });
+
+          const data = await response.json();
+          if (data && data.result === "success") {
+            setStatus("Thanks — you’re subscribed.", "ok");
+            form.reset();
+            return;
+          }
+
+          const errorMessage = data && data.error ? data.error : "Unknown error";
+          setStatus("Could not subscribe: " + errorMessage, "err");
+        } catch (err) {
+          setStatus("Could not subscribe right now. Please try again later.", "err");
+        } finally {
+          button.disabled = false;
+        }
+      });
+    })();
+  </script>
   <script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
 </body>
 </html>
