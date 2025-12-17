@@ -51,6 +51,22 @@ How it works (high level):
 If a blog post is sourced from a PDF (e.g. a Medium export), use the Python helpers in:
 - `Blogs/tools/`
 
+Note:
+- The canonical scripts are in `Blogs/tools/`.
+- Backwards-compatible wrappers also exist in `tools/` (repo root).
+
+### TL;DR (copy/paste)
+Replace `<slug>` and `<your-pdf>.pdf`:
+
+```powershell
+cd C:\Users\BartVanderAuweraert\Sources\portefolio
+./.venv/Scripts/python.exe -m pip install "pypdf[image]"
+./.venv/Scripts/python.exe ./Blogs/tools/pdf_to_markdown.py --in "Blogs/<slug>/<your-pdf>.pdf" --out "Blogs/<slug>/post_extracted.md"
+./.venv/Scripts/python.exe ./Blogs/tools/pdf_extract_images.py --in "Blogs/<slug>/<your-pdf>.pdf" --out-dir "Blogs/<slug>/images/extracted"
+./.venv/Scripts/python.exe ./Blogs/tools/rename_images_by_context.py --post "Blogs/<slug>/post.md" --images-dir "Blogs/<slug>/images/extracted" --apply
+./.venv/Scripts/python.exe ./Blogs/tools/prune_unused_images.py --post "Blogs/<slug>/post.md" --images-dir "Blogs/<slug>/images/extracted" --apply
+```
+
 They support:
 - Extracting text into a draft Markdown file
 - Extracting embedded images from the PDF
@@ -65,53 +81,69 @@ cd C:\Users\BartVanderAuweraert\Sources\portefolio
 ./.venv/Scripts/python.exe -m pip install "pypdf[image]"
 ```
 
-### Step-by-step
+### Step-by-step (agent-friendly)
 Assume your post folder is `Blogs/<slug>/` and the PDF sits in that folder.
 
-1) Extract text from the PDF into a draft:
+0) Create the post folder + `index.html`
+- Create `Blogs/<slug>/` and copy the template structure from `Blogs/when-ai-agent-breaks-your-app/`.
+- Do not add an extra `<header>` in `index.html` (the title/hero should live in `post.md`).
+
+1) Extract text from the PDF into a draft Markdown file:
 
 ```powershell
-./.venv/Scripts/python.exe ./Blogs/tools/pdf_to_markdown.py \
-  --in  "Blogs/<slug>/<your-pdf>.pdf" \
-  --out "Blogs/<slug>/post_extracted.md"
+./.venv/Scripts/python.exe ./Blogs/tools/pdf_to_markdown.py --in "Blogs/<slug>/<your-pdf>.pdf" --out "Blogs/<slug>/post_extracted.md"
 ```
 
-2) Turn the draft into the real article source:
-- Copy/paste and clean from `post_extracted.md` into `post.md`
-- Remove Medium boilerplate sections (“Recommended from Medium”, profile blocks, etc.)
+2) Produce `post.md` from `post_extracted.md`
+- Copy/paste and clean the content into `post.md`.
+- Remove Medium boilerplate (“Recommended from Medium”, profile blocks, etc.).
+- Add your intro image line in `post.md` (placeholder is fine at this point).
 
-3) Extract images from the PDF:
+3) Extract embedded images from the PDF:
 
 ```powershell
-./.venv/Scripts/python.exe ./Blogs/tools/pdf_extract_images.py \
-  --in "Blogs/<slug>/<your-pdf>.pdf" \
-  --out-dir "Blogs/<slug>/images/extracted"
+./.venv/Scripts/python.exe ./Blogs/tools/pdf_extract_images.py --in "Blogs/<slug>/<your-pdf>.pdf" --out-dir "Blogs/<slug>/images/extracted"
 ```
 
-4) Use images in `post.md`:
-- Reference them relatively, e.g.:
+4) Embed the right images into `post.md`
+- Use relative links like:
 
 ```md
 ![Header image](./images/extracted/page-01-img-01.png)
 ```
 
-5) Remove obsolete / unused extracted images:
-First run a dry-run (default):
+5) Rename images to meaningful names (intro + section titles)
+Run a dry-run first (recommended):
 
 ```powershell
-./.venv/Scripts/python.exe ./Blogs/tools/prune_unused_images.py \
-  --post "Blogs/<slug>/post.md" \
-  --images-dir "Blogs/<slug>/images/extracted"
+./.venv/Scripts/python.exe ./Blogs/tools/rename_images_by_context.py --post "Blogs/<slug>/post.md" --images-dir "Blogs/<slug>/images/extracted"
 ```
 
-If the output looks correct, apply deletion:
+Apply renames (this also updates the image links inside `post.md`):
 
 ```powershell
-./.venv/Scripts/python.exe ./Blogs/tools/prune_unused_images.py \
-  --post "Blogs/<slug>/post.md" \
-  --images-dir "Blogs/<slug>/images/extracted" \
-  --apply
+./.venv/Scripts/python.exe ./Blogs/tools/rename_images_by_context.py --post "Blogs/<slug>/post.md" --images-dir "Blogs/<slug>/images/extracted" --apply
 ```
+
+Rules:
+- First referenced image becomes `intro-image.<ext>`
+- Later images become `<section-title>.<ext>` (slugified)
+
+6) Remove obsolete / unused extracted images
+Dry-run:
+
+```powershell
+./.venv/Scripts/python.exe ./Blogs/tools/prune_unused_images.py --post "Blogs/<slug>/post.md" --images-dir "Blogs/<slug>/images/extracted"
+```
+
+Apply deletion:
+
+```powershell
+./.venv/Scripts/python.exe ./Blogs/tools/prune_unused_images.py --post "Blogs/<slug>/post.md" --images-dir "Blogs/<slug>/images/extracted" --apply
+```
+
+7) Update the blog hub
+- Add the new post to `Blogs/index.html` using a root-relative link: `/Blogs/<slug>/`.
 
 
 ## Template: `Blogs/when-ai-agent-breaks-your-app/`
