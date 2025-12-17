@@ -190,9 +190,11 @@ Blogs\[path to blog]
 This is the recommended pattern for Markdown-rendered posts:
 
 - Loads shared CSS
+- Loads prebuilt Tailwind (`/shared/tailwind.css`) with forms + typography
 - Loads portfolio Markdown renderer
 - Includes bottom nav
 - Renders `post.md`
+- If you add new Tailwind utilities, rebuild `/shared/tailwind.css` using `tailwind.config.js` (`npx tailwindcss@3.4.10 -c tailwind.config.js -i ./shared/tailwind-input.css -o ./shared/tailwind.css --minify`; install plugins first with `npm install --no-save @tailwindcss/forms @tailwindcss/typography`).
 
 ```html
 <!doctype html>
@@ -201,12 +203,11 @@ This is the recommended pattern for Markdown-rendered posts:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Are We Building Skynet? A Comprehensive Analysis of AI Autonomy in 2025 — Blog</title>
+  <title>Are We Building Skynet? A Comprehensive Analysis of AI Autonomy in 2025 - Blog</title>
 
   <link rel="stylesheet" href="/shared/site.css" />
   <link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
-
-  <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
+  <link rel="stylesheet" href="/shared/tailwind.css" />
 
 </head>
 

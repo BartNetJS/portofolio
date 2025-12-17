@@ -1,7 +1,5 @@
 # Memristors Explained
 
-*[Click here to read it on Medium](https://medium.com/@bart.codeware/memresistor-explained)*
-
 ![Conceptual illustration showing traditional computer architecture with CPU and separate memory versus in-memory computing, highlighting reduced data movement and lower energy use, clean academic style](image.png)
 *(why a new kind of computer memory could drastically reduce AI energy use)*
 

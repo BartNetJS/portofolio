@@ -30,7 +30,8 @@ Open:
   - `<script src="/shared/bottom-nav.js" data-nav-active="home"></script>`
   - Use `data-nav-active` = `home|services|portfolio|blogs|about|contact`.
 - Styling:
-  - Most pages use Tailwind via CDN (`https://cdn.tailwindcss.com`) + inline `tailwind.config`.
+  - Tailwind is prebuilt into `/shared/tailwind.css` (theme + forms + typography). Include that file instead of the CDN.
+- If you add new Tailwind utility classes, rebuild `/shared/tailwind.css` with `npx tailwindcss@3.4.10 -c tailwind.config.js -i ./shared/tailwind-input.css -o ./shared/tailwind.css --minify` (install plugins first: `npm install --no-save @tailwindcss/forms @tailwindcss/typography`).
   - Portfolio pages should also load `portfolio/shared/portfolio.css` and reuse its classes/variables.
 - Links:
   - Use root-relative URLs for ALL internal links and shared assets: `/portfolio/...`, `/Blogs/...`, `/shared/...`.
