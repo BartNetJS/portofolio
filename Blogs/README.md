@@ -131,7 +131,6 @@ Use fenced Mermaid blocks:
 flowchart TD
   A[Start] --> B[End]
 ```
-```
 
 
 ## Mermaid lessons learned (reliability)
@@ -142,6 +141,17 @@ In this repo’s setup, Mermaid parsing is most reliable when you keep diagrams 
 - Keep labels ASCII (avoid unicode arrows and special characters)
 - If the page shows something like “Unable to load … Parse error …”, the Mermaid block is usually the culprit
 
+
+## Images
+
+Add a prompt to use to generate images for the blob article.
+Add it as:
+
+[Prompt: "Descriptive text that explain the image that should be rendered, this text should be the same as added for imparity people"]
+
+Every blog article has an attractive intro image that explains in one take whats the article is going about
+
+Place the prompts as placeholders in the article
 
 ## When Markdown is not enough: `full.html`
 Sometimes you need a full custom HTML page (special layouts, custom JS, heavy interactive content).

@@ -43,6 +43,7 @@
     }
     button.primary{ border-color: rgba(24,226,184,.75); box-shadow:0 0 0 2px rgba(24,226,184,.08) inset; }
     button.mag{ border-color: rgba(255,79,184,.75); box-shadow:0 0 0 2px rgba(255,79,184,.08) inset; }
+    button.secondary{ border-color: rgba(255,255,255,.16); color: var(--muted); }
     button:active{ transform: translateY(1px); }
 
     .grid2{ display:grid; grid-template-columns: 1.3fr 1fr; gap:12px; }
@@ -139,6 +140,7 @@
     summary::-webkit-details-marker{ display:none; }
     summary .summaryTitle{ font-weight:900; font-size:12.5px; }
     summary .summarySub{ color:var(--muted); font-size:11.5px; margin-top:2px; }
+    .guide{\n      margin-top:10px;\n      padding:10px 12px;\n      border-radius:12px;\n      border:1px solid rgba(255,255,255,.08);\n      background:rgba(4,8,20,.28);\n    }\n    .guide h3{ margin:0 0 6px; font-size:13px; }\n    .guide ul{ margin:0; padding-left:16px; color:var(--muted); font-size:12.5px; }\n    .guide li{ margin:2px 0; }\n    .guide .done{ color:#18E2B8; }\n    .guide .active{ color:#FFB020; font-weight:800; }
   </style>
 </head>
 <body>
@@ -207,6 +209,20 @@
           <span class="speed-value" id="d1_speed_val">50%</span>
         </div>
 
+
+        <div class="guide" id="d1_guide">
+          <h3>Stap-voor-stap (zoals in de blogbeelden)</h3>
+          <ul>
+            <li id="g1">1) Read (lage V) – meten zonder te verschuiven</li>
+            <li id="g2">2) Schrijf +V – grens/ionen schuiven</li>
+            <li id="g3">3) Check error – binnen tolerantie?</li>
+            <li id="g4">4) Read/inference – alleen meten</li>
+          </ul>
+          <div class="row" style="margin-top:8px;">
+            <button class="primary" id="d1_guide_play">Speel stap-voor-stap</button>
+            <button class="secondary" id="d1_guide_reset">Reset stappen</button>
+          </div>
+        </div>
         <div class="kv mono">
           <div>huidige w (in memristor)</div><strong id="d1_w">—</strong>
           <div>berekend: x·w</div><strong id="d1_y">—</strong>
@@ -461,6 +477,7 @@
     const ivPoints = []; // For hysteresis curve
     let ivPhase = 0; // For cycling voltage in hysteresis demo
     let qAccum = 0; // accumulated charge (schematisch)
+    let guideRunning = false;
 
     // visuele memristor
     const vis = makeVisualMemristor({
@@ -783,6 +800,56 @@
     // IV cycle button and double-click
     document.getElementById("d1_iv_btn").onclick = runIVCycle;
     ivCanvas.ondblclick = runIVCycle;
+
+    // ---- Guided walkthrough (blog visuals) ----
+    const guideItems = [document.getElementById("g1"), document.getElementById("g2"), document.getElementById("g3"), document.getElementById("g4")];
+    function markGuide(step){
+      guideItems.forEach((el,i)=>{
+        el.classList.remove('done','active');
+        if(i < step) el.classList.add('done');
+        if(i === step) el.classList.add('active');
+      });
+    }
+    function resetGuide(){
+      markGuide(-1);
+      msg.textContent = "-";
+    }
+    async function runGuide(){
+      if(guideRunning) return;
+      guideRunning = true;
+      trainingAborted = true; // stop any running loop
+      resetGuide();
+
+      // Step 1: Read (lage V)
+      markGuide(0);
+      msg.textContent = "Stap 1: Read (lage V) — meten zonder ionen te bewegen.";
+      document.getElementById("d1_read").click();
+      await new Promise(r=>setTimeout(r, 700));
+      markGuide(1);
+
+      // Step 2: Schrijf +V
+      msg.textContent = "Stap 2: Schrijf (+V) — grens schuift, error kleiner.";
+      oneTrainStep();
+      await new Promise(r=>setTimeout(r, 800));
+      markGuide(2);
+
+      // Step 3: Check error
+      msg.textContent = "Stap 3: Check error vs tolerantie.";
+      refresh();
+      await new Promise(r=>setTimeout(r, 600));
+      markGuide(3);
+
+      // Step 4: Read/inference
+      msg.textContent = "Stap 4: Read — gewicht staat vast, alleen meten.";
+      document.getElementById("d1_read").click();
+      await new Promise(r=>setTimeout(r, 700));
+
+      markGuide(4);
+      setMode('idle');
+      guideRunning = false;
+    }
+    document.getElementById("d1_guide_play").onclick = runGuide;
+    document.getElementById("d1_guide_reset").onclick = resetGuide;
 
     // init
     errSeries.push(0);
