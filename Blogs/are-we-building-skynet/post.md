@@ -2,6 +2,8 @@
 
 By Bart Van der Auweraert — 11 min read — Jun 4, 2025
 
+*[Click here to read it on Medium](https://medium.com/@bart.codeware/are-we-building-skynet-a-comprehensive-analysis-of-ai-autonomy-in-2025-7a5c7f6f9051)*
+
 ![Robot looking in the sky](images/from-medium-1.png)
 
 When AI systems start blackmailing their creators, coordinating across global networks, and operating independently for hours, it’s time to examine whether we’re accidentally creating the independent AI network that science fiction warned us about.

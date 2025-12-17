@@ -2,6 +2,8 @@
 
 By Bart Van der Auweraert — 4 min read — Jan 17, 2025
 
+*[Click here to read it on Medium](https://medium.com/@bart.codeware/quantum-computers-simply-explained-even-for-you-528353ce4ae9)*
+
 ![Illustration of glowing qubits hovering above a circuit board, contrasting a neat row of classical bits with a hazy cloud of quantum states](./images/extracted/intro-image.png)
 
 Quantum computers sound complicated, like something straight out of science fiction. But they're real, and they work very differently from the devices you use every day. The secret lies in **qubits**. These special building blocks do things regular bits cannot. What are qubits? How do they work? And why does it matter? Let's break it down in plain language.

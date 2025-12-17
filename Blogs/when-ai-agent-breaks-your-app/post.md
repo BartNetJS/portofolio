@@ -2,6 +2,8 @@
 
 ## How One Constructor Froze an Entire Page (And My Soul)
 
+*[Click here to read it on Medium](https://medium.com/@bart.codeware/when-ai-agents-breaks-your-app-f15e1ef733b4)*
+
 ![Cartoon of a developer thinking about AI while facing a stuck process symbol.](./images/hero.png)
 
 We all love AI assistants — Copilot, Claude, Codex, Warp…

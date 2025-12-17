@@ -3,6 +3,8 @@ One Simple Tip to Read Articles Without Annoying Ads — and Actually Understand
 
 By Bart Van der Auweraert — 2 min read — Nov 1, 2025
 
+*[Click here to read it on Medium](https://medium.com/@bart.codeware/one-simple-tip-to-read-articles-without-annoying-ads-e39a1db0f9af)*
+
 ![person reading a simplified, ad-free article on a laptop, with blurred ads in the background, warm colors, and a calm focused expression.](image.png)
 
 Have you ever opened an online article, ready to learn something new — and then got lost between flashing banners, autoplay videos, and cookie consent pop-ups?

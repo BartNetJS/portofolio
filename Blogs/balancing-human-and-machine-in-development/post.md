@@ -2,6 +2,8 @@
 
 By Bart Van der Auweraert — 11 min read — Apr 1, 2025
 
+*[Click here to read it on Medium](https://medium.com/@bart.codeware/balancing-human-and-machine-in-development-c3fc7ce626ef)*
+
 ![Header image](./images/extracted/intro-image.png)
 
 When ChatGPT first emerged about two years ago and created waves across the tech industry, I immediately recognized its potential beyond the novelty factor. While many colleagues were using it to write poems about cats or solve puzzles, I began methodically exploring how it could enhance my daily work as a Technical Architect.
