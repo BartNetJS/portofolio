@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 
 
@@ -23,6 +24,56 @@ def guess_image_extension(data: bytes) -> str | None:
     return None
 
 
+_NON_WORD_RE = re.compile(r"[^a-z0-9]+")
+
+
+def slugify(value: str, *, max_len: int = 60) -> str:
+    value = value.strip().lower()
+    value = _NON_WORD_RE.sub("-", value)
+    value = value.strip("-")
+    if not value:
+        return "untitled"
+    if len(value) > max_len:
+        value = value[:max_len].rstrip("-")
+    return value
+
+
+def first_meaningful_line(page_text: str | None) -> str | None:
+    if not page_text:
+        return None
+    lines = [ln.strip() for ln in page_text.splitlines() if ln.strip()]
+    if not lines:
+        return None
+
+    # Skip common boilerplate lines.
+    skip_substrings = (
+        "open in app",
+        "recommended from medium",
+        "see all from",
+        "written by",
+        "no responses",
+        "share",
+        "listen",
+        "more",
+        "medium",
+    )
+
+    for ln in lines:
+        ln_lower = ln.lower()
+        if any(s in ln_lower for s in skip_substrings):
+            continue
+        # Avoid giant paragraphs; prefer a headline-like line.
+        if len(ln) > 120:
+            continue
+        # Must contain at least one letter.
+        if not re.search(r"[A-Za-z]", ln):
+            continue
+        return ln
+
+    # Fallback: first non-empty line.
+    return lines[0]
+
+
 def main(argv: list[str] | None = None) -> int:
     # pypdf is the maintained successor of PyPDF2
     from pypdf import PdfReader
@@ -37,6 +88,12 @@ def main(argv: list[str] | None = None) -> int:
         dest="out_dir",
         required=True,
         help="Output directory for extracted images (absolute or repo-relative).",
+    )
+    parser.add_argument(
+        "--naming",
+        choices=["page-text", "page-index"],
+        default="page-text",
+        help="How to name extracted files. 'page-text' uses the page's first meaningful text line (slugified). 'page-index' uses page-XX-img-YY.",
     )
     args = parser.parse_args(argv)
 
@@ -60,6 +117,14 @@ def main(argv: list[str] | None = None) -> int:
         if not images:
             continue
 
+        page_label: str | None = None
+        if args.naming == "page-text":
+            try:
+                page_text = page.extract_text()
+            except Exception:
+                page_text = None
+            page_label = slugify(first_meaningful_line(page_text) or f"page-{page_index:02d}")
+
         for image_index, image in enumerate(images, start=1):
             data: bytes = image.data
 
@@ -72,8 +137,25 @@ def main(argv: list[str] | None = None) -> int:
             if not ext:
                 ext = guess_image_extension(data) or "bin"
 
-            file_name = f"page-{page_index:02d}-img-{image_index:02d}.{ext}"
+            if args.naming == "page-index":
+                file_stem = f"page-{page_index:02d}-img-{image_index:02d}"
+            else:
+                # Include page index for stable ordering and disambiguation.
+                file_stem = f"p{page_index:02d}-{page_label}-img-{image_index:02d}"
+
+            file_name = f"{file_stem}.{ext}"
             out_path = out_dir / file_name
+
+            # Avoid accidental overwrites when different images resolve to the same name.
+            if out_path.exists():
+                suffix = 2
+                while True:
+                    candidate = out_dir / f"{file_stem}-v{suffix}.{ext}"
+                    if not candidate.exists():
+                        out_path = candidate
+                        break
+                    suffix += 1
+
             out_path.write_bytes(data)
             written += 1
 

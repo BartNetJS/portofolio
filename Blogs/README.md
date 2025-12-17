@@ -1,9 +1,29 @@
 # Blogs (Markdown + Mermaid)
 
+## Agent rule: one session, no "continue" prompts
+
+If you are an LLM/agent working on blog tasks in this repo:
+- Work end-to-end in a single session: do the full workflow and finish with a short summary.
+- Do **not** ask the user to say “continue” or to choose between obvious next steps.
+- Only ask a question when you are genuinely blocked (missing required info / ambiguity that changes file paths or outcomes). Otherwise, pick the simplest sensible default and proceed.
+- When you hit missing tooling/deps, install what’s needed (prefer the repo `.venv`) and re-run, instead of pausing for confirmation.
+
+## LLM quick instructions (do this for every blog)
+
+| Step | Do                                                                                                   | Details                                                                                                                    |
+| ---- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Preview via an HTTP server (never `file://`)                                                         | See [Local preview](#local-preview-required)                                                                               |
+| 2    | Use one folder per post (`Blogs/<slug>/`) with `index.html` + `post.md`                              | See [Preferred structure](#preferred-structure-one-folder-per-post)                                                        |
+| 3    | Copy the canonical template; keep `index.html` minimal (no extra header/hero)                        | See [Template](#template-blogsbalancing-human-and-machine-in-development) and [Step-by-step](#step-by-step-agent-friendly) |
+| 4    | Use root-relative links for shared assets/navigation (`/Blogs/...`, `/shared/...`, `/portfolio/...`) | See repo rules in [AGENTS.md](../AGENTS.md)                                                                                |
+| 5    | Author/clean `post.md` (intro image, sections, code, diagrams)                                       | See [Authoring `post.md`](#authoring-postmd)                                                                               |
+| 6    | If source is PDF: extract text + images, then rename/prune images                                    | See [PDF workflow](#pdf-workflow-text--images)                                                                             |
+| 7    | Update the blog hub list                                                                             | See [Updating the blog hub](#updating-the-blog-hub)                                                                        |
+
 This repo is a static website (GitHub Pages + custom domain). Blog posts can be authored in Markdown (with optional Mermaid diagrams) and rendered client-side in the browser.
 
 The canonical template is:
-- `Blogs/when-ai-agent-breaks-your-app/`
+- `Blogs\balancing-human-and-machine-in-development`
 
 
 ## Local preview (required)
@@ -85,7 +105,7 @@ cd C:\Users\BartVanderAuweraert\Sources\portefolio
 Assume your post folder is `Blogs/<slug>/` and the PDF sits in that folder.
 
 0) Create the post folder + `index.html`
-- Create `Blogs/<slug>/` and copy the template structure from `Blogs/when-ai-agent-breaks-your-app/`.
+- Create `Blogs/<slug>/` and copy the template structure from `Blogs\balancing-human-and-machine-in-development`.
 - Do not add an extra `<header>` in `index.html` (the title/hero should live in `post.md`).
 
 1) Extract text from the PDF into a draft Markdown file:
@@ -96,8 +116,10 @@ Assume your post folder is `Blogs/<slug>/` and the PDF sits in that folder.
 
 2) Produce `post.md` from `post_extracted.md`
 - Copy/paste and clean the content into `post.md`.
-- Remove Medium boilerplate (“Recommended from Medium”, profile blocks, etc.).
+- Remove Medium boilerplate ("Recommended from Medium", profile blocks, etc.).
 - Add your intro image line in `post.md` (placeholder is fine at this point).
+- Keep all substantive sections from the PDF (intro through conclusion); only drop platform cruft (profile blocks, recommendations, unrelated articles).
+- Use the page markers in `post_extracted.md` to confirm no sections were skipped. Everything before "Edit profile" / "Recommended from Medium" usually belongs in the final post.
 
 3) Extract embedded images from the PDF:
 
@@ -145,13 +167,18 @@ Apply deletion:
 7) Update the blog hub
 - Add the new post to `Blogs/index.html` using a root-relative link: `/Blogs/<slug>/`.
 
+### Content completeness sanity check (avoid accidental truncation)
+- Compare `post_extracted.md` and `post.md` to ensure every real section made it over; the only removals should be platform boilerplate.
+- If the PDF has more pages than your final Markdown, confirm those extra pages were truly ads/recommendations.
+- Do a quick read-through end-to-end to make sure the narrative still flows and no mid-article paragraphs were dropped.
 
-## Template: `Blogs/when-ai-agent-breaks-your-app/`
+
+## Template: `Blogs\balancing-human-and-machine-in-development`
 Use this folder as the reference layout and wiring.
 
 ### Template tree
 ```
-Blogs/when-ai-agent-breaks-your-app/
+Blogs\[path to blog]
   index.html
   post.md
   full.html
@@ -170,37 +197,30 @@ This is the recommended pattern for Markdown-rendered posts:
 ```html
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>My Post Title — Blog</title>
 
-    <link rel="stylesheet" href="/shared/site.css" />
-    <link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Are We Building Skynet? A Comprehensive Analysis of AI Autonomy in 2025 — Blog</title>
 
-    <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
+  <link rel="stylesheet" href="/shared/site.css" />
+  <link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
 
-    <style>
-      body { background: white; color: #111827; }
-      .post-container { max-width: 720px; margin: 3rem auto; padding: 0 1rem; }
+  <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
 
-      /* Code contrast: portfolio markdown styling + tailwind prose can clash; force readable code. */
-      .md-article pre, .md-article pre code, .md-article code { color: #111827; }
-    </style>
-  </head>
-  <body>
-    <main class="post-container">
-      <div class="prose lg:prose-xl">
-        <div data-md-include="./post.md"></div>
-      </div>
-      <p class="mt-8 text-sm text-gray-600">
-        Rendered from Markdown. Optional full HTML at <a href="./full.html">full.html</a>.
-      </p>
-    </main>
+</head>
 
-    <script type="module" src="/portfolio/shared/markdown-mermaid.js"></script>
-    <script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
-  </body>
+<body>
+  <main class="max-w-3xl mx-auto p-6">
+    <article id="post-container" data-md-include="/Blogs/[path to blog]]/post.md">
+      Loading post…
+    </article>
+  </main>
+
+  <script type="module" src="/portfolio/shared/markdown-mermaid.js"></script>
+  <script src="/shared/bottom-nav.js" data-nav-active="blogs"></script>
+</body>
+
 </html>
 ```
 
@@ -213,7 +233,7 @@ For example this is forbidden:
     <p class="meta">By Bart Van der Auweraert · 11 min read · Apr 1, 2025</p>
     <img src="./images/intro-image.svg" alt="Developer working in VS Code with AI assistant suggestions, balancing human intent and machine help" class="hero" />
 </header>
-´´´
+```
 
 ## Authoring `post.md`
 ### Images
@@ -226,20 +246,21 @@ Put images in `Blogs/<slug>/images/` and reference them relatively:
 ### Code blocks
 Use fenced code blocks:
 
-```md
+````md
 ```csharp
 // code...
 ```
-```
+````
 
 ### Mermaid diagrams
 Use fenced Mermaid blocks:
 
-```md
+````md
 ```mermaid
 flowchart TD
   A[Start] --> B[End]
 ```
+````
 
 
 ## Mermaid lessons learned (reliability)
@@ -253,14 +274,10 @@ In this repo’s setup, Mermaid parsing is most reliable when you keep diagrams 
 
 ## Images
 
-Add a prompt to use to generate images for the blob article.
-Add it as:
-
-[Prompt: "Descriptive text that explain the image that should be rendered, this text should be the same as added for imparity people"]
-
-Every blog article has an attractive intro image that explains in one take whats the article is going about
-
-Place the prompts as placeholders in the article
+- When there is no image yet, add a prompt placeholder so an image can be generated later:
+  - `[Prompt: "Descriptive text that explain the image that should be rendered, this text should be the same as added for imparity people"]`
+- If an actual image is already present, do **not** include the prompt placeholder.
+- Every blog article should end up with an attractive intro image that explains what the article is about.
 
 ## When Markdown is not enough: `full.html`
 Sometimes you need a full custom HTML page (special layouts, custom JS, heavy interactive content).
