@@ -126,8 +126,25 @@ Do these in addition to Turnstile for a simple but robust setup:
     - **Console warnings mentioning `normal?lang=auto` (CSP/script-src warning, preload warnings, etc.)**:
       1. In Chrome DevTools **Console**, click the `normal?lang=auto:1` link to see which resource logged it (typically `https://challenges.cloudflare.com/...`).
       2. In DevTools **Network**, filter for `normal?lang=auto`, click the request, then check **Response Headers** for `content-security-policy`.
-      3. If the URL is `challenges.cloudflare.com`, it’s Cloudflare’s own CSP and you can't change it (safe to ignore if the captcha works).
+      3. If the URL is `challenges.cloudflare.com`, it's Cloudflare's own CSP and you can't change it (safe to ignore if the captcha works).
       4. If you ever see the same warning for *your own* pages (your domain), it means your CSP defines `default-src` but not `script-src`; fix it where you set CSP (usually a Cloudflare response-header rule) by adding an explicit `script-src` allowlist.
+
+### CSP note (what the warning means)
+
+Content Security Policy (CSP) is a response header that tells the browser where it is allowed to load scripts, styles, images, fonts, and other resources from. It reduces XSS risk by blocking unexpected sources.
+
+The warning:
+- **"script-src was not explicitly set, so default-src is used as a fallback"**
+means the CSP header only defines `default-src`, so the browser applies that rule to scripts too. This is not a functional error by itself, but it is less precise than setting `script-src` explicitly.
+
+Is it an issue?
+- **If the warning comes from `challenges.cloudflare.com`**: not an issue you can fix. It is Cloudflare's own CSP for the Turnstile challenge and can be ignored if the captcha works.
+- **If the warning comes from your domain**: it is a best-practice issue. Your site will still work (scripts follow `default-src`), but security scanners will flag it. Preferred fix: define `script-src` explicitly in your CSP.
+
+If you choose to set CSP on your domain, keep in mind:
+1. **Inline scripts** (like the newsletter form in `Blogs/index.html`) require `script-src 'unsafe-inline'` or a nonce/hash. If you do not allow inline scripts, you must move inline JS to external files and use a nonce or hash.
+2. **Third-party sources** must be allowlisted (for this site: `https://challenges.cloudflare.com` for Turnstile, `https://fonts.googleapis.com` and `https://fonts.gstatic.com` for fonts).
+3. Changes to CSP are usually done in your hosting or Cloudflare response-header rules, not in HTML files.
 
 Optional for local testing (bypass captcha):
 1. In Apps Script, set Script Property `SUBSCRIBE_BYPASS_KEY` to a long random value.

@@ -146,7 +146,7 @@
       margin-bottom: 18px;
       display: grid;
       gap: 12px;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
     }
     .subscribe h2 {
@@ -161,11 +161,22 @@
       font-size: 13px;
       max-width: 680px;
     }
-    .subscribe-form { display: grid; gap: 8px; }
-    .subscribe-row { display: flex; gap: 10px; align-items: center; }
+    .subscribe-form {
+      display: grid;
+      gap: 8px;
+      width: min(420px, 100%);
+      justify-self: end;
+      min-width: 0;
+    }
+    .subscribe-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
     .subscribe-row input {
-      width: 320px;
-      max-width: 52vw;
+      width: 100%;
+      min-width: 0;
       padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid rgba(229,231,235,0.9);
@@ -193,6 +204,13 @@
     .subscribe-status { font-size: 12.5px; min-height: 16px; }
     .subscribe-status.ok { color: #059669; }
     .subscribe-status.err { color: #b91c1c; }
+    #turnstileContainer {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    #turnstileContainer iframe {
+      max-width: 100%;
+    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -217,8 +235,9 @@
       .card { grid-template-columns: 1fr; }
       .arrow { justify-self: flex-end; }
       .subscribe { grid-template-columns: 1fr; padding: 16px; }
-      .subscribe-row { flex-direction: column; align-items: stretch; }
-      .subscribe-row input { width: 100%; max-width: none; }
+      .subscribe-form { width: 100%; justify-self: stretch; }
+      .subscribe-row { grid-template-columns: 1fr; }
+      .subscribe-row button { width: 100%; }
     }
   </style>
 </head>
