@@ -174,6 +174,78 @@
             font-size: 20px;
           }
 
+          /* More popup styles */
+          #cw-more-menu {
+            position: fixed;
+            bottom: 88px; /* above bottom nav */
+            right: 1rem;
+            z-index: 70;
+            min-width: 160px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(2,6,23,0.35);
+            border: 1px solid rgba(15,23,36,0.08);
+            transform-origin: bottom right;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+            padding: 0.5rem;
+          }
+
+          #cw-more-menu.is-open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-6px);
+          }
+
+          #cw-more-menu .cw-more-menu__inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+          }
+
+          .cw-more-menu__item {
+            display: flex;
+            flex-direction: row; /* icon left, label right */
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.9rem;
+            border-radius: 8px;
+            color: inherit;
+            text-decoration: none;
+            min-width: 180px;
+            justify-content: flex-start;
+          }
+
+          .cw-more-menu__item:hover {
+            background: rgba(0,0,0,0.04);
+          }
+
+          body.dark #cw-more-menu {
+            background: rgba(17,24,39,0.85);
+            border: 1px solid rgba(255,255,255,0.06);
+          }
+
+          /* Responsive: hide collapsed items and show More button on small screens */
+          @media (max-width: 540px) {
+            .cw-bottom-nav__item[data-key="about"],
+            .cw-bottom-nav__item[data-key="contact"] {
+              display: none;
+            }
+            #cw-more-button {
+              display: inline-flex;
+            }
+          }
+
+          @media (min-width: 541px) {
+            #cw-more-button {
+              display: none;
+            }
+            #cw-more-menu {
+              display: none;
+            }
+          }
+
         body.dark .cw-bottom-nav__item.is-active,
         .dark .cw-bottom-nav__item.is-active {
           color: var(--cw-nav-active);
@@ -212,12 +284,14 @@
         label: "About",
         href: "/#about",
         icon: "info",
+        collapseOnMobile: true,
       },
       {
         key: "contact",
         label: "Contact",
         href: "/#contact",
         icon: "mail_outline",
+        collapseOnMobile: true,
       },
     ];
 
@@ -253,9 +327,44 @@
       list.appendChild(link);
     });
 
-      // Append theme toggle at the end of nav
-        // Append theme float to the document (outside the bottom nav)
-        document.body.appendChild(themeFloat);
+    // Create a 'More' button and popup menu that will appear on small screens
+    const moreButton = document.createElement('button');
+    moreButton.id = 'cw-more-button';
+    moreButton.type = 'button';
+    moreButton.className = 'cw-bottom-nav__item';
+    moreButton.setAttribute('aria-haspopup', 'true');
+    moreButton.setAttribute('aria-expanded', 'false');
+    moreButton.innerHTML = `
+      <span class="cw-bottom-nav__icon material-icons-outlined" aria-hidden="true">more_horiz</span>
+      <span class="cw-bottom-nav__label">More</span>
+    `;
+
+    const moreMenu = document.createElement('div');
+    moreMenu.id = 'cw-more-menu';
+    moreMenu.setAttribute('role', 'menu');
+    moreMenu.setAttribute('aria-hidden', 'true');
+    moreMenu.innerHTML = '<div class="cw-more-menu__inner"></div>';
+
+    // Add collapsed items into the popup menu
+    const inner = moreMenu.querySelector('.cw-more-menu__inner');
+    navItems.filter(i => i.collapseOnMobile).forEach((item) => {
+      const a = document.createElement('a');
+      a.className = 'cw-bottom-nav__item cw-more-menu__item';
+      a.href = item.href;
+      a.setAttribute('role', 'menuitem');
+      a.innerHTML = `
+        <span class="cw-bottom-nav__icon material-icons-outlined" aria-hidden="true">${item.icon}</span>
+        <span class="cw-bottom-nav__label">${item.label}</span>
+      `;
+      inner.appendChild(a);
+    });
+
+    // Append the more button into the visible list; the menu is appended to body
+    list.appendChild(moreButton);
+    document.body.appendChild(moreMenu);
+
+    // Append theme float to the document (outside the bottom nav)
+    document.body.appendChild(themeFloat);
 
     container.appendChild(list);
     nav.appendChild(container);
@@ -286,6 +395,13 @@
 
     window.addEventListener("hashchange", syncActive);
     window.addEventListener("popstate", syncActive);
+
+    // Close popup when navigation happens
+    window.addEventListener('hashchange', () => {
+      moreButton.setAttribute('aria-expanded', 'false');
+      moreMenu.setAttribute('aria-hidden', 'true');
+      moreMenu.classList.remove('is-open');
+    });
 
     // --- Theme toggle behavior ---
       // --- Theme toggle behavior (floating) ---
@@ -328,6 +444,42 @@
         const next = current === 'dark' ? 'light' : 'dark';
         setTheme(next);
         localStorage.setItem('theme', next);
+      });
+
+      // --- More button behavior ---
+      const toggleMore = (ev) => {
+        ev.stopPropagation();
+        const expanded = moreButton.getAttribute('aria-expanded') === 'true';
+        moreButton.setAttribute('aria-expanded', String(!expanded));
+        moreMenu.setAttribute('aria-hidden', String(expanded));
+        moreMenu.classList.toggle('is-open');
+      };
+
+      moreButton.addEventListener('click', toggleMore);
+
+      // Close menu on outside click or scroll
+      document.addEventListener('click', (e) => {
+        if (!moreMenu.contains(e.target) && e.target !== moreButton) {
+          moreButton.setAttribute('aria-expanded', 'false');
+          moreMenu.setAttribute('aria-hidden', 'true');
+          moreMenu.classList.remove('is-open');
+        }
+      });
+
+      document.addEventListener('scroll', () => {
+        moreButton.setAttribute('aria-expanded', 'false');
+        moreMenu.setAttribute('aria-hidden', 'true');
+        moreMenu.classList.remove('is-open');
+      }, { passive: true });
+
+      // Handle clicks on menu items to close menu after navigation
+      moreMenu.addEventListener('click', (ev) => {
+        const a = ev.target.closest('a');
+        if (a) {
+          moreButton.setAttribute('aria-expanded', 'false');
+          moreMenu.setAttribute('aria-hidden', 'true');
+          moreMenu.classList.remove('is-open');
+        }
       });
     
   };
