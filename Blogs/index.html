@@ -207,9 +207,11 @@
     #turnstileContainer {
       max-width: 100%;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
     #turnstileContainer iframe {
       max-width: 100%;
+      display: block;
     }
     .sr-only {
       position: absolute;
@@ -234,10 +236,17 @@
       header { padding: 18px; }
       .card { grid-template-columns: 1fr; }
       .arrow { justify-self: flex-end; }
-      .subscribe { grid-template-columns: 1fr; padding: 16px; }
+      .subscribe { grid-template-columns: 1fr; padding: 12px; }
       .subscribe-form { width: 100%; justify-self: stretch; }
       .subscribe-row { grid-template-columns: 1fr; }
       .subscribe-row button { width: 100%; }
+      #turnstileContainer {
+        width: calc(100% + 24px);
+        margin-left: -12px;
+        margin-right: -12px;
+        display: flex;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -406,6 +415,11 @@
         const widget = document.createElement("div");
         widget.className = "cf-turnstile";
         widget.dataset.sitekey = turnstileSiteKey;
+        const containerWidth =
+          turnstileContainer.clientWidth ||
+          turnstileContainer.getBoundingClientRect().width ||
+          0;
+        widget.dataset.size = containerWidth >= 300 ? "normal" : "compact";
         turnstileContainer.innerHTML = "";
         turnstileContainer.appendChild(widget);
       }
