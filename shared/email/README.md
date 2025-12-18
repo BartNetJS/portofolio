@@ -35,8 +35,8 @@
    - Click **Allow**.
 6. Copy the **Web App URL**.
 
-Tip to verify you’re hitting the right deployment:
-- Open the web app URL in a browser (GET). It should return JSON like `{"result":"ok","version":"2025-12-17"}`.
+Tip to verify you're hitting the right deployment:
+- Open the web app URL in a browser (GET). It should return JSON like `{"result":"ok","version":"2025-12-17.2"}`.
 
 ## 5. Configure Website
 
@@ -84,3 +84,20 @@ With a static website, the endpoint URL is always visible in the browser (DevToo
 Optional for local testing (bypass captcha):
 - Set Script Property `SUBSCRIBE_BYPASS_KEY` to a long random value.
 - Send `bypass_key=<that value>` from `Test-Subscription.ps1`.
+
+## Email notifications (optional)
+
+If you want an email when a *new* subscriber is added:
+
+Option A (no code changes): Google Sheets notifications
+- In the sheet: **Tools** > **Notification settings** (or **Notification rules**).
+- Choose “Any changes are made” and “Email - right away”.
+- Note: this can be noisy (it notifies on any sheet change, not just new subscribers).
+
+Option B (recommended): send one email per new subscriber (Apps Script)
+1. In Apps Script, set a Script Property:
+   - Name: `NOTIFY_EMAIL`
+   - Value: `you@domain.com` (or multiple, separated by commas)
+2. Authorize the email scope:
+   - In the function dropdown, run `authorizeEmailNotifications` once and click **Allow**.
+3. Redeploy the web app (**Deploy > Manage deployments > Edit > New version > Deploy**).

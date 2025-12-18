@@ -1,6 +1,6 @@
 var sheetName = "blogEmails";
 var sheetId = "1nAY9rheJyAmVnkw38GKHrDtubg4Atcbz6vpbAAbQCQo";
-var apiVersion = "2025-12-17";
+var apiVersion = "2025-12-17.2";
 var expectedHeaders = ["timestamp", "email"];
 var emailFieldName = "email";
 var timesSubscribedHeaderCandidates = ["timessubscribed", "timessubscibed"];
@@ -10,6 +10,7 @@ var turnstileSecretPropertyName = "TURNSTILE_SECRET";
 var bypassKeyFieldName = "bypass_key";
 var bypassKeyPropertyName = "SUBSCRIBE_BYPASS_KEY";
 var rateLimitSeconds = 15;
+var notifyEmailPropertyName = "NOTIFY_EMAIL";
 
 function doGet() {
   return jsonOutput({ result: "ok" });
@@ -21,6 +22,23 @@ function authorizeExternalRequests() {
   });
   Logger.log("authorizeExternalRequests status: " + response.getResponseCode());
   return response.getResponseCode();
+}
+
+function authorizeEmailNotifications() {
+  var recipients = getNotificationRecipients();
+  if (!recipients) {
+    throw new Error(
+      "Set Script Property " + notifyEmailPropertyName + " first."
+    );
+  }
+
+  MailApp.sendEmail(
+    recipients,
+    "[BlogEmails] Notifications enabled",
+    "Test email: subscription notifications are enabled for this Apps Script project.\n\nVersion: " +
+      apiVersion
+  );
+  return true;
 }
 
 function doPost(e) {
@@ -111,6 +129,8 @@ function doPost(e) {
 
     sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow]);
 
+    notifyNewSubscriptionIfConfigured(email, nextRow, doc);
+
     return jsonOutput({ result: "success", row: nextRow });
   } catch (e) {
     return jsonOutput({ result: "error", error: e.toString() });
@@ -157,6 +177,45 @@ function incrementTimesSubscribed(sheet, rowNumber, columnIndex) {
   var current = parseInt(currentValue, 10);
   if (!current || current < 1) current = 1;
   cell.setValue(current + 1);
+}
+
+function getNotificationRecipients() {
+  var value = PropertiesService.getScriptProperties().getProperty(
+    notifyEmailPropertyName
+  );
+  return (value || "")
+    .split(/[;,]+/)
+    .map(function (part) {
+      return part.toString().trim();
+    })
+    .filter(function (part) {
+      return part.length > 0;
+    })
+    .join(",");
+}
+
+function notifyNewSubscriptionIfConfigured(email, rowNumber, spreadsheet) {
+  var recipients = getNotificationRecipients();
+  if (!recipients) return;
+
+  var sheetUrl = spreadsheet ? spreadsheet.getUrl() : "";
+  var subject = "[BlogEmails] New subscriber: " + email;
+  var body =
+    "A new email subscribed to blog updates.\n\n" +
+    "Email: " +
+    email +
+    "\nRow: " +
+    rowNumber +
+    "\nSheet: " +
+    sheetUrl +
+    "\nVersion: " +
+    apiVersion;
+
+  try {
+    MailApp.sendEmail(recipients, subject, body);
+  } catch (e) {
+    Logger.log("Notification email failed: " + e);
+  }
 }
 
 function normalizeParameterKeys(params) {
