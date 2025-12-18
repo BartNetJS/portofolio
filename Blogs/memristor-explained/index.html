@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>One Simple Tip to Read Articles Without Annoying Ads - Blog</title>
-    <meta name="description" content="One simple tip to read online articles without ads: use an LLM to summarize and explain content, plus a quick reader mode tip for Chrome mobile." />
+    <title>Memristors Explained - Blog</title>
+    <meta name="description" content="Memristors explained in plain language: how in-memory computing can reduce the AI energy cost by minimizing data movement between CPU and memory." />
     <meta name="author" content="Bart Van der Auweraert" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.codeware.be/Blogs/read-articles-without-ads/" />
+    <link rel="canonical" href="https://www.codeware.be/Blogs/memristor-explained/" />
     <meta name="theme-color" content="#2563eb" />
 
     <!-- Icons -->
@@ -17,9 +17,9 @@
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Read Articles Without Ads | Codeware Blog" />
-    <meta property="og:description" content="One simple tip to read online articles without ads: use an LLM to summarize and explain content, plus a quick reader mode tip for Chrome mobile." />
-    <meta property="og:url" content="https://www.codeware.be/Blogs/read-articles-without-ads/" />
+    <meta property="og:title" content="Memristors Explained | Codeware Blog" />
+    <meta property="og:description" content="Memristors explained in plain language: how in-memory computing can reduce the AI energy cost by minimizing data movement between CPU and memory." />
+    <meta property="og:url" content="https://www.codeware.be/Blogs/memristor-explained/" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Codeware" />
     <meta property="og:locale" content="en_BE" />
@@ -29,8 +29,8 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Read Articles Without Ads | Codeware Blog" />
-    <meta name="twitter:description" content="One simple tip to read online articles without ads: use an LLM to summarize and explain content, plus a quick reader mode tip for Chrome mobile." />
+    <meta name="twitter:title" content="Memristors Explained | Codeware Blog" />
+    <meta name="twitter:description" content="Memristors explained in plain language: how in-memory computing can reduce the AI energy cost by minimizing data movement between CPU and memory." />
     <meta name="twitter:image" content="https://www.codeware.be/shared/og-image.png" />
 
     <!-- Structured Data -->
@@ -38,10 +38,10 @@
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "headline": "One Simple Tip to Read Articles Without Annoying Ads - and Actually Understand Them Better",
-        "description": "One simple tip to read online articles without ads: use an LLM to summarize and explain content, plus a quick reader mode tip for Chrome mobile.",
-        "url": "https://www.codeware.be/Blogs/read-articles-without-ads/",
-        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.codeware.be/Blogs/read-articles-without-ads/" },
+        "headline": "Memristors Explained",
+        "description": "Memristors explained in plain language: how in-memory computing can reduce the AI energy cost by minimizing data movement between CPU and memory.",
+        "url": "https://www.codeware.be/Blogs/memristor-explained/",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.codeware.be/Blogs/memristor-explained/" },
         "author": { "@type": "Person", "name": "Bart Van der Auweraert" },
         "publisher": { "@type": "Organization", "name": "Codeware", "url": "https://www.codeware.be/" },
         "image": "https://www.codeware.be/shared/og-image.png",
@@ -55,20 +55,29 @@
     <link rel="stylesheet" href="/shared/tailwind.css" />
 
     <style>
-      body { background: white; color: #111827; }
-      .post-container { max-width: 720px; margin: 3rem auto; padding: 0 1rem; }
-      .hero { width: 100%; height: 320px; object-fit: cover; border-radius: 8px; }
-      .meta { color: #6b7280; font-size: 0.9rem; margin-bottom: 1rem; }
+      /* Page defaults only when no theme selected */
+      :root:not([data-theme]) {
+        --page-bg: #ffffff;
+        --page-text: #111827;
+        --page-code: #111827;
+      }
+
+      body {
+        background: var(--page-bg, transparent);
+        color: var(--page-text, inherit);
+      }
+
+      .post-container { max-width: 760px; margin: 3rem auto; padding: 0 1rem; }
+      .md-article pre, .md-article pre code, .md-article code { color: var(--page-code, inherit); }
     </style>
   </head>
   <body>
     <main class="post-container">
-      <article class="prose lg:prose-xl md-article">
+      <div class="prose lg:prose-xl md-article">
         <div data-md-include="./post.md"></div>
-      </article>
-
+      </div>
       <p class="mt-8 text-sm text-gray-600">
-        Rendered from Markdown. Optional full HTML at <a href="./full.html">full.html</a>.
+        Rendered from Markdown. Interactief demopaneel: <a href="/Blogs/memristor-explained/memristor.html">/Blogs/memristor-explained/memristor.html</a>.
       </p>
     </main>
 

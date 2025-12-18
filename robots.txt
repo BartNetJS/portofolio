@@ -1,5 +1,16 @@
 User-agent: *
 Allow: /
+Disallow: /UserStories/
+Disallow: /Blogs/tools/
+Disallow: /Blogs/memresistor-explained/old/
+Disallow: /.claude/
+Disallow: /.github/
+Disallow: /.git/
+Disallow: /.venv/
+Disallow: /codeware-seo-content.md
+Disallow: /LOCAL_TESTING.md
+Disallow: /README.md
+Disallow: /branch-info.json
 Sitemap: https://www.codeware.be/sitemap.xml
 
 # AI Assistant Crawlers - Allow All

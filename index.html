@@ -25,6 +25,13 @@
     />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://www.codeware.be/" />
+    <meta name="theme-color" content="#2563eb" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- AI Assistant Summary -->
     <meta
@@ -43,15 +50,54 @@
 
     <!-- Open Graph -->
     <meta property="og:title" content="Codeware | 40 Years of Software Excellence, Now with AI" />
-    <meta property="og:description" content="Solution architecture, cloud, system integration — built on 40+ years of experience. AI agents &amp; RAG systems — our newest expertise." />
+    <meta property="og:description" content="Solution architecture, cloud, system integration - built on 40+ years of experience. AI agents &amp; RAG systems - our newest expertise." />
     <meta property="og:url" content="https://www.codeware.be/" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Codeware" />
     <meta property="og:locale" content="en_BE" />
+    <meta property="og:image" content="https://www.codeware.be/shared/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Codeware | Enterprise AI Agents &amp; Systems" />
     <meta name="twitter:description" content="From Proof-of-Concept to Production. Enterprise AI solutions in Belgium." />
+    <meta name="twitter:image" content="https://www.codeware.be/shared/og-image.png" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://www.codeware.be/#organization",
+            "name": "Codeware",
+            "url": "https://www.codeware.be/",
+            "logo": "https://www.codeware.be/shared/icon-512.png",
+            "email": "mailto:bart@codeware.be",
+            "sameAs": ["https://www.linkedin.com/in/codeware/", "https://github.com/BartNetJS"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.codeware.be/#website",
+            "url": "https://www.codeware.be/",
+            "name": "Codeware",
+            "publisher": { "@id": "https://www.codeware.be/#organization" }
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://www.codeware.be/#webpage",
+            "url": "https://www.codeware.be/",
+            "name": "Codeware Belgium | 40 Years of Software Excellence, Now with AI",
+            "isPartOf": { "@id": "https://www.codeware.be/#website" },
+            "about": { "@id": "https://www.codeware.be/#organization" },
+            "inLanguage": "en-BE"
+          }
+        ]
+      }
+    </script>
 
     <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
@@ -241,7 +287,7 @@
 	          <div class="mt-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm text-left">
 	            <h4 class="font-bold text-gray-900 dark:text-gray-50">Explore Detailed Portfolio</h4>
 	            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">View in-depth case studies, project showcases, and technical implementations across various industries and domains.</p>
-	            <a class="mt-3 inline-block bg-primary text-white py-2 px-4 rounded-lg font-semibold transition-opacity hover:opacity-90" href="/portfolio/index.html">Visit Full Portfolio</a>
+	            <a class="mt-3 inline-block bg-primary text-white py-2 px-4 rounded-lg font-semibold transition-opacity hover:opacity-90" href="/portfolio/">Visit Full Portfolio</a>
 	          </div>
 	        </section>
 
