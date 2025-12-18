@@ -60,6 +60,10 @@ function doPost(e) {
       throw new Error("Invalid email address.");
     }
 
+    if (isRateLimited(email)) {
+      return jsonOutput({ result: "success" });
+    }
+
     enforceTurnstileIfConfigured(params);
 
     gotLock = lock.tryLock(10000);
@@ -111,6 +115,7 @@ function doPost(e) {
             2 + i,
             timesSubscribedColumnIndex
           );
+          markRateLimit(email);
           return jsonOutput({ result: "success" });
         }
       }
@@ -131,6 +136,7 @@ function doPost(e) {
 
     notifyNewSubscriptionIfConfigured(email, nextRow, doc);
 
+    markRateLimit(email);
     return jsonOutput({ result: "success", row: nextRow });
   } catch (e) {
     return jsonOutput({ result: "error", error: e.toString() });
@@ -240,9 +246,13 @@ function isHoneypotTripped(params) {
 function isRateLimited(email) {
   var cache = CacheService.getScriptCache();
   var key = "subscribe:" + hashForCacheKey(email);
-  if (cache.get(key)) return true;
+  return !!cache.get(key);
+}
+
+function markRateLimit(email) {
+  var cache = CacheService.getScriptCache();
+  var key = "subscribe:" + hashForCacheKey(email);
   cache.put(key, "1", rateLimitSeconds);
-  return false;
 }
 
 function hashForCacheKey(value) {

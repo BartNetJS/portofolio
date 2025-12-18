@@ -363,14 +363,60 @@
 
       if (!form || !emailInput || !button || !status) return;
 
+      const turnstileScriptSrc = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      const turnstileScriptId = "cf-turnstile-api";
+      let turnstileLoadPromise = null;
+
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      async function waitForTurnstileGlobal(timeoutMs) {
+        const deadline = Date.now() + timeoutMs;
+        while (Date.now() < deadline) {
+          if (window.turnstile) return true;
+          await sleep(50);
+        }
+        return !!window.turnstile;
+      }
+
+      function ensureTurnstileWidget() {
+        if (!turnstileSiteKey || !turnstileContainer) return;
+        if (turnstileContainer.querySelector(".cf-turnstile")) return;
+
+        const widget = document.createElement("div");
+        widget.className = "cf-turnstile";
+        widget.dataset.sitekey = turnstileSiteKey;
+        turnstileContainer.innerHTML = "";
+        turnstileContainer.appendChild(widget);
+      }
+
+      function ensureTurnstileScript() {
+        if (!turnstileSiteKey || !turnstileContainer) return Promise.resolve(false);
+        if (turnstileLoadPromise) return turnstileLoadPromise;
+
+        turnstileLoadPromise = (async function () {
+          ensureTurnstileWidget();
+
+          let script = document.getElementById(turnstileScriptId);
+          if (!script) {
+            script = document.createElement("script");
+            script.id = turnstileScriptId;
+            script.src = turnstileScriptSrc;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+          }
+
+          return await waitForTurnstileGlobal(8000);
+        })();
+
+        return turnstileLoadPromise;
+      }
+
       if (turnstileSiteKey && turnstileContainer) {
-        turnstileContainer.innerHTML =
-          '<div class="cf-turnstile" data-sitekey="' + turnstileSiteKey + '"></div>';
-        const script = document.createElement("script");
-        script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
+        emailInput.addEventListener("focus", ensureTurnstileScript, { once: true });
+        form.addEventListener("pointerdown", ensureTurnstileScript, { once: true, passive: true });
       }
 
       function setStatus(message, kind) {
@@ -389,10 +435,19 @@
         setStatus("Subscribing…");
 
         try {
+          if (turnstileSiteKey && turnstileContainer) {
+            const loaded = await ensureTurnstileScript();
+            if (!loaded) {
+              setStatus("Captcha failed to load. Please disable blockers and try again.", "err");
+              return;
+            }
+          }
+
           const formData = new FormData(form);
           formData.set("email", email);
 
-          if (turnstileSiteKey && !formData.get("cf-turnstile-response")) {
+          const captchaResponse = (formData.get("cf-turnstile-response") || "").toString().trim();
+          if (turnstileSiteKey && !captchaResponse) {
             setStatus("Please complete the captcha.", "err");
             return;
           }
