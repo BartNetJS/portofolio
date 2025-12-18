@@ -144,6 +144,36 @@
           font-weight: 700;
         }
 
+          /* Floating theme toggle (top-right) */
+          #cw-theme-float {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 60;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.9);
+            color: #0f1724;
+            box-shadow: 0 6px 18px rgba(2,6,23,0.35);
+            border: 1px solid rgba(15,23,36,0.08);
+            font-weight: 600;
+            cursor: pointer;
+          }
+
+          body.dark #cw-theme-float,
+          .dark #cw-theme-float {
+            background: rgba(17,24,39,0.7);
+            color: #e6eef8;
+            border: 1px solid rgba(255,255,255,0.06);
+          }
+
+          #cw-theme-float .material-icons-outlined {
+            font-size: 20px;
+          }
+
         body.dark .cw-bottom-nav__item.is-active,
         .dark .cw-bottom-nav__item.is-active {
           color: var(--cw-nav-active);
@@ -191,6 +221,15 @@
       },
     ];
 
+    // Theme toggle item (not a navigation link)
+      // Create a floating theme toggle (top-right)
+      const themeFloat = document.createElement("button");
+      themeFloat.id = "cw-theme-float";
+      themeFloat.type = "button";
+      themeFloat.setAttribute("aria-label", "Toggle dark mode");
+      themeFloat.setAttribute("title", "Toggle dark mode");
+      themeFloat.innerHTML = `<span class="material-icons-outlined" aria-hidden="true">dark_mode</span><span class="cw-theme-label">Dark</span>`;
+
     const nav = document.createElement("nav");
     nav.id = "cw-bottom-nav";
     nav.className = "cw-bottom-nav";
@@ -213,6 +252,10 @@
       `;
       list.appendChild(link);
     });
+
+      // Append theme toggle at the end of nav
+        // Append theme float to the document (outside the bottom nav)
+        document.body.appendChild(themeFloat);
 
     container.appendChild(list);
     nav.appendChild(container);
@@ -243,6 +286,50 @@
 
     window.addEventListener("hashchange", syncActive);
     window.addEventListener("popstate", syncActive);
+
+    // --- Theme toggle behavior ---
+      // --- Theme toggle behavior (floating) ---
+      const root = document.documentElement;
+      const bodyEl = document.body;
+      const labelEl = themeFloat.querySelector('.cw-theme-label');
+      const iconEl = themeFloat.querySelector('.material-icons-outlined');
+
+      const setTheme = (theme) => {
+        if (theme === "dark") {
+          root.setAttribute("data-theme", "dark");
+          bodyEl.classList.add("dark");
+          iconEl.textContent = "light_mode";
+          labelEl.textContent = "Light"; // show action: switch to Light
+        } else if (theme === "light") {
+          root.setAttribute("data-theme", "light");
+          bodyEl.classList.remove("dark");
+          iconEl.textContent = "dark_mode";
+          labelEl.textContent = "Dark"; // show action: switch to Dark
+        } else {
+          root.removeAttribute("data-theme");
+          bodyEl.classList.remove("dark");
+          iconEl.textContent = "auto_awesome";
+          labelEl.textContent = "Auto";
+        }
+      };
+
+      (function initTheme() {
+        const saved = localStorage.getItem("theme");
+        if (saved === "light" || saved === "dark") {
+          setTheme(saved);
+        } else {
+          const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          setTheme(prefersDark ? "dark" : "light");
+        }
+      })();
+
+      themeFloat.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+        localStorage.setItem('theme', next);
+      });
+    
   };
 
   if (document.readyState === "loading") {

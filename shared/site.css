@@ -22,3 +22,41 @@ body {
     min-height: 884px;
   }
 }
+
+/* Theme variables (light by default, can be toggled by setting
+   `data-theme="dark"` on <html> or adding `dark` class on <body>`).
+   These keep the site simple and allow the bottom nav script to toggle theme. */
+:root {
+  --bg: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --link: #2563eb;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1724;
+  --text: #e6eef8;
+  --muted: #9ca3af;
+  --link: #60a5fa;
+}
+
+/* Provide a fallback selector for pages that use `body.dark` classes */
+body.dark {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+html {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Respect system preference only when visitor hasn't chosen a theme yet */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #0f1724;
+    --text: #e6eef8;
+    --muted: #9ca3af;
+    --link: #60a5fa;
+  }
+}
