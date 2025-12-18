@@ -20,7 +20,7 @@ Every operation requires shuttling numbers between the two — again and again, 
 
 Research repeatedly shows that **memory access costs far more energy than arithmetic itself**. As AI systems scale, this becomes a hard limit rather than a minor inefficiency.
 
-note: you can see an interactive page with a training and interference simulation [here](/Blogs/memresistor-explained/memrestistor.html)
+note: you can see an interactive page with a training and inference simulation [here](/Blogs/memristor-explained/memristor.html)
 
 ---
 

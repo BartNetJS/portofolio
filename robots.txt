@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /UserStories/
 Disallow: /Blogs/tools/
-Disallow: /Blogs/memresistor-explained/old/
+Disallow: /Blogs/memristor-explained/old/
 Disallow: /.claude/
 Disallow: /.github/
 Disallow: /.git/

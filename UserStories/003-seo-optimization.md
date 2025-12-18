@@ -15,7 +15,7 @@ Current `sitemap.xml` only lists 4 pages (Home, Services, Case Studies, Contact)
 
 ### 2. Missing Metadata on Blog Pages
 
-While the main `index.html` has great meta tags, the individual blog posts (e.g., `/Blogs/memresistor-explained/index.html`) have almost none.
+While the main `index.html` has great meta tags, the individual blog posts (e.g., `/Blogs/memristor-explained/index.html`) have almost none.
 
 - **Problem**: Missing `<meta name="description">`, `<meta name="keywords">`, and Open Graph tags (OG:title, OG:description, OG:image).
 - **Impact**: Search results look generic, and social media shares (LinkedIn, X) won't show a nice preview card with an image and description.
