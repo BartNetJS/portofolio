@@ -62,15 +62,16 @@
 
         #cw-bottom-nav {
           position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
+          inset: auto 0 0 0; /* top right bottom left -> keep full-width */
+          width: 100%;
           background: var(--cw-nav-bg-light);
           border-top: 1px solid var(--cw-nav-border-light);
           backdrop-filter: blur(10px);
-          z-index: 50;
+          z-index: 9999; /* ensure above page components */
           color: var(--cw-nav-text-light);
           font-family: "Roboto", "Segoe UI", Arial, sans-serif;
+          box-sizing: border-box;
+          border-radius: 0 !important; /* prevent page border-radius from rounding nav */
         }
 
         body.dark #cw-bottom-nav,
@@ -112,15 +113,23 @@
           font-weight: 500;
           position: relative;
           transition: color 0.2s ease, opacity 0.2s ease;
+          background: transparent;
+          border-radius: 8px;
+          padding: 8px 6px;
         }
 
         .cw-bottom-nav__item:hover {
           color: #374151;
         }
 
+        body.dark .cw-bottom-nav__item,
+        .dark .cw-bottom-nav__item {
+          color: #cbd5e1;
+        }
+
         body.dark .cw-bottom-nav__item:hover,
         .dark .cw-bottom-nav__item:hover {
-          color: #f3f4f6;
+          color: #ffffff;
         }
 
         .cw-bottom-nav__icon {
@@ -146,14 +155,16 @@
 
           /* Floating theme toggle (top-right) */
           #cw-theme-float {
-            position: fixed;
-            top: 1rem;
+            position: fixed !important;
+            top: calc(1rem + env(safe-area-inset-top, 0px));
             right: 1rem;
-            z-index: 60;
+            z-index: 100001; /* sit above the bottom nav and other UI */
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            padding: 0.5rem 0.75rem;
+            padding: 0 0.75rem; /* reserve horizontal padding but fix height */
+            height: 36px;
+            line-height: 1;
             border-radius: 10px;
             background: rgba(255,255,255,0.9);
             color: #0f1724;
@@ -161,6 +172,10 @@
             border: 1px solid rgba(15,23,36,0.08);
             font-weight: 600;
             cursor: pointer;
+            will-change: transform;
+            transform: translateZ(0);
+            isolation: isolate;
+            transition: none; /* avoid animation while fonts/resources load */
           }
 
           body.dark #cw-theme-float,
@@ -172,6 +187,17 @@
 
           #cw-theme-float .material-icons-outlined {
             font-size: 20px;
+            display: inline-block;
+            width: 20px;
+            text-align: center;
+            line-height: 1;
+          }
+
+          #cw-theme-float .cw-theme-label {
+            display: inline-block;
+            min-width: 2.1rem; /* reserve space to avoid content reflow */
+            text-align: left;
+            font-size: 0.9rem;
           }
 
           /* More popup styles */
@@ -222,8 +248,32 @@
           }
 
           body.dark #cw-more-menu {
-            background: rgba(17,24,39,0.85);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.04);
+          }
+
+          /* More button style (match nav appearance) */
+          #cw-more-button {
+            background: transparent !important;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 10px 12px;
+            transition: background 0.15s ease, border-color 0.15s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: none;
+            color: inherit;
+          }
+
+          body.dark #cw-more-button,
+          .dark #cw-more-button {
+            background: transparent;
+            border-color: rgba(255,255,255,0.04);
+          }
+
+          #cw-more-button:focus {
+            outline: none;
+            box-shadow: 0 6px 18px rgba(2,6,23,0.35);
           }
 
           /* Responsive: hide collapsed items and show More button on small screens */
@@ -363,12 +413,33 @@
     list.appendChild(moreButton);
     document.body.appendChild(moreMenu);
 
-    // Append theme float to the document (outside the bottom nav)
-    document.body.appendChild(themeFloat);
-
     container.appendChild(list);
     nav.appendChild(container);
     document.body.appendChild(nav);
+
+    // Append theme float to the document after nav to avoid accidental containing blocks
+    // (some pages create stacking contexts or transforms that affect earlier fixed elements)
+    document.body.appendChild(themeFloat);
+
+    // Some browsers/layouts only “settle” fixed-position UI after the first scroll.
+    // Sync against visualViewport to keep the button pinned immediately on load.
+    const syncThemeFloatPosition = () => {
+      const marginPx = 16;
+      const vv = window.visualViewport;
+      const offsetTop = vv && typeof vv.offsetTop === 'number' ? vv.offsetTop : 0;
+      themeFloat.style.top = `${marginPx + offsetTop}px`;
+      themeFloat.style.right = `${marginPx}px`;
+    };
+
+    // Run after initial paint (and once more) to avoid first-frame layout jitter.
+    requestAnimationFrame(() => requestAnimationFrame(syncThemeFloatPosition));
+    window.addEventListener('load', syncThemeFloatPosition, { passive: true });
+    window.addEventListener('resize', syncThemeFloatPosition, { passive: true });
+    window.addEventListener('scroll', syncThemeFloatPosition, { passive: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncThemeFloatPosition, { passive: true });
+      window.visualViewport.addEventListener('scroll', syncThemeFloatPosition, { passive: true });
+    }
 
     const applyActive = (key) => {
       const items = nav.querySelectorAll(".cw-bottom-nav__item");

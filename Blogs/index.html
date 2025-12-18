@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="/shared/site.css" />
   <link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
   <style>
-    :root {
+    /* Only set these page-specific variables when the visitor hasn't chosen a theme.
+       This avoids overriding the site-wide `data-theme` setting so dark mode can apply. */
+    :root:not([data-theme]) {
       --bg: #f5f7fb;
       --card: #ffffff;
       --text: #0f172a;
@@ -18,32 +20,26 @@
       --shadow: 0 10px 30px rgba(0,0,0,0.06);
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Roboto", "Segoe UI", Arial, sans-serif;
-      background: radial-gradient(1100px 480px at 20% 0%, rgba(37,99,235,0.08), transparent 45%), var(--bg);
-      color: var(--text);
-      padding: 32px 18px 120px;
-    }
-    .container { max-width: 1060px; margin: 0 auto; }
-    header {
-      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.72));
-      border: 1px solid rgba(229,231,235,0.7);
+    .portfolio-content { padding: 32px 18px 120px; }
+    .portfolio-content .container { max-width: 1060px; margin: 0 auto; }
+    .portfolio-content header {
+      background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.04);
       box-shadow: var(--shadow);
       border-radius: 18px;
       padding: 24px 22px;
       margin-bottom: 22px;
     }
-    header h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 0.2px; }
-    header p { margin: 0; color: var(--muted); max-width: 780px; line-height: 1.6; }
-    .posts { display: grid; gap: 14px; }
-    .card {
+    .portfolio-content header h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: 0.2px; }
+    .portfolio-content header p { margin: 0; color: var(--pc-text-muted); max-width: 780px; line-height: 1.6; }
+    .portfolio-content .posts { display: grid; gap: 14px; }
+    .portfolio-content .card {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 14px;
       align-items: center;
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: var(--pc-surface);
+      border: 1px solid var(--pc-border);
       border-radius: 14px;
       padding: 14px 16px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.04);
@@ -51,14 +47,14 @@
       text-decoration: none;
       color: inherit;
     }
-    .card:hover {
+    .portfolio-content .card:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 28px rgba(0,0,0,0.06);
     }
-    .badge {
-      background: rgba(37,99,235,0.1);
-      color: var(--primary);
-      border: 1px solid rgba(37,99,235,0.25);
+    .portfolio-content .badge {
+      background: rgba(37,99,235,0.06);
+      color: var(--pc-accent);
+      border: 1px solid rgba(37,99,235,0.12);
       border-radius: 999px;
       padding: 4px 10px;
       font-size: 11px;
@@ -68,78 +64,78 @@
       display: inline-block;
       margin-bottom: 8px;
     }
-    .title { font-size: 16px; font-weight: 700; margin: 0; }
-    .meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
-    .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
-    .tag {
-      background: #eef2ff;
-      color: #4338ca;
+    .portfolio-content .title { font-size: 16px; font-weight: 700; margin: 0; color: var(--pc-text); }
+    .portfolio-content .meta { color: var(--pc-text-muted); font-size: 13px; margin-top: 2px; }
+    .portfolio-content .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+    .portfolio-content .tag {
+      background: var(--pc-surface-2);
+      color: var(--pc-accent);
       border-radius: 999px;
       padding: 3px 9px;
       font-size: 11.5px;
-      border: 1px solid #c7d2fe;
+      border: 1px solid rgba(37,99,235,0.12);
       letter-spacing: 0.1px;
     }
-    .arrow {
+    .portfolio-content .arrow {
       font-size: 18px;
-      color: var(--muted);
+      color: var(--pc-text-muted);
       padding-left: 6px;
     }
-    .llm-guide {
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(229,231,235,0.7);
+    .portfolio-content .llm-guide {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.04);
       box-shadow: var(--shadow);
       border-radius: 18px;
       padding: 18px 18px;
       margin-bottom: 18px;
     }
-    .llm-guide h2 {
+    .portfolio-content .llm-guide h2 {
       margin: 0 0 10px;
       font-size: 15px;
       letter-spacing: 0.2px;
     }
-    .llm-guide p {
+    .portfolio-content .llm-guide p {
       margin: 0 0 12px;
-      color: var(--muted);
+      color: var(--pc-text-muted);
       line-height: 1.55;
       font-size: 13px;
     }
-    .llm-guide a { color: var(--primary); text-decoration: none; }
-    .llm-guide a:hover { text-decoration: underline; }
-    .llm-table {
+    .portfolio-content .llm-guide a { color: var(--pc-accent); text-decoration: none; }
+    .portfolio-content .llm-guide a:hover { text-decoration: underline; }
+    .portfolio-content .llm-table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: var(--pc-surface);
+      border: 1px solid var(--pc-border);
       border-radius: 14px;
       overflow: hidden;
     }
-    .llm-table th, .llm-table td {
+    .portfolio-content .llm-table th, .portfolio-content .llm-table td {
       text-align: left;
       padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--pc-border);
       vertical-align: top;
       font-size: 13px;
       line-height: 1.45;
     }
-    .llm-table th {
-      background: rgba(37,99,235,0.06);
-      color: var(--text);
+    .portfolio-content .llm-table th {
+      background: rgba(37,99,235,0.04);
+      color: var(--pc-text);
       font-weight: 700;
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
-    .llm-table tr:last-child td { border-bottom: none; }
-    .llm-step {
+    .portfolio-content .llm-table tr:last-child td { border-bottom: none; }
+    .portfolio-content .llm-step {
       width: 84px;
       white-space: nowrap;
-      color: var(--muted);
+      color: var(--pc-text-muted);
       font-weight: 700;
     }
-    .subscribe {
-      background: linear-gradient(135deg, rgba(37,99,235,0.10), rgba(255,255,255,0.85));
-      border: 1px solid rgba(37,99,235,0.18);
+    .portfolio-content .subscribe {
+      background: linear-gradient(135deg, rgba(37,99,235,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.04);
       box-shadow: var(--shadow);
       border-radius: 18px;
       padding: 18px 18px;
@@ -149,61 +145,62 @@
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
     }
-    .subscribe h2 {
+    .portfolio-content .subscribe h2 {
       margin: 0 0 6px;
       font-size: 16px;
       letter-spacing: 0.2px;
     }
-    .subscribe p {
+    .portfolio-content .subscribe p {
       margin: 0;
-      color: var(--muted);
+      color: var(--pc-text-muted);
       line-height: 1.55;
       font-size: 13px;
       max-width: 680px;
     }
-    .subscribe-form {
+    .portfolio-content .subscribe-form {
       display: grid;
       gap: 8px;
       width: min(420px, 100%);
       justify-self: end;
       min-width: 0;
     }
-    .subscribe-row {
+    .portfolio-content .subscribe-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 10px;
       align-items: center;
     }
-    .subscribe-row input {
+    .portfolio-content .subscribe-row input {
       width: 100%;
       min-width: 0;
       padding: 10px 12px;
       border-radius: 12px;
-      border: 1px solid rgba(229,231,235,0.9);
-      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      color: var(--pc-text);
       font-size: 13px;
       outline: none;
     }
-    .subscribe-row input:focus {
+    .portfolio-content .subscribe-row input:focus {
       border-color: rgba(37,99,235,0.55);
-      box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.06);
     }
-    .subscribe-row button {
+    .portfolio-content .subscribe-row button {
       padding: 10px 14px;
       border-radius: 12px;
-      border: 1px solid rgba(37,99,235,0.28);
+      border: 1px solid rgba(37,99,235,0.14);
       background: rgba(37,99,235,0.12);
-      color: var(--primary);
+      color: var(--pc-accent);
       font-weight: 800;
       letter-spacing: 0.2px;
       cursor: pointer;
       white-space: nowrap;
     }
-    .subscribe-row button:hover { background: rgba(37,99,235,0.16); }
-    .subscribe-row button:disabled { opacity: 0.6; cursor: not-allowed; }
-    .subscribe-status { font-size: 12.5px; min-height: 16px; }
-    .subscribe-status.ok { color: #059669; }
-    .subscribe-status.err { color: #b91c1c; }
+    .portfolio-content .subscribe-row button:hover { background: rgba(37,99,235,0.16); }
+    .portfolio-content .subscribe-row button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .portfolio-content .subscribe-status { font-size: 12.5px; min-height: 16px; }
+    .portfolio-content .subscribe-status.ok { color: var(--pc-good); }
+    .portfolio-content .subscribe-status.err { color: #b91c1c; }
     #turnstileContainer {
       max-width: 100%;
       overflow-x: auto;
@@ -233,14 +230,14 @@
       overflow: hidden;
     }
     @media (max-width: 640px) {
-      header { padding: 18px; }
-      .card { grid-template-columns: 1fr; }
-      .arrow { justify-self: flex-end; }
-      .subscribe { grid-template-columns: 1fr; padding: 12px; }
-      .subscribe-form { width: 100%; justify-self: stretch; }
-      .subscribe-row { grid-template-columns: 1fr; }
-      .subscribe-row button { width: 100%; }
-      #turnstileContainer {
+      .portfolio-content header { padding: 18px; }
+      .portfolio-content .card { grid-template-columns: 1fr; }
+      .portfolio-content .arrow { justify-self: flex-end; }
+      .portfolio-content .subscribe { grid-template-columns: 1fr; padding: 12px; }
+      .portfolio-content .subscribe-form { width: 100%; justify-self: stretch; }
+      .portfolio-content .subscribe-row { grid-template-columns: 1fr; }
+      .portfolio-content .subscribe-row button { width: 100%; }
+      .portfolio-content #turnstileContainer {
         width: calc(100% + 24px);
         margin-left: -12px;
         margin-right: -12px;
@@ -248,10 +245,11 @@
         justify-content: center;
       }
     }
-  </style>
+</style>
 </head>
 <body>
-  <div class="container">
+  <div class="portfolio-content">
+    <div class="container">
     <header>
       <h1>Blogs & Visuals</h1>
       <p>
@@ -375,6 +373,7 @@
         </div>
         <div class="arrow">→</div>
       </a>
+    </div>
     </div>
   </div>
 
