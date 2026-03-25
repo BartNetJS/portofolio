@@ -1,0 +1,454 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8FSDD3KHS3');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Farm - Smart Horticulture Automation Lab | Codeware Portfolio</title>
+    <meta name="description" content="AI Farm is a small-scale experimental horticulture site combining AI, IoT sensors, and robotics for modern smart growing automation." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.codeware.be/portfolio/projects/ai-farm/" />
+    <meta name="theme-color" content="#16a34a" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="AI Farm | Codeware Portfolio" />
+    <meta property="og:description" content="small-scale experimental horticulture site combining AI, IoT sensors, and robotics for modern smart growing automation." />
+    <meta property="og:url" content="https://www.codeware.be/portfolio/projects/ai-farm/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Codeware" />
+    <meta property="og:locale" content="en_BE" />
+    <meta property="og:image" content="https://www.codeware.be/shared/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AI Farm | Codeware Portfolio" />
+    <meta name="twitter:description" content="small-scale experimental horticulture site combining AI, IoT sensors, and robotics for modern smart growing automation." />
+    <meta name="twitter:image" content="https://www.codeware.be/shared/og-image.png" />
+
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/shared/tailwind.css" />
+    <link rel="stylesheet" href="/shared/site.css" />
+    <link rel="stylesheet" href="/portfolio/shared/portfolio.css" />
+
+    <style>
+        .highlight-green {
+            border-color: rgba(22, 163, 74, 0.35);
+            background: linear-gradient(180deg, rgba(22, 163, 74, 0.08), rgba(22, 163, 74, 0.02));
+        }
+        .iot-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.7rem;
+            line-height: 1rem;
+            font-weight: 700;
+            padding: 0.1rem 0.5rem;
+            margin-left: 0.5rem;
+            border-radius: 999px;
+            background: rgba(22, 163, 74, 0.12);
+            color: #16a34a;
+            border: 1px solid rgba(22, 163, 74, 0.3);
+            vertical-align: middle;
+        }
+        .experiment-card {
+            border-left: 3px solid rgba(22, 163, 74, 0.5);
+        }
+        .status-active {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(22, 163, 74, 0.12);
+            color: #16a34a;
+            border: 1px solid rgba(22, 163, 74, 0.3);
+        }
+        .status-planned {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(217, 119, 6, 0.1);
+            color: #d97706;
+            border: 1px solid rgba(217, 119, 6, 0.25);
+        }
+        .highlight-box-green {
+            background: var(--pc-surface-2);
+            border: 1px solid rgba(22, 163, 74, 0.3);
+            border-radius: 0.9rem;
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+    <div class="bg-background-light dark:bg-background-dark shadow-lg">
+      <div class="fixed top-0 left-0 right-0 z-50">
+        <div class="bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm px-4 pt-4 pb-3">
+          <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+            <div class="flex justify-between items-center py-2">
+              <a class="material-icons-outlined text-gray-800 dark:text-gray-200 text-3xl md:hidden" href="/#home" aria-label="Home">home</a>
+              <a class="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-50" href="/#home">Codeware</a>
+              <div class="w-8"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main class="pt-20 pb-24">
+        <div class="max-w-sm md:max-w-5xl mx-auto md:pr-80">
+          <div class="portfolio-content px-4 py-8">
+
+    <div class="container">
+        <a href="/portfolio/" class="back-link">&#8592; Back to Portfolio</a>
+
+        <header>
+            <h1>AI Farm</h1>
+            <p class="subtitle">
+                Smart Horticulture Automation Lab
+                <span class="iot-badge">IoT</span>
+                <span class="ai-badge">AI</span>
+                <span class="badge">Innovation Lab</span>
+            </p>
+        </header>
+
+        <!-- OVERVIEW -->
+        <div class="section highlight-green">
+            <h2>&#127807; Project Overview</h2>
+            <p>
+                AI Farm is a small-scale experimental horticulture site in Belgium.
+                The goal is to reactivate and modernise an existing growing automation setup,
+                and evolve it into a practical testbed for <strong>AI-driven cultivation</strong>,
+                IoT sensor networks, and small-scale robotics &mdash; all within the context of
+                a real horticultural land use.
+            </p>
+            <ul style="margin-top: 1rem;">
+                <li><strong>Location:</strong> Belgium</li>
+                <li><strong>Focus:</strong> Practical AI and automation experiments in horticulture</li>
+                <li><strong>Scale:</strong> Small-scale, iterative, and fully hands-on</li>
+                <li><strong>Approach:</strong> Real sensors, real crops, real data &mdash; no simulations</li>
+                <li><strong>Public presence:</strong> Dedicated website communicating activities and land use</li>
+            </ul>
+        </div>
+
+        <!-- EXPERIMENT AREAS -->
+        <div class="section">
+            <h2>&#129514; Experiment Areas</h2>
+            <p>Each area is a standalone experiment that can be built and tested independently.</p>
+
+            <div class="grid" style="margin-top: 1rem;">
+
+                <div class="card experiment-card">
+                    <h3>&#127777;&#65039; Climate Monitoring</h3>
+                    <div style="margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                        <span class="status-active">&#9679; Active</span>
+                    </div>
+                    <p>
+                        Temperature, humidity, CO2, and light sensors distributed across growing zones.
+                        Real-time dashboards and historical trend analysis to understand microclimate behaviour.
+                    </p>
+                    <div class="tags">
+                        <span class="tag green">Sensors</span>
+                        <span class="tag green">MQTT</span>
+                        <span class="tag green">Dashboards</span>
+                    </div>
+                </div>
+
+                <div class="card experiment-card">
+                    <h3>&#128167; Automated Irrigation</h3>
+                    <div style="margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                        <span class="status-active">&#9679; Active</span>
+                    </div>
+                    <p>
+                        Soil moisture sensors combined with automated valve control.
+                        Rule-based irrigation schedules with AI override based on weather forecasts and growth stage.
+                    </p>
+                    <div class="tags">
+                        <span class="tag green">Soil Sensors</span>
+                        <span class="tag green">Valve Control</span>
+                        <span class="tag blue">AI Override</span>
+                    </div>
+                </div>
+
+                <div class="card experiment-card">
+                    <h3>&#128247; Growth Monitoring</h3>
+                    <div style="margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                        <span class="status-planned">&#9675; Planned</span>
+                    </div>
+                    <p>
+                        Camera-based plant monitoring using computer vision to track growth stages,
+                        detect anomalies (pests, disease, nutrient deficiencies), and estimate harvest readiness.
+                    </p>
+                    <div class="tags">
+                        <span class="tag blue">Computer Vision</span>
+                        <span class="tag blue">AI/ML</span>
+                        <span class="tag">Camera</span>
+                    </div>
+                </div>
+
+                <div class="card experiment-card">
+                    <h3>&#129302; Robotics &amp; Movement</h3>
+                    <div style="margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                        <span class="status-planned">&#9675; Planned</span>
+                    </div>
+                    <p>
+                        Small autonomous platforms for inspection and light tasks.
+                        Navigating rows, capturing sensor readings, and eventually assisting with seeding or harvesting.
+                    </p>
+                    <div class="tags">
+                        <span class="tag blue">Robotics</span>
+                        <span class="tag blue">Navigation</span>
+                        <span class="tag">Autonomy</span>
+                    </div>
+                </div>
+
+                <div class="card experiment-card">
+                    <h3>&#128202; AI Decision Support</h3>
+                    <div style="margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                        <span class="status-planned">&#9675; Planned</span>
+                    </div>
+                    <p>
+                        Aggregating sensor data, images, and external signals (weather, market) into
+                        an AI agent that suggests actions: when to water, when to harvest, when to intervene.
+                    </p>
+                    <div class="tags">
+                        <span class="tag blue">LLM Agent</span>
+                        <span class="tag blue">Recommendations</span>
+                        <span class="tag green">Data Fusion</span>
+                    </div>
+                </div>
+
+                <div class="card experiment-card">
+                    <h3>&#127760; Public Website</h3>
+                    <div style="margin-top: 0.4rem; margin-bottom: 0.75rem;">
+                        <span class="status-active">&#9679; In Progress</span>
+                    </div>
+                    <p>
+                        A clean, professional public-facing website for AI Farm that documents activities,
+                        communicates the horticultural land use, and positions the site as a credible innovation project.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Public Site</span>
+                        <span class="tag">Documentation</span>
+                        <span class="tag green">Positioning</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TECH STACK -->
+        <div class="section">
+            <h2>&#127959;&#65039; Technology Stack</h2>
+            <p>A pragmatic mix of proven IoT building blocks and modern AI tooling.</p>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h3>Edge &amp; Sensors</h3>
+                    <div class="tags" style="margin-top: 0.5rem;">
+                        <span class="tag green">ESP32</span>
+                        <span class="tag green">Raspberry Pi</span>
+                        <span class="tag green">DHT22 / BME280</span>
+                        <span class="tag green">Soil Moisture</span>
+                        <span class="tag green">Camera Modules</span>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <h3>Connectivity &amp; Data</h3>
+                    <div class="tags" style="margin-top: 0.5rem;">
+                        <span class="tag blue">MQTT</span>
+                        <span class="tag blue">Node-RED</span>
+                        <span class="tag blue">InfluxDB</span>
+                        <span class="tag blue">Grafana</span>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <h3>AI &amp; Intelligence</h3>
+                    <div class="tags" style="margin-top: 0.5rem;">
+                        <span class="tag purple">LLM Agents</span>
+                        <span class="tag purple">Computer Vision</span>
+                        <span class="tag purple">ML Models</span>
+                        <span class="tag purple">Semantic Kernel</span>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <h3>Automation &amp; Control</h3>
+                    <div class="tags" style="margin-top: 0.5rem;">
+                        <span class="tag orange">Relay Boards</span>
+                        <span class="tag orange">Valve Control</span>
+                        <span class="tag orange">Scheduling</span>
+                        <span class="tag orange">Rule Engine</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARCHITECTURE -->
+        <div class="section">
+            <h2>&#9881;&#65039; How It Connects</h2>
+            <p>All components talk to a central edge hub; the AI layer sits on top as an optional decision layer.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="year">Sensors</div>
+                    <div>
+                        <div class="title">Field Layer</div>
+                        <p>ESP32 nodes measure climate, soil, and light across zones. Data is published over MQTT to the local hub.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">Hub</div>
+                    <div>
+                        <div class="title">Edge Processing</div>
+                        <p>Raspberry Pi runs Node-RED for data routing, InfluxDB for time-series storage, and Grafana for visualisation.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">Control</div>
+                    <div>
+                        <div class="title">Automation Layer</div>
+                        <p>Rule-based triggers drive relays and valves. Schedules can be overridden by the AI decision layer in real time.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">AI</div>
+                    <div>
+                        <div class="title">Intelligence Layer</div>
+                        <p>An LLM agent aggregates sensor history, camera observations, and external data to provide recommendations and autonomous actions.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">Web</div>
+                    <div>
+                        <div class="title">Public Interface</div>
+                        <p>A dedicated website surfaces live status, experiment logs, and a transparent account of activities on the site.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROADMAP -->
+        <div class="section">
+            <h2>&#128506;&#65039; Roadmap</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Phase 1 &mdash; Foundation</h3>
+                    <p style="margin-top: 0.5rem;">
+                        Reactivate the site; install climate and soil sensors; set up MQTT hub, InfluxDB, and Grafana;
+                        launch the public website.
+                    </p>
+                    <div class="tags" style="margin-top: 0.75rem;">
+                        <span class="tag green">Sensors</span>
+                        <span class="tag green">Hub</span>
+                        <span class="tag green">Website</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Phase 2 &mdash; Automation</h3>
+                    <p style="margin-top: 0.5rem;">
+                        Add irrigation control, relay boards, and scheduling.
+                        First AI experiments: rule-based decisions backed by sensor data.
+                    </p>
+                    <div class="tags" style="margin-top: 0.75rem;">
+                        <span class="tag orange">Irrigation</span>
+                        <span class="tag orange">Automation</span>
+                        <span class="tag blue">Basic AI</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Phase 3 &mdash; Vision</h3>
+                    <p style="margin-top: 0.5rem;">
+                        Introduce camera-based growth monitoring and computer vision models
+                        for anomaly detection and harvest stage recognition.
+                    </p>
+                    <div class="tags" style="margin-top: 0.75rem;">
+                        <span class="tag purple">Computer Vision</span>
+                        <span class="tag purple">ML Models</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Phase 4 &mdash; Robotics</h3>
+                    <p style="margin-top: 0.5rem;">
+                        Deploy a small autonomous inspection platform.
+                        Integrate an LLM agent as the central decision layer across all inputs.
+                    </p>
+                    <div class="tags" style="margin-top: 0.75rem;">
+                        <span class="tag blue">Robotics</span>
+                        <span class="tag blue">LLM Agent</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WHAT THIS DEMONSTRATES -->
+        <div class="highlight-box-green">
+            <h3>&#127891; What AI Farm Demonstrates</h3>
+            <p style="margin-top: 0.5rem;">
+                AI Farm is where software engineering meets the physical world:
+            </p>
+            <ul style="margin-top: 1rem; margin-left: 1.25rem;">
+                <li>&#10003; <strong>IoT in practice</strong> &mdash; Real sensors, real data, real constraints</li>
+                <li>&#10003; <strong>AI beyond the screen</strong> &mdash; LLM agents controlling physical actuators</li>
+                <li>&#10003; <strong>Edge computing</strong> &mdash; Offline-capable systems running on low-power hardware</li>
+                <li>&#10003; <strong>Iterative innovation</strong> &mdash; Each phase delivers something tangible and testable</li>
+                <li>&#10003; <strong>Responsible land use</strong> &mdash; Technology in service of legitimate horticultural activity</li>
+                <li>&#10003; <strong>Public transparency</strong> &mdash; Open communication about what is being built and why</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Codeware &mdash; All rights reserved</p>
+        </footer>
+    </div>
+
+          </div>
+        </div>
+      </main>
+
+      <script src="/shared/bottom-nav.js" data-nav-active="portfolio"></script>
+
+      <aside class="hidden md:block fixed right-6 top-24 w-72">
+        <div class="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg space-y-6">
+          <div class="text-center">
+            <h4 class="font-bold text-gray-900 dark:text-gray-50">Your Digital Future.</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Custom software solutions for forward-thinking businesses.</p>
+            <a class="mt-3 inline-block bg-primary text-white py-2 px-4 rounded-lg font-semibold transition-opacity hover:opacity-90" href="/#contact">Discuss an AI Engagement</a>
+          </div>
+          <div>
+            <h5 class="font-semibold text-gray-800 dark:text-gray-200">Core Technical Expertise</h5>
+            <div class="grid grid-cols-1 gap-2 mt-2">
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">.NET &amp; Cloud</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">AI &amp; LLM Stack</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">Enterprise Architecture</div>
+              <div class="p-2 bg-background-light dark:bg-gray-800 rounded">DevOps &amp; Infrastructure</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+</body>
+</html>
