@@ -7,6 +7,7 @@ This repository is a static website (GitHub Pages + custom domain). There is no 
 - Every HTML page must include the bottom nav:
   - `<script src="/shared/bottom-nav.js" data-nav-active="home"></script>`
   - `data-nav-active` = `home|services|portfolio|blogs|about|contact`
+- Read-only git inspection commands such as `git diff`, `git diff --stat`, `git show`, `git log`, and `git status` do not require separate user confirmation. Ask before any state-changing or destructive git operation.
 - Use root-relative links for internal assets and pages (`/Blogs/...`, `/portfolio/...`, `/shared/...`).
 
 ## Blogs (preferred pattern)

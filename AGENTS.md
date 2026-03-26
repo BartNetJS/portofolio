@@ -26,6 +26,7 @@ Open:
 
 ## Project conventions (follow existing patterns)
 - Every browsable folder must contain an `index.html`.
+- Read-only git inspection commands such as `git diff`, `git diff --stat`, `git show`, `git log`, and `git status` do not require separate user confirmation. Ask before any state-changing or destructive git operation.
 - Navigation: every HTML page must include the bottom nav script:
   - `<script src="/shared/bottom-nav.js" data-nav-active="home"></script>`
   - Use `data-nav-active` = `home|services|portfolio|blogs|about|contact`.

@@ -21,6 +21,7 @@ This repo is a static site (GitHub Pages/custom domain). There is no build syste
 
 ## Conventions to follow in edits
 - Page structure: each page is a self-contained `index.html` (folders without `index.html` 404 on Pages).
+- Git inspection: read-only git commands such as `git diff`, `git diff --stat`, `git show`, `git log`, and `git status` do not require separate user confirmation in this workspace. Still ask before state-changing or destructive git operations.
 - Styling:
   - Many pages load Tailwind via CDN (`https://cdn.tailwindcss.com`) and configure shared colors (`primary`, `background-light`, `background-dark`) inline.
   - Put truly cross-page custom CSS in `shared/site.css` (e.g., the `100dvh` fallback and shared icon fills) instead of repeating `<style>` blocks.
