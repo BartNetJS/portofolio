@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FSDD3KHS3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'G-8FSDD3KHS3');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memristor Learning Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --panel: #121a2e;
+      --cyan: #00f5ff;
+      --purple: #2a1a4a;
+      --ion: #ffaa00;
+      --current: #00ff88;
+      --positive: #00ff88;
+      --negative: #ff00aa;
+      --text: #dbeafe;
+      --muted: #9ca3af;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Rajdhani', 'Segoe UI', Tahoma, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(0,255,136,0.06), transparent 40%),
+                  radial-gradient(circle at 80% 0%, rgba(255,0,170,0.08), transparent 30%),
+                  linear-gradient(135deg, #0a0e17 0%, #0c1024 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 18px 60px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      color: var(--cyan);
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 26px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 16px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(18,26,46,0.9), rgba(18,26,46,0.7));
+      border: 1px solid #1f2a44;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    .panel h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      color: var(--cyan);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    label { display: block; color: var(--muted); margin: 6px 0 4px; font-size: 14px; }
+    select, input[type="number"], button {
+      width: 100%;
+      padding: 10px;
+      background: #0f172a;
+      border: 1px solid #1f2a44;
+      color: var(--text);
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    button { cursor: pointer; font-weight: 600; letter-spacing: 0.2px; }
+    button.primary { background: linear-gradient(90deg, #00ff88, #00c4b4); color: #06251f; border: none; }
+    button.secondary { background: linear-gradient(90deg, #8b5cf6, #ec4899); border: none; }
+    button.ghost { background: transparent; border: 1px dashed #334155; color: var(--muted); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .mode-toggle { display: flex; gap: 10px; margin: 8px 0 12px; }
+    .chip { flex: 1; padding: 10px; text-align: center; background: #0f172a; border: 1px solid #1f2a44; border-radius: 12px; cursor: pointer; }
+    .chip.active.train { border-color: var(--positive); box-shadow: 0 0 0 1px rgba(0,255,136,0.35); }
+    .chip.active.infer { border-color: var(--cyan); box-shadow: 0 0 0 1px rgba(0,245,255,0.25); }
+
+    .flex { display: flex; gap: 8px; align-items: center; }
+    .compact-input input { flex: 1; }
+
+    .scroll-area { max-height: 220px; overflow: auto; border: 1px solid #1f2a44; border-radius: 10px; padding: 10px; background: rgba(12,18,30,0.5); }
+    .example-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed #1f2a44; color: var(--text); }
+    .example-row:last-child { border-bottom: none; }
+    .example-row small { color: var(--muted); }
+
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+    .stat-card { background: #0f172a; border: 1px solid #1f2a44; border-radius: 12px; padding: 10px; }
+    .stat-card .label { color: var(--muted); font-size: 12px; }
+    .stat-card .value { font-family: 'Orbitron', sans-serif; font-size: 18px; color: var(--cyan); }
+
+    .right-column { display: grid; grid-template-rows: 420px 220px; gap: 12px; }
+    .memristor-stage { position: relative; }
+    .indicator { position: absolute; top: 8px; right: 12px; padding: 4px 10px; border-radius: 999px; font-size: 12px; background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.4); color: var(--positive); font-weight: 700; letter-spacing: 0.5px; }
+    .indicator.infer { background: rgba(0,245,255,0.15); border-color: rgba(0,245,255,0.35); color: var(--cyan); }
+
+    .equation { font-family: 'Orbitron', sans-serif; color: var(--text); line-height: 1.5; }
+    .equation span { color: var(--cyan); }
+
+    .log { font-family: 'Rajdhani', sans-serif; color: var(--muted); line-height: 1.5; }
+    .log-entry { border-bottom: 1px dashed #1f2a44; padding: 6px 0; }
+    .log-entry:last-child { border-bottom: none; }
+
+    .pill { display: inline-block; padding: 4px 8px; background: rgba(0,255,136,0.1); color: var(--positive); border-radius: 10px; font-size: 12px; margin-left: 6px; }
+    .status { margin-top: 6px; color: var(--muted); min-height: 22px; }
+
+    @media (max-width: 1050px) {
+      .layout { grid-template-columns: 1fr; }
+      .right-column { grid-template-rows: 400px 240px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Memristor Learning Simulator</h1>
+  <div class="subtitle">Interactive view of ions, conductance, and learning with D3.js</div>
+  <div class="layout">
+    <div class="panel">
+      <h2>Controls</h2>
+      <label for="operation">Operation</label>
+      <select id="operation">
+        <option value="multiply">Multiplication (×)</option>
+        <option value="divide">Division (÷)</option>
+        <option value="add">Addition (+)</option>
+        <option value="subtract">Subtraction (−)</option>
+        <option value="power">Power (^)</option>
+      </select>
+      <label for="parameter">Operation parameter</label>
+      <input id="parameter" type="number" value="2" step="0.1" />
+
+      <label>Mode</label>
+      <div class="mode-toggle">
+        <div class="chip active train" data-mode="train">Training</div>
+        <div class="chip infer" data-mode="infer">Inference</div>
+      </div>
+
+      <label>Training Data</label>
+      <div class="scroll-area" id="examples"></div>
+      <div class="flex compact-input">
+        <input id="newExample" type="number" placeholder="Add input value" />
+        <button id="addExample" class="secondary" style="width:140px">Add Example</button>
+      </div>
+      <div class="flex" style="margin-bottom: 8px;">
+        <button id="autoFill" class="ghost">Auto-Generate Odd Inputs</button>
+        <button id="train" class="primary">Train Network</button>
+      </div>
+
+      <label>Test Input</label>
+      <div class="flex compact-input">
+        <input id="testInput" type="number" value="7" />
+        <button id="compute" class="secondary" style="width:140px">Compute</button>
+      </div>
+      <div class="status" id="status">Default: learning 5×2 from {1,3,5}</div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="label">Weight (W)</div>
+          <div class="value" id="weightDisplay">1.00</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Memristance</div>
+          <div class="value" id="memristanceDisplay">8.0 kΩ</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Last Error</div>
+          <div class="value" id="errorDisplay">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Mode</div>
+          <div class="value" id="modeDisplay">Training</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="panel memristor-stage">
+        <div class="indicator" id="modeIndicator">TRAINING: ions moving</div>
+        <svg id="memristor" width="100%" height="100%"></svg>
+      </div>
+      <div class="panel">
+        <h2>Computation &amp; Logs</h2>
+        <div class="equation" id="equation">I = V × W</div>
+        <div class="equation" id="equationDetails" style="color:var(--muted); font-family:'Rajdhani';">Waiting for training…</div>
+        <div style="margin: 10px 0; height: 1px; background: #1f2a44;"></div>
+        <div class="log" id="log"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const svg = d3.select('#memristor');
+    const width = 780;
+    const height = 400;
+    svg.attr('viewBox', `0 0 ${width} ${height}`);
+
+    const memristor = svg.append('g').attr('transform', 'translate(40,40)');
+    const deviceWidth = width - 80;
+    const deviceHeight = height - 80;
+
+    memristor.append('rect')
+      .attr('x', 0).attr('y', 0)
+      .attr('width', deviceWidth).attr('height', deviceHeight)
+      .attr('rx', 12).attr('fill', '#0f172a').attr('stroke', '#1f2a44');
+
+    // Electrodes
+    const topElectrode = memristor.append('rect')
+      .attr('x', deviceWidth/2 - 70).attr('y', -26)
+      .attr('width', 140).attr('height', 18)
+      .attr('fill', '#1f2937').attr('stroke', '#334155');
+    memristor.append('text').attr('id','topLabel')
+      .attr('x', deviceWidth/2).attr('y', -33)
+      .attr('fill', '#a5f3fc').attr('text-anchor','middle').attr('font-size',12)
+      .text('Top Electrode (+V)');
+
+    const bottomElectrode = memristor.append('rect')
+      .attr('x', deviceWidth/2 - 70).attr('y', deviceHeight + 8)
+      .attr('width', 140).attr('height', 18)
+      .attr('fill', '#1f2937').attr('stroke', '#334155');
+    memristor.append('text').attr('id','bottomLabel')
+      .attr('x', deviceWidth/2).attr('y', deviceHeight + 40)
+      .attr('fill', '#a5f3fc').attr('text-anchor','middle').attr('font-size',12)
+      .text('Bottom Electrode (GND)');
+
+    // Channel background
+    const doped = memristor.append('rect').attr('y', 20).attr('height', deviceHeight-40).attr('fill', 'url(#dopedGrad)');
+    const undoped = memristor.append('rect').attr('y', 20).attr('height', deviceHeight-40).attr('fill', 'url(#undopedGrad)');
+    const boundary = memristor.append('line')
+      .attr('y1', 20).attr('y2', deviceHeight-20)
+      .attr('stroke', '#e94560').attr('stroke-width', 3).attr('stroke-dasharray','6 4');
+
+    const defs = svg.append('defs');
+    defs.append('linearGradient').attr('id','dopedGrad').selectAll('stop')
+      .data([
+        {o:0, c:'#00f5ff'},
+        {o:1, c:'#00c4b4'}
+      ]).enter().append('stop').attr('offset', d=>d.o).attr('stop-color', d=>d.c);
+    defs.append('linearGradient').attr('id','undopedGrad').selectAll('stop')
+      .data([
+        {o:0, c:'#2a1a4a'},
+        {o:1, c:'#1a102c'}
+      ]).enter().append('stop').attr('offset', d=>d.o).attr('stop-color', d=>d.c);
+
+    const ionGroup = memristor.append('g');
+    const currentGroup = memristor.append('g');
+
+    let ions = d3.range(22).map(() => ({
+      x: Math.random() * (deviceWidth - 80) + 40,
+      y: Math.random() * (deviceHeight - 120) + 60
+    }));
+
+    const examplesEl = document.getElementById('examples');
+    const logEl = document.getElementById('log');
+    const statusEl = document.getElementById('status');
+    const weightDisplay = document.getElementById('weightDisplay');
+    const memristanceDisplay = document.getElementById('memristanceDisplay');
+    const errorDisplay = document.getElementById('errorDisplay');
+    const equation = document.getElementById('equation');
+    const equationDetails = document.getElementById('equationDetails');
+    const modeDisplay = document.getElementById('modeDisplay');
+    const modeIndicator = document.getElementById('modeIndicator');
+
+    const operationSelect = document.getElementById('operation');
+    const parameterInput = document.getElementById('parameter');
+    const newExampleInput = document.getElementById('newExample');
+    const testInput = document.getElementById('testInput');
+
+    let mode = 'train';
+    let weight = 1;
+    let lastError = '-';
+    let currentInterval;
+
+    const operations = {
+      multiply: {
+        name: 'Multiplication', symbol: '×',
+        expected: (v, p) => v * p,
+        predict: (v, w) => v * w,
+        derivative: (v) => v,
+        description: 'Weight becomes the learned multiplier.'
+      },
+      divide: {
+        name: 'Division', symbol: '÷',
+        expected: (v, p) => v / p,
+        predict: (v, w) => v * w,
+        derivative: (v) => v,
+        description: 'Weight drifts toward 1/divisor.'
+      },
+      add: {
+        name: 'Addition', symbol: '+',
+        expected: (v, p) => v + p,
+        predict: (v, w) => v + w,
+        derivative: () => 1,
+        description: 'Weight acts like an additive bias.'
+      },
+      subtract: {
+        name: 'Subtraction', symbol: '−',
+        expected: (v, p) => v - p,
+        predict: (v, w) => v - w,
+        derivative: () => -1,
+        description: 'Weight drifts negative to subtract.'
+      },
+      power: {
+        name: 'Power', symbol: '^',
+        expected: (v, p) => Math.pow(v, p),
+        predict: (v, w) => Math.pow(v, w),
+        derivative: (v, w) => Math.pow(v, w) * Math.log(Math.max(v, 1e-4)),
+        description: 'Weight serves as the exponent.'
+      }
+    };
+
+    let trainingExamples = [1,3,5];
+
+    function renderExamples() {
+      examplesEl.innerHTML = '';
+      const op = operations[operationSelect.value];
+      const param = parseFloat(parameterInput.value);
+      trainingExamples.forEach((val, i) => {
+        const expected = op.expected(val, param);
+        const row = document.createElement('div');
+        row.className = 'example-row';
+        row.innerHTML = `<div>${val} ${op.symbol} ${param} = <strong>${expected.toFixed(2)}</strong></div><small>✓</small>`;
+        examplesEl.appendChild(row);
+      });
+    }
+
+    function updateMemristorView(delta=0) {
+      const ratio = 1/(1+Math.exp(-weight));
+      const dopedWidth = ratio * (deviceWidth-40);
+      doped.attr('x', 20).attr('width', dopedWidth);
+      undoped.attr('x', 20 + dopedWidth).attr('width', deviceWidth-40 - dopedWidth);
+      boundary.transition().duration(400)
+        .attr('x1', 20 + dopedWidth)
+        .attr('x2', 20 + dopedWidth);
+
+      // Ion drift
+      ionGroup.selectAll('circle').data(ions)
+        .join('circle')
+        .attr('r', 6)
+        .attr('fill', varColor(delta))
+        .attr('opacity', 0.9)
+        .transition().duration(600)
+        .attr('cx', d => d.x = clamp(30, deviceWidth-60, d.x + delta*60 + (Math.random()-0.5)*10))
+        .attr('cy', d => clamp(50, deviceHeight-50, d.y + (Math.random()-0.5)*12));
+
+      const R_on = 1000, R_off = 12000;
+      const memristance = R_on*ratio + R_off*(1-ratio);
+      memristanceDisplay.textContent = `${(memristance/1000).toFixed(2)} kΩ`;
+    }
+
+    function varColor(delta){
+      const ionShade = 'var(--ion)';
+      if(mode==='train') return ionShade;
+      return ionShade;
+    }
+
+    function clamp(min, max, v){ return Math.max(min, Math.min(max, v)); }
+
+    function log(message) {
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.textContent = message;
+      logEl.prepend(entry);
+    }
+
+    function animateVoltage(delta) {
+      const sign = delta >= 0 ? '+' : '-';
+      const topColor = delta >=0 ? varColorHex('--positive') : varColorHex('--negative');
+      const bottomColor = delta >=0 ? '#223045' : '#223045';
+      d3.select('#topLabel').text(`Top Electrode (${sign}V)`);
+      d3.select('#bottomLabel').text('Bottom Electrode (GND)');
+      topElectrode.transition().duration(300).attr('fill', topColor).transition().duration(300).attr('fill', '#1f2937');
+      bottomElectrode.transition().duration(300).attr('fill', bottomColor).transition().duration(300).attr('fill', '#1f2937');
+    }
+
+    function varColorHex(name){
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#00ff88';
+    }
+
+    function updateDisplays(error=null) {
+      weightDisplay.textContent = weight.toFixed(2);
+      if(error !== null) {
+        lastError = error;
+        errorDisplay.textContent = error.toFixed(3);
+      }
+    }
+
+    function equationText(inputVal, predicted) {
+      const op = operations[operationSelect.value];
+      const product = inputVal * weight;
+      equation.innerHTML = `I = V × W`;
+      const param = parseFloat(parameterInput.value);
+      equationDetails.innerHTML = `Memristor: ${inputVal.toFixed(2)} × ${weight.toFixed(2)} = <span style="color:var(--cyan)">${product.toFixed(2)}</span><br>` +
+        `${op.name}: ${inputVal.toFixed(2)} ${op.symbol} ${param} → <span style="color:var(--current)">${predicted.toFixed(2)}</span> (${op.description})`;
+    }
+
+    async function trainNetwork() {
+      mode = 'train';
+      modeDisplay.textContent = 'Training';
+      modeIndicator.textContent = 'TRAINING: ions moving';
+      modeIndicator.classList.remove('infer');
+      const lr = 0.08;
+      const threshold = 0.002;
+      const maxEpochs = 30;
+      const op = operations[operationSelect.value];
+      const param = parseFloat(parameterInput.value);
+      let totalError = 0;
+      for(let epoch=1; epoch<=maxEpochs; epoch++) {
+        totalError = 0;
+        for(const val of trainingExamples) {
+          const expected = op.expected(val, param);
+          const predicted = op.predict(val, weight);
+          const error = expected - predicted;
+          const derivative = op.derivative(val, weight);
+          const delta = lr * error * derivative;
+          weight += delta;
+          totalError += Math.abs(error);
+          animateVoltage(delta);
+          updateMemristorView(delta);
+          updateDisplays(error);
+          log(`[Epoch ${epoch}] ${val} ${op.symbol} ${param} → W=${(weight-delta).toFixed(2)}→${weight.toFixed(2)}, error=${error.toFixed(3)}`);
+          equationText(val, predicted);
+          await wait(500);
+        }
+        if(totalError < threshold) {
+          log(`Epoch ${epoch}: converged with total error ${totalError.toFixed(4)}`);
+          statusEl.textContent = `Training converged! Weight ≈ ${weight.toFixed(2)}`;
+          break;
+        }
+      }
+      statusEl.textContent = `Finished training. Learned weight ${weight.toFixed(2)} (${op.description})`;
+      modeIndicator.textContent = 'TRAINING DONE: ready for inference';
+    }
+
+    function wait(ms){ return new Promise(res => setTimeout(res, ms)); }
+
+    function startCurrentFlow(input, predicted) {
+      currentGroup.selectAll('*').remove();
+      const particles = d3.range(16).map((d,i)=>({delay: i*80 + Math.random()*60}));
+      particles.forEach(p => {
+        setTimeout(()=>{
+          const c = currentGroup.append('circle')
+            .attr('cx', deviceWidth/2)
+            .attr('cy', 5)
+            .attr('r', 4)
+            .attr('fill', varColorHex('--current'))
+            .attr('opacity', 0.9);
+          c.transition().duration(800)
+            .attr('cy', deviceHeight-10)
+            .ease(d3.easeLinear)
+            .attr('cx', deviceWidth/2 + (Math.random()-0.5)*120)
+            .attr('r', 3)
+            .attr('opacity', 0.2)
+            .remove();
+        }, p.delay);
+      });
+      equationText(input, predicted);
+    }
+
+    function computeInference() {
+      const inputVal = parseFloat(testInput.value || '0');
+      const op = operations[operationSelect.value];
+      const predicted = op.predict(inputVal, weight);
+      equationText(inputVal, predicted);
+      log(`Inference: ${inputVal} ${op.symbol} ? => ${predicted.toFixed(2)} using W=${weight.toFixed(2)}`);
+      startCurrentFlow(inputVal, predicted);
+      modeIndicator.textContent = 'INFERENCE: ions frozen, current flows';
+    }
+
+    function setMode(newMode){
+      mode = newMode;
+      document.querySelectorAll('.chip').forEach(ch => ch.classList.remove('active'));
+      document.querySelector(`.chip[data-mode="${newMode}"]`).classList.add('active');
+      if(newMode==='train') {
+        modeDisplay.textContent = 'Training';
+        modeIndicator.textContent = 'TRAINING: ions moving';
+        modeIndicator.classList.remove('infer');
+      } else {
+        modeDisplay.textContent = 'Inference';
+        modeIndicator.textContent = 'INFERENCE: ions frozen, current flows';
+        modeIndicator.classList.add('infer');
+      }
+    }
+
+    function autoGenerate() {
+      const param = parseFloat(parameterInput.value);
+      trainingExamples = [1,3,5];
+      renderExamples();
+      statusEl.textContent = `Examples regenerated for ${operations[operationSelect.value].name} with param ${param}`;
+    }
+
+    document.getElementById('addExample').addEventListener('click', ()=>{
+      const val = parseFloat(newExampleInput.value);
+      if(isNaN(val)) return;
+      trainingExamples.push(val);
+      newExampleInput.value='';
+      renderExamples();
+    });
+
+    document.getElementById('train').addEventListener('click', ()=>{
+      setMode('train');
+      trainNetwork();
+    });
+
+    document.getElementById('compute').addEventListener('click', ()=>{
+      setMode('infer');
+      computeInference();
+    });
+
+    document.getElementById('autoFill').addEventListener('click', autoGenerate);
+
+    operationSelect.addEventListener('change', ()=>{
+      autoGenerate();
+      log(`Operation switched to ${operations[operationSelect.value].name}`);
+    });
+
+    parameterInput.addEventListener('change', ()=>{
+      renderExamples();
+      log(`Parameter updated to ${parameterInput.value}`);
+    });
+
+    document.querySelectorAll('.chip').forEach(ch => {
+      ch.addEventListener('click', ()=> setMode(ch.dataset.mode));
+    });
+
+    // Initial render
+    renderExamples();
+    updateMemristorView();
+    equationText(1, weight);
+    log('Ready: use odd inputs 1,3,5 with multiplier 2 to learn W=2');
+  </script>
+</body>
+</html>
